@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum StatusTarefa {
+  PENDENTE
+  EM_ANDAMENTO
+  CONCLUIDA
+}
+
+enum QualidadeRevisao {
+  DIFICIL
+  BOM
+  FACIL
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  role          String   @default("USER")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions      Session[]
+  accounts      Account[]
+  disciplinas   Disciplina[]
+  tarefas       Tarefa[]
+  metas         Meta[]
+  sessoesEstudo SessaoEstudo[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+model Verification {
+  id         String    @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+}
+
+model Disciplina {
+  id           String         @id @default(cuid())
+  nome         String
+  descricao    String?
+  corHex       String         @default("#1E3A2F")
+  metaHorasSem Int            @default(6)
+  imagemUrl    String?
+  publica      Boolean        @default(true)
+  userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tarefas      Tarefa[]
+  metas        Meta[]
+  sessoes      SessaoEstudo[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@index([userId])
+}
+
+model Tarefa {
+  id              String            @id @default(cuid())
+  titulo          String
+  descricao       String?
+  prazo           DateTime?
+  estimativaMin   Int               @default(25)
+  status          StatusTarefa      @default(PENDENTE)
+  srsIntervalo    Int               @default(1)
+  proximaRevisao  DateTime?
+  ultimaQualidade QualidadeRevisao?
+  imagemUrl       String?
+  disciplinaId    String
+  disciplina      Disciplina        @relation(fields: [disciplinaId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([userId, status])
+  @@index([disciplinaId])
+}
+
+model Meta {
+  id           String      @id @default(cuid())
+  titulo       String
+  descricao    String?
+  horasAlvo    Int
+  horasAtuais  Int         @default(0)
+  dataLimite   DateTime?
+  disciplinaId String?
+  disciplina   Disciplina? @relation(fields: [disciplinaId], references: [id], onDelete: SetNull)
+  userId       String
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([userId])
+}
+
+model SessaoEstudo {
+  id           String     @id @default(cuid())
+  modo         String
+  duracaoMin   Int
+  anotacoesZen String?
+  concluidaEm  DateTime   @default(now())
+  disciplinaId String
+  disciplina   Disciplina @relation(fields: [disciplinaId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, concluidaEm])
+}
