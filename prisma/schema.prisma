@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
   output   = "../lib/generated/prisma"
 }
 
@@ -19,22 +19,33 @@ enum QualidadeRevisao {
   FACIL
 }
 
-model User {
-  id            String    @id @default(cuid())
-  name          String
-  email         String    @unique
-  emailVerified Boolean   @default(false)
-  image         String?
-  role          String    @default("USER")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+enum PapelGrupo {
+  OWNER
+  MEMBER
+}
 
-  sessions      Session[]
-  accounts      Account[]
-  disciplinas   Disciplina[]
-  tarefas       Tarefa[]
-  metas         Meta[]
-  sessoesEstudo SessaoEstudo[]
+model User {
+  id                    String             @id @default(cuid())
+  name                  String
+  email                 String             @unique
+  emailVerified         Boolean            @default(false)
+  role                  String             @default("USER")
+  image                 String?
+  bio                   String?            @db.VarChar(280)
+  metaDiariaMinutos     Int                @default(120)
+  fatorFacilidadePadrao Float              @default(2.5)
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+
+  sessions              Session[]
+  accounts              Account[]
+  disciplinas           Disciplina[]
+  tarefas               Tarefa[]
+  metas                 Meta[]
+  sessoesEstudo         SessaoEstudo[]
+  gruposCriados         StudyGroup[]       @relation("GrupoProprietario")
+  membrosGrupos         StudyGroupMember[]
+  conclusoesTarefa      TarefaConclusao[]
 }
 
 model Session {
@@ -47,6 +58,8 @@ model Session {
   userAgent String?
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Account {
@@ -64,6 +77,8 @@ model Account {
   password              String?
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
 }
 
 model Verification {
@@ -73,56 +88,115 @@ model Verification {
   expiresAt  DateTime
   createdAt  DateTime? @default(now())
   updatedAt  DateTime? @updatedAt
+
+  @@index([identifier])
+}
+
+model StudyGroup {
+  id          String             @id @default(cuid())
+  name        String
+  description String?            @db.VarChar(400)
+  inviteCode  String             @unique
+  ownerId     String
+  owner       User               @relation("GrupoProprietario", fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  members     StudyGroupMember[]
+  disciplinas Disciplina[]
+  tarefas     Tarefa[]
+
+  @@index([ownerId])
+}
+
+model StudyGroupMember {
+  id       String     @id @default(cuid())
+  groupId  String
+  userId   String
+  role     PapelGrupo @default(MEMBER)
+  joinedAt DateTime   @default(now())
+
+  group    StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, userId])
+  @@index([userId])
+  @@index([groupId])
 }
 
 model Disciplina {
   id           String         @id @default(cuid())
   nome         String
   descricao    String?
-  corHex       String         @default("#1E3A2F")
+  corHex       String         @default("#3D4F3D")
   metaHorasSem Int            @default(6)
-  imagemUrl    String?
-  publica      Boolean        @default(true)
+  publica      Boolean        @default(false)
   userId       String
   user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tarefas      Tarefa[]
-  metas        Meta[]
-  sessoes      SessaoEstudo[]
+  studyGroupId String?
+  studyGroup   StudyGroup?    @relation(fields: [studyGroupId], references: [id], onDelete: Cascade)
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 
+  tarefas      Tarefa[]
+  sessoes      SessaoEstudo[]
+  metas        Meta[]
+
   @@index([userId])
+  @@index([studyGroupId])
 }
 
 model Tarefa {
-  id              String            @id @default(cuid())
-  titulo          String
-  descricao       String?
-  prazo           DateTime?
-  estimativaMin   Int               @default(25)
-  status          StatusTarefa      @default(PENDENTE)
-  srsIntervalo    Int               @default(1)
-  proximaRevisao  DateTime?
-  ultimaQualidade QualidadeRevisao?
-  imagemUrl       String?
-  disciplinaId    String
-  disciplina      Disciplina        @relation(fields: [disciplinaId], references: [id], onDelete: Cascade)
-  userId          String
-  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+  id               String            @id @default(cuid())
+  titulo           String
+  descricao        String?
+  notas            String?
+  estimativaMin    Int               @default(25)
+  status           StatusTarefa      @default(PENDENTE)
+  srsIntervalo     Int               @default(1)
+  proximaRevisao   DateTime?
+  proximaRevisaoEm DateTime?
+  ultimaQualidade  QualidadeRevisao?
+  intervaloDias    Int               @default(1)
+  repeticoes       Int               @default(0)
+  fatorFacilidade  Float             @default(2.5)
+  disciplinaId     String
+  disciplina       Disciplina        @relation(fields: [disciplinaId], references: [id], onDelete: Cascade)
+  userId           String
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studyGroupId     String?
+  studyGroup       StudyGroup?       @relation(fields: [studyGroupId], references: [id], onDelete: Cascade)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
 
-  @@index([userId, status])
+  conclusoes       TarefaConclusao[]
+
   @@index([disciplinaId])
+  @@index([userId])
+  @@index([studyGroupId])
+}
+
+model TarefaConclusao {
+  id          String   @id @default(cuid())
+  tarefaId    String
+  userId      String
+  completedAt DateTime @default(now())
+
+  tarefa      Tarefa   @relation(fields: [tarefaId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([tarefaId, userId])
+  @@index([tarefaId])
+  @@index([userId])
 }
 
 model Meta {
   id           String      @id @default(cuid())
   titulo       String
   descricao    String?
-  horasAlvo    Int
-  horasAtuais  Int         @default(0)
-  dataLimite   DateTime?
+  horasAlvo    Float
+  horasAtuais  Float       @default(0)
+  prazo        DateTime?
   disciplinaId String?
   disciplina   Disciplina? @relation(fields: [disciplinaId], references: [id], onDelete: SetNull)
   userId       String
@@ -131,18 +205,22 @@ model Meta {
   updatedAt    DateTime    @updatedAt
 
   @@index([userId])
+  @@index([disciplinaId])
 }
 
 model SessaoEstudo {
   id           String     @id @default(cuid())
-  modo         String
   duracaoMin   Int
+  modo         String     @default("POMODORO")
+  anotacao     String?
   anotacoesZen String?
   concluidaEm  DateTime   @default(now())
   disciplinaId String
   disciplina   Disciplina @relation(fields: [disciplinaId], references: [id], onDelete: Cascade)
   userId       String
   user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
 
-  @@index([userId, concluidaEm])
+  @@index([disciplinaId])
+  @@index([userId])
 }
