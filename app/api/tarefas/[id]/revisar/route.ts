@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { QualidadeRevisao, StatusTarefa } from "@/lib/generated/prisma";
+import { QualidadeRevisao, StatusTarefa } from "@/lib/generated/prisma/client";
 
 const revisarSchema = z.object({
   qualidade: z.nativeEnum(QualidadeRevisao).optional(),

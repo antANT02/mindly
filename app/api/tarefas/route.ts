@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { StatusTarefa } from "@/lib/generated/prisma";
+import { StatusTarefa } from "@/lib/generated/prisma/client";
 
 const criarTarefaSchema = z.object({
   titulo: z.string().trim().min(2, "O título deve ter pelo menos 2 caracteres.").max(140),
