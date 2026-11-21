@@ -85,8 +85,17 @@ export function CatalogoDisciplinas({
             {usuario ? (
               <>
                 <span className="hidden text-sm text-[#4A4E4A] sm:inline">
-                  Olá, <strong className="font-medium text-[#1A1C1A]">{usuario.name}</strong>
+                  Olá,{" "}
+                  <strong className="font-medium text-[#1A1C1A]">
+                    {usuario.name}
+                  </strong>
                 </span>
+                <Link
+                  href="/workspace"
+                  className="rounded-lg bg-[#1E3A2F] px-3.5 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#162C23]"
+                >
+                  Meu Workspace
+                </Link>
                 <button
                   type="button"
                   onClick={handleLogout}
@@ -235,7 +244,8 @@ export function CatalogoDisciplinas({
                     <div className="flex items-center justify-between text-xs text-[#6B706B]">
                       <span>Curadoria: {disc.autorNome}</span>
                       <span>
-                        {disc.tarefasConcluidas}/{disc.totalTarefas} tópicos concluídos ({progresso}%)
+                        {disc.tarefasConcluidas}/{disc.totalTarefas} tópicos
+                        concluídos ({progresso}%)
                       </span>
                     </div>
 
