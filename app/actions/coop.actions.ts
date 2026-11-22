@@ -298,6 +298,9 @@ export async function createCoopTaskAction(
 
     revalidatePath("/");
     revalidatePath("/workspace");
+    if (parsed.data.subjectId) {
+      revalidatePath(`/disciplinas/${parsed.data.subjectId}`);
+    }
     if (parsed.data.groupId) {
       revalidatePath(`/grupos/${parsed.data.groupId}`);
     }
@@ -305,6 +308,155 @@ export async function createCoopTaskAction(
   } catch (error) {
     console.error("Erro em createCoopTaskAction:", error);
     return { ok: false, error: "Erro ao criar tarefa compartilhada." };
+  }
+}
+
+export async function createLegacyDisciplinaTaskAction(input: {
+  disciplinaId: string;
+  titulo: string;
+  descricao?: string | null;
+}): Promise<CoopActionResult<{ id: string }>> {
+  try {
+    const userId = await getAuthenticatedUserId();
+    if (!userId) {
+      return { ok: false, error: "Autenticação necessária." };
+    }
+
+    const titulo = input.titulo.trim();
+    if (!titulo) {
+      return { ok: false, error: "Informe o título da atividade." };
+    }
+
+    const disciplina = await prisma.disciplina.findUnique({
+      where: { id: input.disciplinaId },
+      select: { id: true, userId: true, publica: true, studyGroupId: true },
+    });
+
+    if (!disciplina) {
+      return { ok: false, error: "Disciplina não encontrada." };
+    }
+
+    if (disciplina.userId !== userId && !disciplina.publica) {
+      return {
+        ok: false,
+        error: "Sem permissão para adicionar atividades nesta disciplina.",
+      };
+    }
+
+    const tarefa = await prisma.tarefa.create({
+      data: {
+        titulo,
+        descricao: input.descricao?.trim() || null,
+        status: "PENDENTE",
+        disciplinaId: disciplina.id,
+        userId,
+        studyGroupId: disciplina.studyGroupId ?? null,
+      },
+      select: { id: true },
+    });
+
+    revalidatePath("/");
+    revalidatePath("/workspace");
+    revalidatePath(`/disciplinas/${disciplina.id}`);
+    return { ok: true, data: tarefa };
+  } catch (error) {
+    console.error("Erro em createLegacyDisciplinaTaskAction:", error);
+    return { ok: false, error: "Erro ao criar atividade na disciplina." };
+  }
+}
+
+export async function toggleLegacyDisciplinaTaskAction(
+  tarefaId: string,
+  completed: boolean
+): Promise<CoopActionResult> {
+  try {
+    const userId = await getAuthenticatedUserId();
+    if (!userId) {
+      return { ok: false, error: "Autenticação necessária." };
+    }
+
+    const tarefa = await prisma.tarefa.findUnique({
+      where: { id: tarefaId },
+      select: {
+        id: true,
+        disciplinaId: true,
+        userId: true,
+        status: true,
+      },
+    });
+
+    if (!tarefa) {
+      return { ok: false, error: "Atividade não encontrada." };
+    }
+
+    const existingConclusao = await prisma.tarefaConclusao.findUnique({
+      where: {
+        tarefaId_userId: {
+          tarefaId: tarefa.id,
+          userId,
+        },
+      },
+    });
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { streakDays: true, lastActivityAt: true },
+    });
+
+    const now = new Date();
+    let nextStreakDays = user?.streakDays ?? 0;
+    if (completed && user) {
+      const todayKey = getBrazilDayKey(now);
+      const lastKey = user.lastActivityAt
+        ? getBrazilDayKey(user.lastActivityAt)
+        : null;
+
+      if (lastKey !== todayKey) {
+        const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+        const yesterdayKey = getBrazilDayKey(yesterday);
+        nextStreakDays = lastKey === yesterdayKey ? user.streakDays + 1 : 1;
+      }
+    }
+
+    const shouldAwardXp = completed && !existingConclusao;
+
+    await prisma.$transaction([
+      prisma.tarefa.update({
+        where: { id: tarefa.id },
+        data: { status: completed ? "CONCLUIDA" : "PENDENTE" },
+      }),
+      ...(shouldAwardXp
+        ? [
+            prisma.tarefaConclusao.create({
+              data: {
+                tarefaId: tarefa.id,
+                userId,
+              },
+            }),
+          ]
+        : []),
+      ...(completed
+        ? [
+            prisma.user.update({
+              where: { id: userId },
+              data: {
+                ...(shouldAwardXp ? { xp: { increment: 25 } } : {}),
+                streakDays: nextStreakDays,
+                lastActivityAt: now,
+              },
+            }),
+          ]
+        : []),
+    ]);
+
+    revalidatePath("/");
+    revalidatePath("/workspace");
+    revalidatePath("/perfil");
+    revalidatePath(`/disciplinas/${tarefa.disciplinaId}`);
+    return { ok: true };
+  } catch (error) {
+    console.error("Erro em toggleLegacyDisciplinaTaskAction:", error);
+    return { ok: false, error: "Erro ao atualizar atividade." };
   }
 }
 
@@ -363,6 +515,9 @@ export async function assignFriendsToTaskAction(
 
     revalidatePath("/");
     revalidatePath("/workspace");
+    if (task.subjectId) {
+      revalidatePath(`/disciplinas/${task.subjectId}`);
+    }
     if (task.groupId) {
       revalidatePath(`/grupos/${task.groupId}`);
     }
@@ -479,6 +634,9 @@ export async function toggleCoopTaskCompletionAction(
     revalidatePath("/");
     revalidatePath("/workspace");
     revalidatePath("/perfil");
+    if (assignment.task.subjectId) {
+      revalidatePath(`/disciplinas/${assignment.task.subjectId}`);
+    }
     if (assignment.task.groupId) {
       revalidatePath(`/grupos/${assignment.task.groupId}`);
     }
@@ -528,6 +686,9 @@ export async function updateTaskStatusAction(
 
     revalidatePath("/");
     revalidatePath("/workspace");
+    if (task.subjectId) {
+      revalidatePath(`/disciplinas/${task.subjectId}`);
+    }
     if (task.groupId) {
       revalidatePath(`/grupos/${task.groupId}`);
     }

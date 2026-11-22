@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { CheckCircle2, Circle, Plus } from "lucide-react";
 import {
   createCoopTaskAction,
+  createLegacyDisciplinaTaskAction,
   toggleCoopTaskCompletionAction,
+  toggleLegacyDisciplinaTaskAction,
 } from "@/app/actions/coop.actions";
 import {
   ConsoleHudShell,
@@ -31,6 +34,7 @@ export function ConsoleSubjectDetail({
   currentUser,
   subject,
 }: ConsoleSubjectDetailProps) {
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -51,13 +55,19 @@ export function ConsoleSubjectDetail({
     setSubmitting(true);
     setFeedback(null);
 
-    const res = await createCoopTaskAction({
-      title: title.trim(),
-      description: description.trim() || null,
-      priority: "MEDIUM",
-      subjectId: subject.isLegacy ? null : subject.id,
-      assigneeIds: [],
-    });
+    const res = subject.isLegacy
+      ? await createLegacyDisciplinaTaskAction({
+          disciplinaId: subject.id,
+          titulo: title.trim(),
+          descricao: description.trim() || null,
+        })
+      : await createCoopTaskAction({
+          title: title.trim(),
+          description: description.trim() || null,
+          priority: "MEDIUM",
+          subjectId: subject.id,
+          assigneeIds: [],
+        });
 
     setSubmitting(false);
     if (!res.ok) {
@@ -67,14 +77,19 @@ export function ConsoleSubjectDetail({
 
     setTitle("");
     setDescription("");
-    setFeedback("Tarefa adicionada.");
+    setFeedback("Tarefa vinculada à disciplina.");
+    router.refresh();
   };
 
   const handleToggle = async (taskId: string, currentCompleted: boolean) => {
-    if (subject.isLegacy) return;
     setTogglingId(taskId);
-    await toggleCoopTaskCompletionAction(taskId, !currentCompleted);
+    if (subject.isLegacy) {
+      await toggleLegacyDisciplinaTaskAction(taskId, !currentCompleted);
+    } else {
+      await toggleCoopTaskCompletionAction(taskId, !currentCompleted);
+    }
     setTogglingId(null);
+    router.refresh();
   };
 
   return (
@@ -166,7 +181,7 @@ export function ConsoleSubjectDetail({
                   className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#1A9FFF] px-4 py-2 text-xs font-semibold text-[#0B0F14] hover:bg-[#66C0F4] disabled:opacity-50"
                 >
                   <Plus className="h-4 w-4" />
-                  <span>Adicionar</span>
+                  <span>{submitting ? "Salvando..." : "Adicionar"}</span>
                 </button>
               </form>
             )}
@@ -185,11 +200,11 @@ export function ConsoleSubjectDetail({
                     <div className="flex items-center gap-3">
                       <button
                         type="button"
-                        disabled={togglingId === t.id || subject.isLegacy}
+                        disabled={togglingId === t.id}
                         onClick={() =>
                           handleToggle(t.id, t.completedByCurrentUser)
                         }
-                        className="text-[#8F98A0] hover:text-[#66C0F4]"
+                        className="text-[#8F98A0] transition hover:text-[#66C0F4] disabled:opacity-50"
                       >
                         {t.completedByCurrentUser ? (
                           <CheckCircle2 className="h-4.5 w-4.5 text-[#A4D007]" />
