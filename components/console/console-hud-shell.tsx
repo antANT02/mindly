@@ -4,16 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  Bell,
-  Clock,
-  Flame,
-  Gamepad2,
-  Search,
-  Sparkles,
-  User as UserIcon,
-  Users,
-} from "lucide-react";
+import { Search, Users } from "lucide-react";
+import { MindlyWordmark } from "@/components/brand/mindly-wordmark";
 
 export type ConsolePresence = "ONLINE" | "STUDYING" | "BUSY" | "OFFLINE";
 
@@ -37,6 +29,7 @@ interface ConsoleHudShellProps {
   user: ConsoleUserProfile | null;
   ambientColor?: string;
   pendingRequestsCount?: number;
+  onlineFriendsCount?: number;
   socialOverlayOpen?: boolean;
   onToggleSocialOverlay?: () => void;
   onQuickCreateTask?: () => void;
@@ -47,27 +40,27 @@ interface ConsoleHudShellProps {
 
 const PRESENCE_META: Record<
   ConsolePresence,
-  { label: string; dotClass: string; badgeClass: string }
+  { label: string; dotClass: string; ringClass: string }
 > = {
   ONLINE: {
     label: "Online",
-    dotClass: "bg-[#A4D007] shadow-[0_0_8px_#A4D007]",
-    badgeClass: "text-[#A4D007] border-[#A4D007]/30 bg-[#A4D007]/10",
+    dotClass: "bg-[#A4D007]",
+    ringClass: "ring-[#A4D007]/60",
   },
   STUDYING: {
-    label: "Em Sessão",
-    dotClass: "bg-[#66C0F4] shadow-[0_0_8px_#66C0F4]",
-    badgeClass: "text-[#66C0F4] border-[#66C0F4]/30 bg-[#66C0F4]/10",
+    label: "Estudando",
+    dotClass: "bg-[#66C0F4]",
+    ringClass: "ring-[#66C0F4]/60",
   },
   BUSY: {
     label: "Ocupado",
-    dotClass: "bg-[#E5A93C] shadow-[0_0_8px_#E5A93C]",
-    badgeClass: "text-[#E5A93C] border-[#E5A93C]/30 bg-[#E5A93C]/10",
+    dotClass: "bg-[#E5A93C]",
+    ringClass: "ring-[#E5A93C]/60",
   },
   OFFLINE: {
     label: "Offline",
     dotClass: "bg-[#8F98A0]",
-    badgeClass: "text-[#8F98A0] border-[#8F98A0]/30 bg-[#8F98A0]/10",
+    ringClass: "ring-white/15",
   },
 };
 
@@ -76,6 +69,7 @@ export function ConsoleHudShell({
   user,
   ambientColor = "#1A9FFF",
   pendingRequestsCount = 0,
+  onlineFriendsCount = 0,
   socialOverlayOpen = false,
   onToggleSocialOverlay,
   onQuickCreateTask,
@@ -134,7 +128,9 @@ export function ConsoleHudShell({
         onQuickCreateGroup();
       } else if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
         const focusables = Array.from(
-          document.querySelectorAll<HTMLElement>("[data-console-focusable='true']")
+          document.querySelectorAll<HTMLElement>(
+            "[data-console-focusable='true']"
+          )
         );
         if (focusables.length > 0) {
           const currentIdx = focusables.findIndex(
@@ -158,260 +154,267 @@ export function ConsoleHudShell({
   const presenceInfo =
     PRESENCE_META[user?.presence ?? "ONLINE"] ?? PRESENCE_META.ONLINE;
 
+  const navItems = [
+    { href: "/", label: "Biblioteca" },
+    { href: "/workspace", label: "Workspace" },
+    { href: "/perfil", label: "Perfil" },
+  ];
+
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#0E141B] text-[#F3F4F6] selection:bg-[#66C0F4]/30 selection:text-white">
-      {/* Ambient Background Dinâmico */}
+    <div className="relative min-h-screen overflow-x-hidden bg-[#0B0F14] text-[#F3F4F6] selection:bg-[#66C0F4]/25 selection:text-white">
+      {/* Ambient Canvas Dinâmico */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <motion.div
           animate={{
-            background: `radial-gradient(circle at 18% 12%, ${ambientColor}33 0%, transparent 52%), radial-gradient(circle at 85% 20%, #1A9FFF1F 0%, transparent 48%), linear-gradient(180deg, #0E141B 0%, #0A0E14 100%)`,
+            background: `radial-gradient(ellipse 75% 45% at 20% 0%, ${ambientColor}24 0%, transparent 65%), radial-gradient(ellipse 55% 40% at 85% 8%, #1A9FFF14 0%, transparent 60%), #0B0F14`,
           }}
-          transition={{ type: "spring", stiffness: 180, damping: 28 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="h-full w-full"
         />
-        <div className="absolute inset-0 bg-[#0E141B]/45 backdrop-blur-3xl" />
       </div>
 
-      {/* Top System Bar (HUD Superior) */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#171D25]/85 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
-          {/* Marca + Navegação */}
-          <div className="flex items-center gap-5">
+      {/* Top System Bar (Frameless estilo SteamOS) */}
+      <header className="sticky top-0 z-30 border-b border-white/[0.07] bg-[#0B0F14]/85 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
+          {/* Esquerda: Wordmark MindLy + Navegação Limpa */}
+          <div className="flex items-center gap-7">
             <Link
               href="/"
               data-console-focusable="true"
-              className="group flex items-center gap-2.5 rounded-lg px-2 py-1 outline-none transition focus-visible:ring-2 focus-visible:ring-[#66C0F4]"
+              className="rounded outline-none focus-visible:ring-2 focus-visible:ring-[#66C0F4]"
             >
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[#1A9FFF] to-[#66C0F4] text-[#0E141B] shadow-[0_0_20px_rgba(102,192,244,0.35)]">
-                <Gamepad2 className="h-5 w-5" />
-              </span>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-base font-bold tracking-tight text-[#F3F4F6]">
-                    Mindly
-                  </span>
-                  <span className="rounded bg-[#66C0F4]/15 px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[#66C0F4]">
-                    HUD OS
-                  </span>
-                </div>
-                <p className="text-[11px] text-[#8F98A0]">
-                  Biblioteca & Co-op Lobby
-                </p>
-              </div>
+              <MindlyWordmark size="md" />
             </Link>
 
-            <nav className="hidden items-center gap-1 md:flex">
-              {[
-                { href: "/", label: "Biblioteca" },
-                { href: "/workspace", label: "Workspace" },
-                { href: "/perfil", label: "Perfil & Avatar" },
-              ].map((item) => {
-                const active = pathname === item.href;
+            <nav className="hidden items-center gap-5 md:flex">
+              {navItems.map((item) => {
+                const isActive =
+                  item.href === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(item.href);
+
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
                     data-console-focusable="true"
-                    className={`relative rounded-lg px-3 py-1.5 text-sm font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-[#66C0F4] ${
-                      active
+                    className={`relative py-1.5 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#66C0F4] ${
+                      isActive
                         ? "text-[#F3F4F6]"
-                        : "text-[#8F98A0] hover:bg-[#1E2631] hover:text-[#F3F4F6]"
+                        : "text-[#8F98A0] hover:text-[#F3F4F6]"
                     }`}
                   >
-                    {active && (
+                    {item.label}
+                    {isActive && (
                       <motion.span
-                        layoutId="hudNavActive"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                        className="absolute inset-0 -z-10 rounded-lg border border-[#66C0F4]/40 bg-[#1E2631]"
+                        layoutId="activeNavTab"
+                        transition={{
+                          type: "spring",
+                          stiffness: 420,
+                          damping: 34,
+                        }}
+                        className="absolute inset-x-0 -bottom-[11px] h-[2px] bg-[#66C0F4]"
                       />
                     )}
-                    {item.label}
                   </Link>
                 );
               })}
             </nav>
           </div>
 
-          {/* Busca Rápida Global (Ctrl + K) */}
-          <div className="order-3 w-full sm:order-2 sm:w-72 lg:w-80">
+          {/* Centro: Campo de Busca Compacto com padding seguro para Ctrl K */}
+          <div className="order-3 w-full max-w-xs sm:order-2">
             <div className="relative flex items-center">
-              <Search className="pointer-events-none absolute left-3 h-4 w-4 text-[#8F98A0]" />
+              <Search className="pointer-events-none absolute left-3 h-3.5 w-3.5 text-[#8F98A0]" />
               <input
                 ref={searchInputRef}
                 type="text"
                 value={globalSearchQuery}
                 onChange={(e) => onGlobalSearchChange?.(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" && !onGlobalSearchChange && globalSearchQuery.trim()) {
-                    router.push(`/?q=${encodeURIComponent(globalSearchQuery.trim())}`);
+                  if (
+                    e.key === "Enter" &&
+                    !onGlobalSearchChange &&
+                    globalSearchQuery.trim()
+                  ) {
+                    router.push(
+                      `/?q=${encodeURIComponent(globalSearchQuery.trim())}`
+                    );
                   }
                 }}
-                placeholder="Buscar disciplina, grupo ou @amigo..."
-                className="w-full rounded-lg border border-white/10 bg-[#0E141B]/80 py-1.5 pl-9 pr-14 text-sm text-[#F3F4F6] placeholder-[#8F98A0] outline-none transition focus:border-[#66C0F4] focus:ring-2 focus:ring-[#66C0F4]/30"
+                placeholder="Buscar..."
+                className="w-full rounded-lg border border-white/[0.08] bg-[#121820] py-1.5 pl-8 pr-14 text-xs text-[#F3F4F6] placeholder-[#8F98A0]/80 outline-none transition focus:border-[#66C0F4] focus:ring-2 focus:ring-[#66C0F4]/25"
               />
-              <kbd className="pointer-events-none absolute right-2.5 rounded border border-white/15 bg-[#1E2631] px-1.5 py-0.5 font-mono text-[10px] text-[#8F98A0]">
-                Ctrl+K
+              <kbd className="pointer-events-none absolute right-2 rounded border border-white/10 bg-[#1A222D] px-1.5 py-0.5 font-mono text-[10px] tabular-nums text-[#8F98A0]">
+                Ctrl K
               </kbd>
             </div>
           </div>
 
-          {/* Telemetria, Overlay Social e Pill de Perfil */}
-          <div className="order-2 flex items-center gap-2.5 sm:order-3">
+          {/* Direita: Cluster Unificado de Telemetria + Social + Perfil */}
+          <div className="order-2 flex items-center rounded-xl border border-white/[0.08] bg-[#121820]/90 px-2.5 py-1 sm:order-3">
             {user && (
-              <div className="hidden items-center gap-2 xl:flex">
-                <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#1E2631]/90 px-2.5 py-1 font-mono text-xs text-[#E5A93C]">
-                  <Flame className="h-3.5 w-3.5" />
-                  <span>{user.streakDays}d</span>
+              <>
+                <div className="hidden items-center gap-3 px-2 font-mono text-xs tabular-nums lg:flex">
+                  <span className="text-[#8F98A0]">
+                    <strong className="font-semibold text-[#E5A93C]">
+                      {user.streakDays}d
+                    </strong>
+                  </span>
+                  <span className="text-[#8F98A0]">
+                    <strong className="font-semibold text-[#66C0F4]">
+                      {user.xp}
+                    </strong>{" "}
+                    XP
+                  </span>
                 </div>
-                <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#1E2631]/90 px-2.5 py-1 font-mono text-xs text-[#66C0F4]">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  <span>{user.xp} XP</span>
-                </div>
-              </div>
+                <span className="hidden h-4 w-px bg-white/10 lg:block" />
+              </>
             )}
 
-            <div className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-[#1E2631]/70 px-2.5 py-1 font-mono text-xs text-[#8F98A0] sm:flex">
-              <Clock className="h-3.5 w-3.5 text-[#66C0F4]" />
-              <span>{clockText || "--:--"}</span>
+            <div className="hidden px-2.5 font-mono text-xs tabular-nums text-[#8F98A0] sm:block">
+              {clockText || "--:--"}
             </div>
 
             {onToggleSocialOverlay && (
-              <button
-                type="button"
-                onClick={onToggleSocialOverlay}
-                data-console-focusable="true"
-                className={`relative flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs font-semibold outline-none transition focus-visible:ring-2 focus-visible:ring-[#66C0F4] ${
-                  socialOverlayOpen
-                    ? "border-[#66C0F4] bg-[#1A9FFF]/20 text-[#66C0F4]"
-                    : "border-white/10 bg-[#1E2631] text-[#F3F4F6] hover:bg-[#26303E]"
-                }`}
-              >
-                <Users className="h-4 w-4 text-[#66C0F4]" />
-                <span className="hidden sm:inline">Social</span>
-                {pendingRequestsCount > 0 && (
-                  <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D94126] px-1 font-mono text-[10px] font-bold text-white">
-                    {pendingRequestsCount}
+              <>
+                <span className="hidden h-4 w-px bg-white/10 sm:block" />
+                <button
+                  type="button"
+                  onClick={onToggleSocialOverlay}
+                  data-console-focusable="true"
+                  className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-[#66C0F4] ${
+                    socialOverlayOpen
+                      ? "bg-[#1A222D] text-[#66C0F4]"
+                      : "text-[#8F98A0] hover:bg-[#1A222D]/70 hover:text-[#F3F4F6]"
+                  }`}
+                >
+                  <Users className="h-3.5 w-3.5 text-[#66C0F4]" />
+                  <span>Amigos</span>
+                  <span className="font-mono text-[11px] tabular-nums text-[#A4D007]">
+                    {onlineFriendsCount}
                   </span>
-                )}
-              </button>
+                  {pendingRequestsCount > 0 && (
+                    <span className="rounded bg-[#E04F33] px-1 font-mono text-[10px] font-bold tabular-nums text-white">
+                      {pendingRequestsCount}
+                    </span>
+                  )}
+                </button>
+              </>
             )}
+
+            <span className="mx-1.5 h-4 w-px bg-white/10" />
 
             {user ? (
               <Link
                 href="/perfil"
                 data-console-focusable="true"
-                className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-[#1E2631] py-1 pl-1.5 pr-3 outline-none transition hover:border-[#66C0F4]/60 hover:bg-[#26303E] focus-visible:ring-2 focus-visible:ring-[#66C0F4]"
+                className="flex items-center gap-2 rounded-lg py-0.5 pl-1 pr-1.5 outline-none transition hover:bg-[#1A222D] focus-visible:ring-2 focus-visible:ring-[#66C0F4]"
               >
-                <div className="relative h-8 w-8 shrink-0">
+                <div className="relative h-7 w-7 shrink-0">
                   {effectiveAvatar ? (
                     <img
                       src={effectiveAvatar}
                       alt={user.name}
-                      className="h-8 w-8 rounded-lg object-cover ring-1 ring-white/20"
+                      className={`h-7 w-7 rounded-md object-cover ring-1 ${presenceInfo.ringClass}`}
                     />
                   ) : (
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#26303E] text-xs font-bold text-[#66C0F4]">
+                    <div
+                      className={`flex h-7 w-7 items-center justify-center rounded-md bg-[#1A222D] font-mono text-xs font-bold text-[#66C0F4] ring-1 ${presenceInfo.ringClass}`}
+                    >
                       {user.name.charAt(0).toUpperCase()}
                     </div>
                   )}
                   <span
-                    className={`absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-[#1E2631] ${presenceInfo.dotClass}`}
+                    className={`absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full ring-2 ring-[#121820] ${presenceInfo.dotClass}`}
                   />
                 </div>
+
                 <div className="hidden text-left sm:block">
-                  <div className="flex items-center gap-1.5">
-                    <span className="max-w-[120px] truncate text-xs font-semibold text-[#F3F4F6]">
-                      {user.name}
-                    </span>
-                    <span
-                      className={`rounded border px-1.5 py-0.2 font-mono text-[10px] ${presenceInfo.badgeClass}`}
-                    >
-                      {presenceInfo.label}
-                    </span>
+                  <div className="max-w-[110px] truncate text-xs font-medium leading-tight text-[#F3F4F6]">
+                    {user.name}
                   </div>
-                  <p className="max-w-[180px] truncate text-[11px] text-[#8F98A0]">
-                    {user.statusText ||
-                      (user.username ? `@${user.username}` : "Pronto para estudar")}
-                  </p>
+                  <div className="max-w-[110px] truncate font-mono text-[10px] leading-tight text-[#8F98A0]">
+                    {user.username ? `@${user.username}` : presenceInfo.label}
+                  </div>
                 </div>
               </Link>
             ) : (
               <Link
                 href="/login"
                 data-console-focusable="true"
-                className="flex items-center gap-2 rounded-lg bg-[#1A9FFF] px-3.5 py-1.5 text-xs font-semibold text-[#0E141B] shadow-[0_0_20px_rgba(26,159,255,0.3)] transition hover:bg-[#66C0F4]"
+                className="rounded-lg bg-[#1A9FFF] px-3 py-1 text-xs font-semibold text-[#0B0F14] transition hover:bg-[#66C0F4]"
               >
-                <UserIcon className="h-3.5 w-3.5" />
-                <span>Entrar</span>
+                Entrar
               </Link>
             )}
           </div>
         </div>
       </header>
 
-      {/* Conteúdo Principal */}
-      <main className="relative z-10 mx-auto max-w-[1440px] px-4 pb-20 pt-6 sm:px-6">
+      {/* Área de Conteúdo */}
+      <main className="relative z-10 mx-auto max-w-[1440px] px-4 pb-16 pt-6 sm:px-6">
         <AnimatePresence mode="wait">
           <motion.div
             key={pathname}
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ type: "spring", stiffness: 380, damping: 32 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
             {children}
           </motion.div>
         </AnimatePresence>
       </main>
 
-      {/* Bottom Action Bar (Rodapé de Atalhos estilo Console) */}
-      <footer className="fixed bottom-0 left-0 right-0 z-30 border-t border-white/10 bg-[#171D25]/90 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-2 px-4 py-2 font-mono text-[11px] text-[#8F98A0] sm:px-6">
-          <div className="flex flex-wrap items-center gap-4">
-            <span>
-              <kbd className="rounded border border-white/15 bg-[#1E2631] px-1.5 py-0.5 text-[#F3F4F6]">
-                ← / →
-              </kbd>{" "}
-              Navegar Foco
+      {/* Bottom Action Bar (Rodapé Ultrafino de Navegação Espacial) */}
+      <footer className="fixed bottom-0 inset-x-0 z-30 h-9 border-t border-white/[0.06] bg-[#090C10]/90 backdrop-blur-md">
+        <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-4 font-mono text-[11px] tabular-nums text-[#8F98A0] sm:px-6">
+          <div className="flex items-center gap-4 overflow-x-auto">
+            <span className="inline-flex shrink-0 items-center gap-1.5">
+              <kbd className="rounded border border-white/10 bg-[#121820] px-1.5 py-0.2 text-[10px] text-[#F3F4F6]">
+                ←/→
+              </kbd>
+              Navegar
             </span>
-            <span>
-              <kbd className="rounded border border-white/15 bg-[#1E2631] px-1.5 py-0.5 text-[#F3F4F6]">
+            <span className="inline-flex shrink-0 items-center gap-1.5">
+              <kbd className="rounded border border-white/10 bg-[#121820] px-1.5 py-0.2 text-[10px] text-[#F3F4F6]">
                 ENTER
-              </kbd>{" "}
-              Acessar
+              </kbd>
+              Abrir
             </span>
             {onQuickCreateTask && (
-              <span>
-                <kbd className="rounded border border-white/15 bg-[#1E2631] px-1.5 py-0.5 text-[#66C0F4]">
+              <span className="inline-flex shrink-0 items-center gap-1.5">
+                <kbd className="rounded border border-white/10 bg-[#121820] px-1.5 py-0.2 text-[10px] text-[#66C0F4]">
                   N
-                </kbd>{" "}
+                </kbd>
                 Nova Tarefa
               </span>
             )}
             {onQuickCreateGroup && (
-              <span>
-                <kbd className="rounded border border-white/15 bg-[#1E2631] px-1.5 py-0.5 text-[#66C0F4]">
+              <span className="inline-flex shrink-0 items-center gap-1.5">
+                <kbd className="rounded border border-white/10 bg-[#121820] px-1.5 py-0.2 text-[10px] text-[#66C0F4]">
                   G
-                </kbd>{" "}
+                </kbd>
                 Novo Grupo
               </span>
             )}
             {onToggleSocialOverlay && (
-              <span>
-                <kbd className="rounded border border-white/15 bg-[#1E2631] px-1.5 py-0.5 text-[#A4D007]">
+              <span className="inline-flex shrink-0 items-center gap-1.5">
+                <kbd className="rounded border border-white/10 bg-[#121820] px-1.5 py-0.2 text-[10px] text-[#A4D007]">
                   TAB
-                </kbd>{" "}
-                Social Overlay
+                </kbd>
+                Social
               </span>
             )}
           </div>
 
-          <div className="flex items-center gap-2 text-[#8F98A0]">
-            <Bell className="h-3.5 w-3.5 text-[#66C0F4]" />
+          <div className="hidden items-center gap-2 sm:flex">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#A4D007]" />
             <span>
               {pendingRequestsCount > 0
-                ? `${pendingRequestsCount} convite(s) pendente(s)`
-                : "Sistema sincronizado"}
+                ? `${pendingRequestsCount} convite(s)`
+                : "Pronto"}
             </span>
           </div>
         </div>
