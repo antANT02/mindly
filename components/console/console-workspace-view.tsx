@@ -79,6 +79,7 @@ export function ConsoleWorkspaceView({
       description: taskDescription.trim() || null,
       priority: "MEDIUM",
       subjectId: taskSubjectId || null,
+      assigneeIds: [],
     });
 
     setCreatingTask(false);
