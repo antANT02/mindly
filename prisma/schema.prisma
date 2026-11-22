@@ -71,6 +71,7 @@ model User {
   presence              PresenceStatus     @default(ONLINE)
   xp                    Int                @default(0)
   streakDays            Int                @default(0)
+  lastActivityAt        DateTime?
   metaDiariaMinutos     Int                @default(120)
   fatorFacilidadePadrao Float              @default(2.5)
   createdAt             DateTime           @default(now())
@@ -254,6 +255,7 @@ model TaskAssignee {
   taskId              String
   userId              String
   completedIndividual Boolean  @default(false)
+  xpAwarded           Boolean  @default(false)
   assignedAt          DateTime @default(now())
 
   task                Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)

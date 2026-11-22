@@ -35,6 +35,15 @@ function generateInviteCode(): string {
   return `MLY-${randomBytes(3).toString("hex").toUpperCase()}`;
 }
 
+function getBrazilDayKey(date: Date): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Sao_Paulo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
+}
+
 export async function createStudyGroupAction(
   input: CreateStudyGroupInput
 ): Promise<CoopActionResult<{ id: string; inviteCode: string }>> {
@@ -82,6 +91,7 @@ export async function createStudyGroupAction(
 
     revalidatePath("/");
     revalidatePath("/workspace");
+    revalidatePath("/perfil");
     return { ok: true, data: group };
   } catch (error) {
     console.error("Erro em createStudyGroupAction:", error);
@@ -158,6 +168,7 @@ export async function joinStudyGroupByCodeAction(
     ]);
 
     revalidatePath("/");
+    revalidatePath("/perfil");
     revalidatePath(`/grupos/${group.id}`);
     return {
       ok: true,
@@ -218,6 +229,7 @@ export async function createSubjectAction(
 
     revalidatePath("/");
     revalidatePath("/workspace");
+    revalidatePath("/perfil");
     return { ok: true, data: subject };
   } catch (error) {
     console.error("Erro em createSubjectAction:", error);
@@ -277,6 +289,7 @@ export async function createCoopTaskAction(
           create: uniqueAssigneeIds.map((assigneeId) => ({
             userId: assigneeId,
             completedIndividual: false,
+            xpAwarded: false,
           })),
         },
       },
@@ -342,6 +355,7 @@ export async function assignFriendsToTaskAction(
           taskId: task.id,
           userId,
           completedIndividual: false,
+          xpAwarded: false,
         })),
         skipDuplicates: true,
       });
@@ -362,7 +376,7 @@ export async function assignFriendsToTaskAction(
 export async function toggleCoopTaskCompletionAction(
   taskId: string,
   completed: boolean
-): Promise<CoopActionResult<{ allCompleted: boolean }>> {
+): Promise<CoopActionResult<{ allCompleted: boolean; xpGranted: number }>> {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
@@ -382,6 +396,12 @@ export async function toggleCoopTaskCompletionAction(
         },
       },
       include: {
+        user: {
+          select: {
+            streakDays: true,
+            lastActivityAt: true,
+          },
+        },
         task: {
           include: {
             assignees: true,
@@ -397,10 +417,8 @@ export async function toggleCoopTaskCompletionAction(
       };
     }
 
-    await prisma.taskAssignee.update({
-      where: { id: assignment.id },
-      data: { completedIndividual: parsed.data.completed },
-    });
+    const shouldAwardXp = parsed.data.completed && !assignment.xpAwarded;
+    const xpGranted = shouldAwardXp ? 25 : 0;
 
     const updatedAssignees = assignment.task.assignees.map((a) =>
       a.userId === userId
@@ -410,7 +428,30 @@ export async function toggleCoopTaskCompletionAction(
 
     const allCompleted = updatedAssignees.every((a) => a.completedIndividual);
 
+    let nextStreakDays = assignment.user.streakDays;
+    const now = new Date();
+    if (parsed.data.completed) {
+      const todayKey = getBrazilDayKey(now);
+      const lastKey = assignment.user.lastActivityAt
+        ? getBrazilDayKey(assignment.user.lastActivityAt)
+        : null;
+
+      if (lastKey !== todayKey) {
+        const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+        const yesterdayKey = getBrazilDayKey(yesterday);
+        nextStreakDays =
+          lastKey === yesterdayKey ? assignment.user.streakDays + 1 : 1;
+      }
+    }
+
     await prisma.$transaction([
+      prisma.taskAssignee.update({
+        where: { id: assignment.id },
+        data: {
+          completedIndividual: parsed.data.completed,
+          ...(shouldAwardXp ? { xpAwarded: true } : {}),
+        },
+      }),
       prisma.task.update({
         where: { id: assignment.taskId },
         data: {
@@ -421,11 +462,15 @@ export async function toggleCoopTaskCompletionAction(
               : "TODO",
         },
       }),
-      ...(parsed.data.completed && !assignment.completedIndividual
+      ...(parsed.data.completed
         ? [
             prisma.user.update({
               where: { id: userId },
-              data: { xp: { increment: 25 } },
+              data: {
+                ...(shouldAwardXp ? { xp: { increment: 25 } } : {}),
+                streakDays: nextStreakDays,
+                lastActivityAt: now,
+              },
             }),
           ]
         : []),
@@ -433,10 +478,11 @@ export async function toggleCoopTaskCompletionAction(
 
     revalidatePath("/");
     revalidatePath("/workspace");
+    revalidatePath("/perfil");
     if (assignment.task.groupId) {
       revalidatePath(`/grupos/${assignment.task.groupId}`);
     }
-    return { ok: true, data: { allCompleted } };
+    return { ok: true, data: { allCompleted, xpGranted } };
   } catch (error) {
     console.error("Erro em toggleCoopTaskCompletionAction:", error);
     return { ok: false, error: "Erro ao atualizar progresso na tarefa." };

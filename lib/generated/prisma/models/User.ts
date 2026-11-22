@@ -54,6 +54,7 @@ export type UserMinAggregateOutputType = {
   presence: $Enums.PresenceStatus | null
   xp: number | null
   streakDays: number | null
+  lastActivityAt: Date | null
   metaDiariaMinutos: number | null
   fatorFacilidadePadrao: number | null
   createdAt: Date | null
@@ -74,6 +75,7 @@ export type UserMaxAggregateOutputType = {
   presence: $Enums.PresenceStatus | null
   xp: number | null
   streakDays: number | null
+  lastActivityAt: Date | null
   metaDiariaMinutos: number | null
   fatorFacilidadePadrao: number | null
   createdAt: Date | null
@@ -94,6 +96,7 @@ export type UserCountAggregateOutputType = {
   presence: number
   xp: number
   streakDays: number
+  lastActivityAt: number
   metaDiariaMinutos: number
   fatorFacilidadePadrao: number
   createdAt: number
@@ -130,6 +133,7 @@ export type UserMinAggregateInputType = {
   presence?: true
   xp?: true
   streakDays?: true
+  lastActivityAt?: true
   metaDiariaMinutos?: true
   fatorFacilidadePadrao?: true
   createdAt?: true
@@ -150,6 +154,7 @@ export type UserMaxAggregateInputType = {
   presence?: true
   xp?: true
   streakDays?: true
+  lastActivityAt?: true
   metaDiariaMinutos?: true
   fatorFacilidadePadrao?: true
   createdAt?: true
@@ -170,6 +175,7 @@ export type UserCountAggregateInputType = {
   presence?: true
   xp?: true
   streakDays?: true
+  lastActivityAt?: true
   metaDiariaMinutos?: true
   fatorFacilidadePadrao?: true
   createdAt?: true
@@ -277,6 +283,7 @@ export type UserGroupByOutputType = {
   presence: $Enums.PresenceStatus
   xp: number
   streakDays: number
+  lastActivityAt: Date | null
   metaDiariaMinutos: number
   fatorFacilidadePadrao: number
   createdAt: Date
@@ -320,6 +327,7 @@ export type UserWhereInput = {
   presence?: Prisma.EnumPresenceStatusFilter<"User"> | $Enums.PresenceStatus
   xp?: Prisma.IntFilter<"User"> | number
   streakDays?: Prisma.IntFilter<"User"> | number
+  lastActivityAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   metaDiariaMinutos?: Prisma.IntFilter<"User"> | number
   fatorFacilidadePadrao?: Prisma.FloatFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -356,6 +364,7 @@ export type UserOrderByWithRelationInput = {
   presence?: Prisma.SortOrder
   xp?: Prisma.SortOrder
   streakDays?: Prisma.SortOrder
+  lastActivityAt?: Prisma.SortOrderInput | Prisma.SortOrder
   metaDiariaMinutos?: Prisma.SortOrder
   fatorFacilidadePadrao?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -395,6 +404,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   presence?: Prisma.EnumPresenceStatusFilter<"User"> | $Enums.PresenceStatus
   xp?: Prisma.IntFilter<"User"> | number
   streakDays?: Prisma.IntFilter<"User"> | number
+  lastActivityAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   metaDiariaMinutos?: Prisma.IntFilter<"User"> | number
   fatorFacilidadePadrao?: Prisma.FloatFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -431,6 +441,7 @@ export type UserOrderByWithAggregationInput = {
   presence?: Prisma.SortOrder
   xp?: Prisma.SortOrder
   streakDays?: Prisma.SortOrder
+  lastActivityAt?: Prisma.SortOrderInput | Prisma.SortOrder
   metaDiariaMinutos?: Prisma.SortOrder
   fatorFacilidadePadrao?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -459,6 +470,7 @@ export type UserScalarWhereWithAggregatesInput = {
   presence?: Prisma.EnumPresenceStatusWithAggregatesFilter<"User"> | $Enums.PresenceStatus
   xp?: Prisma.IntWithAggregatesFilter<"User"> | number
   streakDays?: Prisma.IntWithAggregatesFilter<"User"> | number
+  lastActivityAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   metaDiariaMinutos?: Prisma.IntWithAggregatesFilter<"User"> | number
   fatorFacilidadePadrao?: Prisma.FloatWithAggregatesFilter<"User"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -479,6 +491,7 @@ export type UserCreateInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -515,6 +528,7 @@ export type UserUncheckedCreateInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -551,6 +565,7 @@ export type UserUpdateInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -587,6 +602,7 @@ export type UserUncheckedUpdateInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -623,6 +639,7 @@ export type UserCreateManyInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -643,6 +660,7 @@ export type UserUpdateManyMutationInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -663,6 +681,7 @@ export type UserUncheckedUpdateManyInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -683,6 +702,7 @@ export type UserCountOrderByAggregateInput = {
   presence?: Prisma.SortOrder
   xp?: Prisma.SortOrder
   streakDays?: Prisma.SortOrder
+  lastActivityAt?: Prisma.SortOrder
   metaDiariaMinutos?: Prisma.SortOrder
   fatorFacilidadePadrao?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -710,6 +730,7 @@ export type UserMaxOrderByAggregateInput = {
   presence?: Prisma.SortOrder
   xp?: Prisma.SortOrder
   streakDays?: Prisma.SortOrder
+  lastActivityAt?: Prisma.SortOrder
   metaDiariaMinutos?: Prisma.SortOrder
   fatorFacilidadePadrao?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -730,6 +751,7 @@ export type UserMinOrderByAggregateInput = {
   presence?: Prisma.SortOrder
   xp?: Prisma.SortOrder
   streakDays?: Prisma.SortOrder
+  lastActivityAt?: Prisma.SortOrder
   metaDiariaMinutos?: Prisma.SortOrder
   fatorFacilidadePadrao?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -775,6 +797,10 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type FloatFieldUpdateOperationsInput = {
@@ -1029,6 +1055,7 @@ export type UserCreateWithoutSessionsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1064,6 +1091,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1115,6 +1143,7 @@ export type UserUpdateWithoutSessionsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1150,6 +1179,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1185,6 +1215,7 @@ export type UserCreateWithoutAccountsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1220,6 +1251,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1271,6 +1303,7 @@ export type UserUpdateWithoutAccountsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1306,6 +1339,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1341,6 +1375,7 @@ export type UserCreateWithoutSentFriendRequestsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1376,6 +1411,7 @@ export type UserUncheckedCreateWithoutSentFriendRequestsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1416,6 +1452,7 @@ export type UserCreateWithoutReceivedFriendRequestsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1451,6 +1488,7 @@ export type UserUncheckedCreateWithoutReceivedFriendRequestsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1502,6 +1540,7 @@ export type UserUpdateWithoutSentFriendRequestsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1537,6 +1576,7 @@ export type UserUncheckedUpdateWithoutSentFriendRequestsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1583,6 +1623,7 @@ export type UserUpdateWithoutReceivedFriendRequestsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1618,6 +1659,7 @@ export type UserUncheckedUpdateWithoutReceivedFriendRequestsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1653,6 +1695,7 @@ export type UserCreateWithoutGruposCriadosInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1688,6 +1731,7 @@ export type UserUncheckedCreateWithoutGruposCriadosInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1728,6 +1772,7 @@ export type UserCreateWithoutOwnedConsoleGroupsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1763,6 +1808,7 @@ export type UserUncheckedCreateWithoutOwnedConsoleGroupsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1814,6 +1860,7 @@ export type UserUpdateWithoutGruposCriadosInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1849,6 +1896,7 @@ export type UserUncheckedUpdateWithoutGruposCriadosInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1895,6 +1943,7 @@ export type UserUpdateWithoutOwnedConsoleGroupsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1930,6 +1979,7 @@ export type UserUncheckedUpdateWithoutOwnedConsoleGroupsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1965,6 +2015,7 @@ export type UserCreateWithoutMembrosGruposInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2000,6 +2051,7 @@ export type UserUncheckedCreateWithoutMembrosGruposInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2051,6 +2103,7 @@ export type UserUpdateWithoutMembrosGruposInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2086,6 +2139,7 @@ export type UserUncheckedUpdateWithoutMembrosGruposInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2121,6 +2175,7 @@ export type UserCreateWithoutConsoleGroupMembersInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2156,6 +2211,7 @@ export type UserUncheckedCreateWithoutConsoleGroupMembersInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2207,6 +2263,7 @@ export type UserUpdateWithoutConsoleGroupMembersInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2242,6 +2299,7 @@ export type UserUncheckedUpdateWithoutConsoleGroupMembersInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2277,6 +2335,7 @@ export type UserCreateWithoutSubjectsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2312,6 +2371,7 @@ export type UserUncheckedCreateWithoutSubjectsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2363,6 +2423,7 @@ export type UserUpdateWithoutSubjectsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2398,6 +2459,7 @@ export type UserUncheckedUpdateWithoutSubjectsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2433,6 +2495,7 @@ export type UserCreateWithoutCreatedTasksInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2468,6 +2531,7 @@ export type UserUncheckedCreateWithoutCreatedTasksInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2519,6 +2583,7 @@ export type UserUpdateWithoutCreatedTasksInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2554,6 +2619,7 @@ export type UserUncheckedUpdateWithoutCreatedTasksInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2589,6 +2655,7 @@ export type UserCreateWithoutTaskAssignmentsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2624,6 +2691,7 @@ export type UserUncheckedCreateWithoutTaskAssignmentsInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2675,6 +2743,7 @@ export type UserUpdateWithoutTaskAssignmentsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2710,6 +2779,7 @@ export type UserUncheckedUpdateWithoutTaskAssignmentsInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2745,6 +2815,7 @@ export type UserCreateWithoutDisciplinasInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2780,6 +2851,7 @@ export type UserUncheckedCreateWithoutDisciplinasInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2831,6 +2903,7 @@ export type UserUpdateWithoutDisciplinasInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2866,6 +2939,7 @@ export type UserUncheckedUpdateWithoutDisciplinasInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2901,6 +2975,7 @@ export type UserCreateWithoutTarefasInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2936,6 +3011,7 @@ export type UserUncheckedCreateWithoutTarefasInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -2987,6 +3063,7 @@ export type UserUpdateWithoutTarefasInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3022,6 +3099,7 @@ export type UserUncheckedUpdateWithoutTarefasInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3057,6 +3135,7 @@ export type UserCreateWithoutConclusoesTarefaInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -3092,6 +3171,7 @@ export type UserUncheckedCreateWithoutConclusoesTarefaInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -3143,6 +3223,7 @@ export type UserUpdateWithoutConclusoesTarefaInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3178,6 +3259,7 @@ export type UserUncheckedUpdateWithoutConclusoesTarefaInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3213,6 +3295,7 @@ export type UserCreateWithoutMetasInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -3248,6 +3331,7 @@ export type UserUncheckedCreateWithoutMetasInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -3299,6 +3383,7 @@ export type UserUpdateWithoutMetasInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3334,6 +3419,7 @@ export type UserUncheckedUpdateWithoutMetasInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3369,6 +3455,7 @@ export type UserCreateWithoutSessoesEstudoInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -3404,6 +3491,7 @@ export type UserUncheckedCreateWithoutSessoesEstudoInput = {
   presence?: $Enums.PresenceStatus
   xp?: number
   streakDays?: number
+  lastActivityAt?: Date | string | null
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -3455,6 +3543,7 @@ export type UserUpdateWithoutSessoesEstudoInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3490,6 +3579,7 @@ export type UserUncheckedUpdateWithoutSessoesEstudoInput = {
   presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
   xp?: Prisma.IntFieldUpdateOperationsInput | number
   streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3691,6 +3781,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   presence?: boolean
   xp?: boolean
   streakDays?: boolean
+  lastActivityAt?: boolean
   metaDiariaMinutos?: boolean
   fatorFacilidadePadrao?: boolean
   createdAt?: boolean
@@ -3728,6 +3819,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   presence?: boolean
   xp?: boolean
   streakDays?: boolean
+  lastActivityAt?: boolean
   metaDiariaMinutos?: boolean
   fatorFacilidadePadrao?: boolean
   createdAt?: boolean
@@ -3748,6 +3840,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   presence?: boolean
   xp?: boolean
   streakDays?: boolean
+  lastActivityAt?: boolean
   metaDiariaMinutos?: boolean
   fatorFacilidadePadrao?: boolean
   createdAt?: boolean
@@ -3768,13 +3861,14 @@ export type UserSelectScalar = {
   presence?: boolean
   xp?: boolean
   streakDays?: boolean
+  lastActivityAt?: boolean
   metaDiariaMinutos?: boolean
   fatorFacilidadePadrao?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "email" | "emailVerified" | "role" | "image" | "avatarUrl" | "bio" | "statusText" | "presence" | "xp" | "streakDays" | "metaDiariaMinutos" | "fatorFacilidadePadrao" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "email" | "emailVerified" | "role" | "image" | "avatarUrl" | "bio" | "statusText" | "presence" | "xp" | "streakDays" | "lastActivityAt" | "metaDiariaMinutos" | "fatorFacilidadePadrao" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -3831,6 +3925,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     presence: $Enums.PresenceStatus
     xp: number
     streakDays: number
+    lastActivityAt: Date | null
     metaDiariaMinutos: number
     fatorFacilidadePadrao: number
     createdAt: Date
@@ -4287,6 +4382,7 @@ export interface UserFieldRefs {
   readonly presence: Prisma.FieldRef<"User", 'PresenceStatus'>
   readonly xp: Prisma.FieldRef<"User", 'Int'>
   readonly streakDays: Prisma.FieldRef<"User", 'Int'>
+  readonly lastActivityAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly metaDiariaMinutos: Prisma.FieldRef<"User", 'Int'>
   readonly fatorFacilidadePadrao: Prisma.FieldRef<"User", 'Float'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>

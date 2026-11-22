@@ -99,6 +99,7 @@ export const UserScalarFieldEnum = {
   presence: 'presence',
   xp: 'xp',
   streakDays: 'streakDays',
+  lastActivityAt: 'lastActivityAt',
   metaDiariaMinutos: 'metaDiariaMinutos',
   fatorFacilidadePadrao: 'fatorFacilidadePadrao',
   createdAt: 'createdAt',
@@ -238,6 +239,7 @@ export const TaskAssigneeScalarFieldEnum = {
   taskId: 'taskId',
   userId: 'userId',
   completedIndividual: 'completedIndividual',
+  xpAwarded: 'xpAwarded',
   assignedAt: 'assignedAt'
 } as const
 

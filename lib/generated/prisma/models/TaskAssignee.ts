@@ -29,6 +29,7 @@ export type TaskAssigneeMinAggregateOutputType = {
   taskId: string | null
   userId: string | null
   completedIndividual: boolean | null
+  xpAwarded: boolean | null
   assignedAt: Date | null
 }
 
@@ -37,6 +38,7 @@ export type TaskAssigneeMaxAggregateOutputType = {
   taskId: string | null
   userId: string | null
   completedIndividual: boolean | null
+  xpAwarded: boolean | null
   assignedAt: Date | null
 }
 
@@ -45,6 +47,7 @@ export type TaskAssigneeCountAggregateOutputType = {
   taskId: number
   userId: number
   completedIndividual: number
+  xpAwarded: number
   assignedAt: number
   _all: number
 }
@@ -55,6 +58,7 @@ export type TaskAssigneeMinAggregateInputType = {
   taskId?: true
   userId?: true
   completedIndividual?: true
+  xpAwarded?: true
   assignedAt?: true
 }
 
@@ -63,6 +67,7 @@ export type TaskAssigneeMaxAggregateInputType = {
   taskId?: true
   userId?: true
   completedIndividual?: true
+  xpAwarded?: true
   assignedAt?: true
 }
 
@@ -71,6 +76,7 @@ export type TaskAssigneeCountAggregateInputType = {
   taskId?: true
   userId?: true
   completedIndividual?: true
+  xpAwarded?: true
   assignedAt?: true
   _all?: true
 }
@@ -152,6 +158,7 @@ export type TaskAssigneeGroupByOutputType = {
   taskId: string
   userId: string
   completedIndividual: boolean
+  xpAwarded: boolean
   assignedAt: Date
   _count: TaskAssigneeCountAggregateOutputType | null
   _min: TaskAssigneeMinAggregateOutputType | null
@@ -181,6 +188,7 @@ export type TaskAssigneeWhereInput = {
   taskId?: Prisma.StringFilter<"TaskAssignee"> | string
   userId?: Prisma.StringFilter<"TaskAssignee"> | string
   completedIndividual?: Prisma.BoolFilter<"TaskAssignee"> | boolean
+  xpAwarded?: Prisma.BoolFilter<"TaskAssignee"> | boolean
   assignedAt?: Prisma.DateTimeFilter<"TaskAssignee"> | Date | string
   task?: Prisma.XOR<Prisma.TaskScalarRelationFilter, Prisma.TaskWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -191,6 +199,7 @@ export type TaskAssigneeOrderByWithRelationInput = {
   taskId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   completedIndividual?: Prisma.SortOrder
+  xpAwarded?: Prisma.SortOrder
   assignedAt?: Prisma.SortOrder
   task?: Prisma.TaskOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
@@ -205,6 +214,7 @@ export type TaskAssigneeWhereUniqueInput = Prisma.AtLeast<{
   taskId?: Prisma.StringFilter<"TaskAssignee"> | string
   userId?: Prisma.StringFilter<"TaskAssignee"> | string
   completedIndividual?: Prisma.BoolFilter<"TaskAssignee"> | boolean
+  xpAwarded?: Prisma.BoolFilter<"TaskAssignee"> | boolean
   assignedAt?: Prisma.DateTimeFilter<"TaskAssignee"> | Date | string
   task?: Prisma.XOR<Prisma.TaskScalarRelationFilter, Prisma.TaskWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -215,6 +225,7 @@ export type TaskAssigneeOrderByWithAggregationInput = {
   taskId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   completedIndividual?: Prisma.SortOrder
+  xpAwarded?: Prisma.SortOrder
   assignedAt?: Prisma.SortOrder
   _count?: Prisma.TaskAssigneeCountOrderByAggregateInput
   _max?: Prisma.TaskAssigneeMaxOrderByAggregateInput
@@ -229,12 +240,14 @@ export type TaskAssigneeScalarWhereWithAggregatesInput = {
   taskId?: Prisma.StringWithAggregatesFilter<"TaskAssignee"> | string
   userId?: Prisma.StringWithAggregatesFilter<"TaskAssignee"> | string
   completedIndividual?: Prisma.BoolWithAggregatesFilter<"TaskAssignee"> | boolean
+  xpAwarded?: Prisma.BoolWithAggregatesFilter<"TaskAssignee"> | boolean
   assignedAt?: Prisma.DateTimeWithAggregatesFilter<"TaskAssignee"> | Date | string
 }
 
 export type TaskAssigneeCreateInput = {
   id?: string
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: Date | string
   task: Prisma.TaskCreateNestedOneWithoutAssigneesInput
   user: Prisma.UserCreateNestedOneWithoutTaskAssignmentsInput
@@ -245,12 +258,14 @@ export type TaskAssigneeUncheckedCreateInput = {
   taskId: string
   userId: string
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: Date | string
 }
 
 export type TaskAssigneeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   completedIndividual?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  xpAwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   task?: Prisma.TaskUpdateOneRequiredWithoutAssigneesNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTaskAssignmentsNestedInput
@@ -261,6 +276,7 @@ export type TaskAssigneeUncheckedUpdateInput = {
   taskId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   completedIndividual?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  xpAwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -269,12 +285,14 @@ export type TaskAssigneeCreateManyInput = {
   taskId: string
   userId: string
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: Date | string
 }
 
 export type TaskAssigneeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   completedIndividual?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  xpAwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -283,6 +301,7 @@ export type TaskAssigneeUncheckedUpdateManyInput = {
   taskId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   completedIndividual?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  xpAwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -306,6 +325,7 @@ export type TaskAssigneeCountOrderByAggregateInput = {
   taskId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   completedIndividual?: Prisma.SortOrder
+  xpAwarded?: Prisma.SortOrder
   assignedAt?: Prisma.SortOrder
 }
 
@@ -314,6 +334,7 @@ export type TaskAssigneeMaxOrderByAggregateInput = {
   taskId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   completedIndividual?: Prisma.SortOrder
+  xpAwarded?: Prisma.SortOrder
   assignedAt?: Prisma.SortOrder
 }
 
@@ -322,6 +343,7 @@ export type TaskAssigneeMinOrderByAggregateInput = {
   taskId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   completedIndividual?: Prisma.SortOrder
+  xpAwarded?: Prisma.SortOrder
   assignedAt?: Prisma.SortOrder
 }
 
@@ -412,6 +434,7 @@ export type TaskAssigneeUncheckedUpdateManyWithoutTaskNestedInput = {
 export type TaskAssigneeCreateWithoutUserInput = {
   id?: string
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: Date | string
   task: Prisma.TaskCreateNestedOneWithoutAssigneesInput
 }
@@ -420,6 +443,7 @@ export type TaskAssigneeUncheckedCreateWithoutUserInput = {
   id?: string
   taskId: string
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: Date | string
 }
 
@@ -457,12 +481,14 @@ export type TaskAssigneeScalarWhereInput = {
   taskId?: Prisma.StringFilter<"TaskAssignee"> | string
   userId?: Prisma.StringFilter<"TaskAssignee"> | string
   completedIndividual?: Prisma.BoolFilter<"TaskAssignee"> | boolean
+  xpAwarded?: Prisma.BoolFilter<"TaskAssignee"> | boolean
   assignedAt?: Prisma.DateTimeFilter<"TaskAssignee"> | Date | string
 }
 
 export type TaskAssigneeCreateWithoutTaskInput = {
   id?: string
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTaskAssignmentsInput
 }
@@ -471,6 +497,7 @@ export type TaskAssigneeUncheckedCreateWithoutTaskInput = {
   id?: string
   userId: string
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: Date | string
 }
 
@@ -504,12 +531,14 @@ export type TaskAssigneeCreateManyUserInput = {
   id?: string
   taskId: string
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: Date | string
 }
 
 export type TaskAssigneeUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   completedIndividual?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  xpAwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   task?: Prisma.TaskUpdateOneRequiredWithoutAssigneesNestedInput
 }
@@ -518,6 +547,7 @@ export type TaskAssigneeUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   taskId?: Prisma.StringFieldUpdateOperationsInput | string
   completedIndividual?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  xpAwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -525,6 +555,7 @@ export type TaskAssigneeUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   taskId?: Prisma.StringFieldUpdateOperationsInput | string
   completedIndividual?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  xpAwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -532,12 +563,14 @@ export type TaskAssigneeCreateManyTaskInput = {
   id?: string
   userId: string
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: Date | string
 }
 
 export type TaskAssigneeUpdateWithoutTaskInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   completedIndividual?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  xpAwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTaskAssignmentsNestedInput
 }
@@ -546,6 +579,7 @@ export type TaskAssigneeUncheckedUpdateWithoutTaskInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   completedIndividual?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  xpAwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -553,6 +587,7 @@ export type TaskAssigneeUncheckedUpdateManyWithoutTaskInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   completedIndividual?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  xpAwarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assignedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -563,6 +598,7 @@ export type TaskAssigneeSelect<ExtArgs extends runtime.Types.Extensions.Internal
   taskId?: boolean
   userId?: boolean
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: boolean
   task?: boolean | Prisma.TaskDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -573,6 +609,7 @@ export type TaskAssigneeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   taskId?: boolean
   userId?: boolean
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: boolean
   task?: boolean | Prisma.TaskDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -583,6 +620,7 @@ export type TaskAssigneeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   taskId?: boolean
   userId?: boolean
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: boolean
   task?: boolean | Prisma.TaskDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -593,10 +631,11 @@ export type TaskAssigneeSelectScalar = {
   taskId?: boolean
   userId?: boolean
   completedIndividual?: boolean
+  xpAwarded?: boolean
   assignedAt?: boolean
 }
 
-export type TaskAssigneeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "taskId" | "userId" | "completedIndividual" | "assignedAt", ExtArgs["result"]["taskAssignee"]>
+export type TaskAssigneeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "taskId" | "userId" | "completedIndividual" | "xpAwarded" | "assignedAt", ExtArgs["result"]["taskAssignee"]>
 export type TaskAssigneeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   task?: boolean | Prisma.TaskDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -621,6 +660,7 @@ export type $TaskAssigneePayload<ExtArgs extends runtime.Types.Extensions.Intern
     taskId: string
     userId: string
     completedIndividual: boolean
+    xpAwarded: boolean
     assignedAt: Date
   }, ExtArgs["result"]["taskAssignee"]>
   composites: {}
@@ -1051,6 +1091,7 @@ export interface TaskAssigneeFieldRefs {
   readonly taskId: Prisma.FieldRef<"TaskAssignee", 'String'>
   readonly userId: Prisma.FieldRef<"TaskAssignee", 'String'>
   readonly completedIndividual: Prisma.FieldRef<"TaskAssignee", 'Boolean'>
+  readonly xpAwarded: Prisma.FieldRef<"TaskAssignee", 'Boolean'>
   readonly assignedAt: Prisma.FieldRef<"TaskAssignee", 'DateTime'>
 }
     
