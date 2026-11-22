@@ -1,129 +1,202 @@
+import React from "react";
 import { headers } from "next/headers";
-import { notFound, redirect } from "next/navigation";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { EditorialShell } from "@/components/EditorialShell";
-import { StudyGroupViewClient } from "@/components/StudyGroupViewClient";
+import {
+  ConsoleHudShell,
+  type ConsolePresence,
+  type ConsoleUserProfile,
+} from "@/components/console/console-hud-shell";
+import {
+  ConsoleGroupLobby,
+  type ConsoleGroupDetailData,
+} from "@/components/console/console-group-lobby";
 
 export const dynamic = "force-dynamic";
 
-export default async function GrupoPage({
-  params,
-}: {
+interface GroupPageProps {
   params: Promise<{ id: string }>;
-}) {
+}
+
+export default async function GrupoDetalhePage({ params }: GroupPageProps) {
+  const { id } = await params;
+
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+  const sessionUserId = session?.user?.id ?? null;
 
-  if (!session?.user?.id) {
-    redirect("/login");
+  let currentUser: ConsoleUserProfile | null = null;
+  if (sessionUserId) {
+    const dbUser = await prisma.user.findUnique({
+      where: { id: sessionUserId },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        email: true,
+        avatarUrl: true,
+        image: true,
+        bio: true,
+        statusText: true,
+        presence: true,
+        xp: true,
+        streakDays: true,
+        metaDiariaMinutos: true,
+      },
+    });
+    if (dbUser) {
+      currentUser = {
+        ...dbUser,
+        presence: (dbUser.presence as ConsolePresence) || "ONLINE",
+      };
+    }
   }
 
-  const { id } = await params;
-
-  const [memberships, group] = await Promise.all([
-    prisma.studyGroupMember.findMany({
-      where: { userId: session.user.id },
-      include: {
-        group: {
-          include: {
-            _count: { select: { members: true } },
-          },
+  const groupDb = await prisma.studyGroup.findUnique({
+    where: { id },
+    include: {
+      owner: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          username: true,
+          avatarUrl: true,
+          image: true,
+          presence: true,
+          statusText: true,
         },
       },
-    }),
-    prisma.studyGroup.findUnique({
-      where: { id },
-      include: {
-        members: {
-          include: {
-            user: {
-              select: { id: true, name: true, email: true, image: true },
+      consoleMembers: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              username: true,
+              avatarUrl: true,
+              image: true,
+              presence: true,
+              statusText: true,
             },
           },
-          orderBy: { joinedAt: "asc" },
-        },
-        disciplinas: {
-          include: {
-            _count: { select: { tarefas: true } },
-          },
-          orderBy: { createdAt: "desc" },
-        },
-        tarefas: {
-          include: {
-            disciplina: { select: { nome: true } },
-            user: { select: { name: true } },
-            conclusoes: { select: { userId: true } },
-          },
-          orderBy: { createdAt: "desc" },
         },
       },
-    }),
-  ]);
-
-  if (!group) {
-    notFound();
-  }
-
-  const isMember = group.members.some((m) => m.userId === session.user.id);
-  if (!isMember) {
-    redirect("/workspace");
-  }
-
-  const currentUser = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { id: true, name: true, email: true, image: true },
+      subjects: {
+        include: {
+          _count: { select: { tasks: true } },
+        },
+        orderBy: { createdAt: "desc" },
+      },
+      tasks: {
+        include: {
+          subject: { select: { name: true } },
+          assignees: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  avatarUrl: true,
+                  image: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+      },
+    },
   });
 
-  const shellGroups = memberships.map((m) => ({
-    id: m.group.id,
-    name: m.group.name,
-    inviteCode: m.group.inviteCode,
-    role: m.role,
-    memberCount: m.group._count.members,
-  }));
+  if (!groupDb) {
+    return (
+      <ConsoleHudShell user={currentUser}>
+        <div className="mx-auto max-w-lg rounded-2xl border border-white/10 bg-[#171D25] p-8 text-center">
+          <h1 className="text-xl font-bold text-[#F3F4F6]">
+            Grupo não encontrado
+          </h1>
+          <p className="mt-2 text-sm text-[#8F98A0]">
+            Este lobby de estudos pode ter sido removido ou o link está inválido.
+          </p>
+          <Link
+            href="/"
+            className="mt-5 inline-block rounded-xl bg-[#1A9FFF] px-5 py-2.5 text-sm font-semibold text-[#0E141B]"
+          >
+            Voltar à Biblioteca
+          </Link>
+        </div>
+      </ConsoleHudShell>
+    );
+  }
 
-  return (
-    <EditorialShell
-      user={currentUser}
-      groups={shellGroups}
-      pageTitle={group.name}
-      pageEyebrow="GRUPO DE ESTUDO COLABORATIVO"
-    >
-      <StudyGroupViewClient
-        currentUserId={session.user.id}
-        group={{
-          id: group.id,
-          name: group.name,
-          description: group.description,
-          inviteCode: group.inviteCode,
-        }}
-        members={group.members.map((m) => ({
-          userId: m.user.id,
+  const membersList =
+    groupDb.consoleMembers.length > 0
+      ? groupDb.consoleMembers.map((m) => ({
+          id: m.user.id,
           name: m.user.name,
           email: m.user.email,
+          username: m.user.username,
+          avatarUrl: m.user.avatarUrl,
           image: m.user.image,
+          presence: m.user.presence,
+          statusText: m.user.statusText,
           role: m.role,
-        }))}
-        disciplinas={group.disciplinas.map((d) => ({
-          id: d.id,
-          nome: d.nome,
-          descricao: d.descricao,
-          corHex: d.corHex,
-          metaHorasSem: d.metaHorasSem,
-          _count: d._count,
-        }))}
-        tarefas={group.tarefas.map((t) => ({
-          id: t.id,
-          titulo: t.titulo,
-          notas: t.notas,
-          disciplinaId: t.disciplinaId,
-          disciplinaNome: t.disciplina.nome,
-          autorNome: t.user.name,
-          concluidoPorUserIds: t.conclusoes.map((c) => c.userId),
-        }))}
-      />
-    </EditorialShell>
-  );
+        }))
+      : [
+          {
+            id: groupDb.owner.id,
+            name: groupDb.owner.name,
+            email: groupDb.owner.email,
+            username: groupDb.owner.username,
+            avatarUrl: groupDb.owner.avatarUrl,
+            image: groupDb.owner.image,
+            presence: groupDb.owner.presence,
+            statusText: groupDb.owner.statusText,
+            role: "OWNER",
+          },
+        ];
+
+  const detail: ConsoleGroupDetailData = {
+    id: groupDb.id,
+    name: groupDb.name,
+    description: groupDb.description,
+    bannerColor: groupDb.bannerColor || "#1A9FFF",
+    inviteCode: groupDb.inviteCode,
+    members: membersList,
+    subjects: groupDb.subjects.map((s) => ({
+      id: s.id,
+      name: s.name,
+      code: s.code,
+      accentColor: s.accentColor || "#66C0F4",
+      taskCount: s._count.tasks,
+    })),
+    tasks: groupDb.tasks.map((t) => ({
+      id: t.id,
+      title: t.title,
+      description: t.description,
+      priority: t.priority,
+      status: t.status,
+      subjectName: t.subject?.name ?? null,
+      groupName: groupDb.name,
+      href: `/grupos/${groupDb.id}?task=${t.id}`,
+      completedByCurrentUser: sessionUserId
+        ? t.assignees.some(
+            (a) => a.userId === sessionUserId && a.completedIndividual
+          )
+        : false,
+      assignees: t.assignees.map((a) => ({
+        userId: a.userId,
+        name: a.user.name,
+        avatarUrl: a.user.avatarUrl,
+        image: a.user.image,
+        completedIndividual: a.completedIndividual,
+      })),
+    })),
+  };
+
+  return <ConsoleGroupLobby currentUser={currentUser} group={detail} />;
 }
