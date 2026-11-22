@@ -55,8 +55,13 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
+  Friendship: 'Friendship',
   StudyGroup: 'StudyGroup',
   StudyGroupMember: 'StudyGroupMember',
+  GroupMember: 'GroupMember',
+  Subject: 'Subject',
+  Task: 'Task',
+  TaskAssignee: 'TaskAssignee',
   Disciplina: 'Disciplina',
   Tarefa: 'Tarefa',
   TarefaConclusao: 'TarefaConclusao',
@@ -83,11 +88,17 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  username: 'username',
   email: 'email',
   emailVerified: 'emailVerified',
   role: 'role',
   image: 'image',
+  avatarUrl: 'avatarUrl',
   bio: 'bio',
+  statusText: 'statusText',
+  presence: 'presence',
+  xp: 'xp',
+  streakDays: 'streakDays',
   metaDiariaMinutos: 'metaDiariaMinutos',
   fatorFacilidadePadrao: 'fatorFacilidadePadrao',
   createdAt: 'createdAt',
@@ -142,10 +153,23 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
+export const FriendshipScalarFieldEnum = {
+  id: 'id',
+  requesterId: 'requesterId',
+  addresseeId: 'addresseeId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FriendshipScalarFieldEnum = (typeof FriendshipScalarFieldEnum)[keyof typeof FriendshipScalarFieldEnum]
+
+
 export const StudyGroupScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
+  bannerColor: 'bannerColor',
   inviteCode: 'inviteCode',
   ownerId: 'ownerId',
   createdAt: 'createdAt',
@@ -164,6 +188,60 @@ export const StudyGroupMemberScalarFieldEnum = {
 } as const
 
 export type StudyGroupMemberScalarFieldEnum = (typeof StudyGroupMemberScalarFieldEnum)[keyof typeof StudyGroupMemberScalarFieldEnum]
+
+
+export const GroupMemberScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  userId: 'userId',
+  role: 'role',
+  joinedAt: 'joinedAt'
+} as const
+
+export type GroupMemberScalarFieldEnum = (typeof GroupMemberScalarFieldEnum)[keyof typeof GroupMemberScalarFieldEnum]
+
+
+export const SubjectScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  accentColor: 'accentColor',
+  coverImage: 'coverImage',
+  userId: 'userId',
+  groupId: 'groupId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum]
+
+
+export const TaskScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  priority: 'priority',
+  status: 'status',
+  dueDate: 'dueDate',
+  subjectId: 'subjectId',
+  groupId: 'groupId',
+  creatorId: 'creatorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
+export const TaskAssigneeScalarFieldEnum = {
+  id: 'id',
+  taskId: 'taskId',
+  userId: 'userId',
+  completedIndividual: 'completedIndividual',
+  assignedAt: 'assignedAt'
+} as const
+
+export type TaskAssigneeScalarFieldEnum = (typeof TaskAssigneeScalarFieldEnum)[keyof typeof TaskAssigneeScalarFieldEnum]
 
 
 export const DisciplinaScalarFieldEnum = {

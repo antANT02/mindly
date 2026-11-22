@@ -62,6 +62,11 @@ export type Account = Prisma.AccountModel
  */
 export type Verification = Prisma.VerificationModel
 /**
+ * Model Friendship
+ * 
+ */
+export type Friendship = Prisma.FriendshipModel
+/**
  * Model StudyGroup
  * 
  */
@@ -71,6 +76,26 @@ export type StudyGroup = Prisma.StudyGroupModel
  * 
  */
 export type StudyGroupMember = Prisma.StudyGroupMemberModel
+/**
+ * Model GroupMember
+ * 
+ */
+export type GroupMember = Prisma.GroupMemberModel
+/**
+ * Model Subject
+ * 
+ */
+export type Subject = Prisma.SubjectModel
+/**
+ * Model Task
+ * 
+ */
+export type Task = Prisma.TaskModel
+/**
+ * Model TaskAssignee
+ * 
+ */
+export type TaskAssignee = Prisma.TaskAssigneeModel
 /**
  * Model Disciplina
  * 

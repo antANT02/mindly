@@ -28,6 +28,7 @@ export type StudyGroupMinAggregateOutputType = {
   id: string | null
   name: string | null
   description: string | null
+  bannerColor: string | null
   inviteCode: string | null
   ownerId: string | null
   createdAt: Date | null
@@ -38,6 +39,7 @@ export type StudyGroupMaxAggregateOutputType = {
   id: string | null
   name: string | null
   description: string | null
+  bannerColor: string | null
   inviteCode: string | null
   ownerId: string | null
   createdAt: Date | null
@@ -48,6 +50,7 @@ export type StudyGroupCountAggregateOutputType = {
   id: number
   name: number
   description: number
+  bannerColor: number
   inviteCode: number
   ownerId: number
   createdAt: number
@@ -60,6 +63,7 @@ export type StudyGroupMinAggregateInputType = {
   id?: true
   name?: true
   description?: true
+  bannerColor?: true
   inviteCode?: true
   ownerId?: true
   createdAt?: true
@@ -70,6 +74,7 @@ export type StudyGroupMaxAggregateInputType = {
   id?: true
   name?: true
   description?: true
+  bannerColor?: true
   inviteCode?: true
   ownerId?: true
   createdAt?: true
@@ -80,6 +85,7 @@ export type StudyGroupCountAggregateInputType = {
   id?: true
   name?: true
   description?: true
+  bannerColor?: true
   inviteCode?: true
   ownerId?: true
   createdAt?: true
@@ -163,6 +169,7 @@ export type StudyGroupGroupByOutputType = {
   id: string
   name: string
   description: string | null
+  bannerColor: string
   inviteCode: string
   ownerId: string
   createdAt: Date
@@ -194,28 +201,38 @@ export type StudyGroupWhereInput = {
   id?: Prisma.StringFilter<"StudyGroup"> | string
   name?: Prisma.StringFilter<"StudyGroup"> | string
   description?: Prisma.StringNullableFilter<"StudyGroup"> | string | null
+  bannerColor?: Prisma.StringFilter<"StudyGroup"> | string
   inviteCode?: Prisma.StringFilter<"StudyGroup"> | string
   ownerId?: Prisma.StringFilter<"StudyGroup"> | string
   createdAt?: Prisma.DateTimeFilter<"StudyGroup"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StudyGroup"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  consoleOwner?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   members?: Prisma.StudyGroupMemberListRelationFilter
+  consoleMembers?: Prisma.GroupMemberListRelationFilter
   disciplinas?: Prisma.DisciplinaListRelationFilter
   tarefas?: Prisma.TarefaListRelationFilter
+  subjects?: Prisma.SubjectListRelationFilter
+  tasks?: Prisma.TaskListRelationFilter
 }
 
 export type StudyGroupOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannerColor?: Prisma.SortOrder
   inviteCode?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   owner?: Prisma.UserOrderByWithRelationInput
+  consoleOwner?: Prisma.UserOrderByWithRelationInput
   members?: Prisma.StudyGroupMemberOrderByRelationAggregateInput
+  consoleMembers?: Prisma.GroupMemberOrderByRelationAggregateInput
   disciplinas?: Prisma.DisciplinaOrderByRelationAggregateInput
   tarefas?: Prisma.TarefaOrderByRelationAggregateInput
+  subjects?: Prisma.SubjectOrderByRelationAggregateInput
+  tasks?: Prisma.TaskOrderByRelationAggregateInput
 }
 
 export type StudyGroupWhereUniqueInput = Prisma.AtLeast<{
@@ -226,19 +243,25 @@ export type StudyGroupWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.StudyGroupWhereInput | Prisma.StudyGroupWhereInput[]
   name?: Prisma.StringFilter<"StudyGroup"> | string
   description?: Prisma.StringNullableFilter<"StudyGroup"> | string | null
+  bannerColor?: Prisma.StringFilter<"StudyGroup"> | string
   ownerId?: Prisma.StringFilter<"StudyGroup"> | string
   createdAt?: Prisma.DateTimeFilter<"StudyGroup"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StudyGroup"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  consoleOwner?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   members?: Prisma.StudyGroupMemberListRelationFilter
+  consoleMembers?: Prisma.GroupMemberListRelationFilter
   disciplinas?: Prisma.DisciplinaListRelationFilter
   tarefas?: Prisma.TarefaListRelationFilter
+  subjects?: Prisma.SubjectListRelationFilter
+  tasks?: Prisma.TaskListRelationFilter
 }, "id" | "inviteCode">
 
 export type StudyGroupOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannerColor?: Prisma.SortOrder
   inviteCode?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -255,6 +278,7 @@ export type StudyGroupScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"StudyGroup"> | string
   name?: Prisma.StringWithAggregatesFilter<"StudyGroup"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"StudyGroup"> | string | null
+  bannerColor?: Prisma.StringWithAggregatesFilter<"StudyGroup"> | string
   inviteCode?: Prisma.StringWithAggregatesFilter<"StudyGroup"> | string
   ownerId?: Prisma.StringWithAggregatesFilter<"StudyGroup"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"StudyGroup"> | Date | string
@@ -265,58 +289,77 @@ export type StudyGroupCreateInput = {
   id?: string
   name: string
   description?: string | null
+  bannerColor?: string
   inviteCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutGruposCriadosInput
+  consoleOwner?: Prisma.UserCreateNestedOneWithoutOwnedConsoleGroupsInput
   members?: Prisma.StudyGroupMemberCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
   disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutStudyGroupInput
   tarefas?: Prisma.TarefaCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutGroupInput
 }
 
 export type StudyGroupUncheckedCreateInput = {
   id?: string
   name: string
   description?: string | null
+  bannerColor?: string
   inviteCode: string
   ownerId: string
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
   disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutStudyGroupInput
   tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type StudyGroupUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutGruposCriadosNestedInput
+  consoleOwner?: Prisma.UserUpdateOneWithoutOwnedConsoleGroupsNestedInput
   members?: Prisma.StudyGroupMemberUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
   disciplinas?: Prisma.DisciplinaUpdateManyWithoutStudyGroupNestedInput
   tarefas?: Prisma.TarefaUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutGroupNestedInput
 }
 
 export type StudyGroupUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
   disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutStudyGroupNestedInput
   tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type StudyGroupCreateManyInput = {
   id?: string
   name: string
   description?: string | null
+  bannerColor?: string
   inviteCode: string
   ownerId: string
   createdAt?: Date | string
@@ -327,6 +370,7 @@ export type StudyGroupUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -336,6 +380,7 @@ export type StudyGroupUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -356,6 +401,7 @@ export type StudyGroupCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  bannerColor?: Prisma.SortOrder
   inviteCode?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -366,6 +412,7 @@ export type StudyGroupMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  bannerColor?: Prisma.SortOrder
   inviteCode?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -376,6 +423,7 @@ export type StudyGroupMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  bannerColor?: Prisma.SortOrder
   inviteCode?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -399,10 +447,24 @@ export type StudyGroupCreateNestedManyWithoutOwnerInput = {
   connect?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
 }
 
+export type StudyGroupCreateNestedManyWithoutConsoleOwnerInput = {
+  create?: Prisma.XOR<Prisma.StudyGroupCreateWithoutConsoleOwnerInput, Prisma.StudyGroupUncheckedCreateWithoutConsoleOwnerInput> | Prisma.StudyGroupCreateWithoutConsoleOwnerInput[] | Prisma.StudyGroupUncheckedCreateWithoutConsoleOwnerInput[]
+  connectOrCreate?: Prisma.StudyGroupCreateOrConnectWithoutConsoleOwnerInput | Prisma.StudyGroupCreateOrConnectWithoutConsoleOwnerInput[]
+  createMany?: Prisma.StudyGroupCreateManyConsoleOwnerInputEnvelope
+  connect?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
+}
+
 export type StudyGroupUncheckedCreateNestedManyWithoutOwnerInput = {
   create?: Prisma.XOR<Prisma.StudyGroupCreateWithoutOwnerInput, Prisma.StudyGroupUncheckedCreateWithoutOwnerInput> | Prisma.StudyGroupCreateWithoutOwnerInput[] | Prisma.StudyGroupUncheckedCreateWithoutOwnerInput[]
   connectOrCreate?: Prisma.StudyGroupCreateOrConnectWithoutOwnerInput | Prisma.StudyGroupCreateOrConnectWithoutOwnerInput[]
   createMany?: Prisma.StudyGroupCreateManyOwnerInputEnvelope
+  connect?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
+}
+
+export type StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput = {
+  create?: Prisma.XOR<Prisma.StudyGroupCreateWithoutConsoleOwnerInput, Prisma.StudyGroupUncheckedCreateWithoutConsoleOwnerInput> | Prisma.StudyGroupCreateWithoutConsoleOwnerInput[] | Prisma.StudyGroupUncheckedCreateWithoutConsoleOwnerInput[]
+  connectOrCreate?: Prisma.StudyGroupCreateOrConnectWithoutConsoleOwnerInput | Prisma.StudyGroupCreateOrConnectWithoutConsoleOwnerInput[]
+  createMany?: Prisma.StudyGroupCreateManyConsoleOwnerInputEnvelope
   connect?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
 }
 
@@ -420,6 +482,20 @@ export type StudyGroupUpdateManyWithoutOwnerNestedInput = {
   deleteMany?: Prisma.StudyGroupScalarWhereInput | Prisma.StudyGroupScalarWhereInput[]
 }
 
+export type StudyGroupUpdateManyWithoutConsoleOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.StudyGroupCreateWithoutConsoleOwnerInput, Prisma.StudyGroupUncheckedCreateWithoutConsoleOwnerInput> | Prisma.StudyGroupCreateWithoutConsoleOwnerInput[] | Prisma.StudyGroupUncheckedCreateWithoutConsoleOwnerInput[]
+  connectOrCreate?: Prisma.StudyGroupCreateOrConnectWithoutConsoleOwnerInput | Prisma.StudyGroupCreateOrConnectWithoutConsoleOwnerInput[]
+  upsert?: Prisma.StudyGroupUpsertWithWhereUniqueWithoutConsoleOwnerInput | Prisma.StudyGroupUpsertWithWhereUniqueWithoutConsoleOwnerInput[]
+  createMany?: Prisma.StudyGroupCreateManyConsoleOwnerInputEnvelope
+  set?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
+  disconnect?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
+  delete?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
+  connect?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
+  update?: Prisma.StudyGroupUpdateWithWhereUniqueWithoutConsoleOwnerInput | Prisma.StudyGroupUpdateWithWhereUniqueWithoutConsoleOwnerInput[]
+  updateMany?: Prisma.StudyGroupUpdateManyWithWhereWithoutConsoleOwnerInput | Prisma.StudyGroupUpdateManyWithWhereWithoutConsoleOwnerInput[]
+  deleteMany?: Prisma.StudyGroupScalarWhereInput | Prisma.StudyGroupScalarWhereInput[]
+}
+
 export type StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput = {
   create?: Prisma.XOR<Prisma.StudyGroupCreateWithoutOwnerInput, Prisma.StudyGroupUncheckedCreateWithoutOwnerInput> | Prisma.StudyGroupCreateWithoutOwnerInput[] | Prisma.StudyGroupUncheckedCreateWithoutOwnerInput[]
   connectOrCreate?: Prisma.StudyGroupCreateOrConnectWithoutOwnerInput | Prisma.StudyGroupCreateOrConnectWithoutOwnerInput[]
@@ -431,6 +507,20 @@ export type StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput = {
   connect?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
   update?: Prisma.StudyGroupUpdateWithWhereUniqueWithoutOwnerInput | Prisma.StudyGroupUpdateWithWhereUniqueWithoutOwnerInput[]
   updateMany?: Prisma.StudyGroupUpdateManyWithWhereWithoutOwnerInput | Prisma.StudyGroupUpdateManyWithWhereWithoutOwnerInput[]
+  deleteMany?: Prisma.StudyGroupScalarWhereInput | Prisma.StudyGroupScalarWhereInput[]
+}
+
+export type StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.StudyGroupCreateWithoutConsoleOwnerInput, Prisma.StudyGroupUncheckedCreateWithoutConsoleOwnerInput> | Prisma.StudyGroupCreateWithoutConsoleOwnerInput[] | Prisma.StudyGroupUncheckedCreateWithoutConsoleOwnerInput[]
+  connectOrCreate?: Prisma.StudyGroupCreateOrConnectWithoutConsoleOwnerInput | Prisma.StudyGroupCreateOrConnectWithoutConsoleOwnerInput[]
+  upsert?: Prisma.StudyGroupUpsertWithWhereUniqueWithoutConsoleOwnerInput | Prisma.StudyGroupUpsertWithWhereUniqueWithoutConsoleOwnerInput[]
+  createMany?: Prisma.StudyGroupCreateManyConsoleOwnerInputEnvelope
+  set?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
+  disconnect?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
+  delete?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
+  connect?: Prisma.StudyGroupWhereUniqueInput | Prisma.StudyGroupWhereUniqueInput[]
+  update?: Prisma.StudyGroupUpdateWithWhereUniqueWithoutConsoleOwnerInput | Prisma.StudyGroupUpdateWithWhereUniqueWithoutConsoleOwnerInput[]
+  updateMany?: Prisma.StudyGroupUpdateManyWithWhereWithoutConsoleOwnerInput | Prisma.StudyGroupUpdateManyWithWhereWithoutConsoleOwnerInput[]
   deleteMany?: Prisma.StudyGroupScalarWhereInput | Prisma.StudyGroupScalarWhereInput[]
 }
 
@@ -446,6 +536,52 @@ export type StudyGroupUpdateOneRequiredWithoutMembersNestedInput = {
   upsert?: Prisma.StudyGroupUpsertWithoutMembersInput
   connect?: Prisma.StudyGroupWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.StudyGroupUpdateToOneWithWhereWithoutMembersInput, Prisma.StudyGroupUpdateWithoutMembersInput>, Prisma.StudyGroupUncheckedUpdateWithoutMembersInput>
+}
+
+export type StudyGroupCreateNestedOneWithoutConsoleMembersInput = {
+  create?: Prisma.XOR<Prisma.StudyGroupCreateWithoutConsoleMembersInput, Prisma.StudyGroupUncheckedCreateWithoutConsoleMembersInput>
+  connectOrCreate?: Prisma.StudyGroupCreateOrConnectWithoutConsoleMembersInput
+  connect?: Prisma.StudyGroupWhereUniqueInput
+}
+
+export type StudyGroupUpdateOneRequiredWithoutConsoleMembersNestedInput = {
+  create?: Prisma.XOR<Prisma.StudyGroupCreateWithoutConsoleMembersInput, Prisma.StudyGroupUncheckedCreateWithoutConsoleMembersInput>
+  connectOrCreate?: Prisma.StudyGroupCreateOrConnectWithoutConsoleMembersInput
+  upsert?: Prisma.StudyGroupUpsertWithoutConsoleMembersInput
+  connect?: Prisma.StudyGroupWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StudyGroupUpdateToOneWithWhereWithoutConsoleMembersInput, Prisma.StudyGroupUpdateWithoutConsoleMembersInput>, Prisma.StudyGroupUncheckedUpdateWithoutConsoleMembersInput>
+}
+
+export type StudyGroupCreateNestedOneWithoutSubjectsInput = {
+  create?: Prisma.XOR<Prisma.StudyGroupCreateWithoutSubjectsInput, Prisma.StudyGroupUncheckedCreateWithoutSubjectsInput>
+  connectOrCreate?: Prisma.StudyGroupCreateOrConnectWithoutSubjectsInput
+  connect?: Prisma.StudyGroupWhereUniqueInput
+}
+
+export type StudyGroupUpdateOneWithoutSubjectsNestedInput = {
+  create?: Prisma.XOR<Prisma.StudyGroupCreateWithoutSubjectsInput, Prisma.StudyGroupUncheckedCreateWithoutSubjectsInput>
+  connectOrCreate?: Prisma.StudyGroupCreateOrConnectWithoutSubjectsInput
+  upsert?: Prisma.StudyGroupUpsertWithoutSubjectsInput
+  disconnect?: Prisma.StudyGroupWhereInput | boolean
+  delete?: Prisma.StudyGroupWhereInput | boolean
+  connect?: Prisma.StudyGroupWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StudyGroupUpdateToOneWithWhereWithoutSubjectsInput, Prisma.StudyGroupUpdateWithoutSubjectsInput>, Prisma.StudyGroupUncheckedUpdateWithoutSubjectsInput>
+}
+
+export type StudyGroupCreateNestedOneWithoutTasksInput = {
+  create?: Prisma.XOR<Prisma.StudyGroupCreateWithoutTasksInput, Prisma.StudyGroupUncheckedCreateWithoutTasksInput>
+  connectOrCreate?: Prisma.StudyGroupCreateOrConnectWithoutTasksInput
+  connect?: Prisma.StudyGroupWhereUniqueInput
+}
+
+export type StudyGroupUpdateOneWithoutTasksNestedInput = {
+  create?: Prisma.XOR<Prisma.StudyGroupCreateWithoutTasksInput, Prisma.StudyGroupUncheckedCreateWithoutTasksInput>
+  connectOrCreate?: Prisma.StudyGroupCreateOrConnectWithoutTasksInput
+  upsert?: Prisma.StudyGroupUpsertWithoutTasksInput
+  disconnect?: Prisma.StudyGroupWhereInput | boolean
+  delete?: Prisma.StudyGroupWhereInput | boolean
+  connect?: Prisma.StudyGroupWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StudyGroupUpdateToOneWithWhereWithoutTasksInput, Prisma.StudyGroupUpdateWithoutTasksInput>, Prisma.StudyGroupUncheckedUpdateWithoutTasksInput>
 }
 
 export type StudyGroupCreateNestedOneWithoutDisciplinasInput = {
@@ -484,24 +620,33 @@ export type StudyGroupCreateWithoutOwnerInput = {
   id?: string
   name: string
   description?: string | null
+  bannerColor?: string
   inviteCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  consoleOwner?: Prisma.UserCreateNestedOneWithoutOwnedConsoleGroupsInput
   members?: Prisma.StudyGroupMemberCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
   disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutStudyGroupInput
   tarefas?: Prisma.TarefaCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutGroupInput
 }
 
 export type StudyGroupUncheckedCreateWithoutOwnerInput = {
   id?: string
   name: string
   description?: string | null
+  bannerColor?: string
   inviteCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
   disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutStudyGroupInput
   tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type StudyGroupCreateOrConnectWithoutOwnerInput = {
@@ -511,6 +656,49 @@ export type StudyGroupCreateOrConnectWithoutOwnerInput = {
 
 export type StudyGroupCreateManyOwnerInputEnvelope = {
   data: Prisma.StudyGroupCreateManyOwnerInput | Prisma.StudyGroupCreateManyOwnerInput[]
+  skipDuplicates?: boolean
+}
+
+export type StudyGroupCreateWithoutConsoleOwnerInput = {
+  id?: string
+  name: string
+  description?: string | null
+  bannerColor?: string
+  inviteCode: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutGruposCriadosInput
+  members?: Prisma.StudyGroupMemberCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
+  disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutStudyGroupInput
+  tarefas?: Prisma.TarefaCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutGroupInput
+}
+
+export type StudyGroupUncheckedCreateWithoutConsoleOwnerInput = {
+  id?: string
+  name: string
+  description?: string | null
+  bannerColor?: string
+  inviteCode: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutStudyGroupInput
+  tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutGroupInput
+}
+
+export type StudyGroupCreateOrConnectWithoutConsoleOwnerInput = {
+  where: Prisma.StudyGroupWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudyGroupCreateWithoutConsoleOwnerInput, Prisma.StudyGroupUncheckedCreateWithoutConsoleOwnerInput>
+}
+
+export type StudyGroupCreateManyConsoleOwnerInputEnvelope = {
+  data: Prisma.StudyGroupCreateManyConsoleOwnerInput | Prisma.StudyGroupCreateManyConsoleOwnerInput[]
   skipDuplicates?: boolean
 }
 
@@ -537,34 +725,60 @@ export type StudyGroupScalarWhereInput = {
   id?: Prisma.StringFilter<"StudyGroup"> | string
   name?: Prisma.StringFilter<"StudyGroup"> | string
   description?: Prisma.StringNullableFilter<"StudyGroup"> | string | null
+  bannerColor?: Prisma.StringFilter<"StudyGroup"> | string
   inviteCode?: Prisma.StringFilter<"StudyGroup"> | string
   ownerId?: Prisma.StringFilter<"StudyGroup"> | string
   createdAt?: Prisma.DateTimeFilter<"StudyGroup"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StudyGroup"> | Date | string
 }
 
+export type StudyGroupUpsertWithWhereUniqueWithoutConsoleOwnerInput = {
+  where: Prisma.StudyGroupWhereUniqueInput
+  update: Prisma.XOR<Prisma.StudyGroupUpdateWithoutConsoleOwnerInput, Prisma.StudyGroupUncheckedUpdateWithoutConsoleOwnerInput>
+  create: Prisma.XOR<Prisma.StudyGroupCreateWithoutConsoleOwnerInput, Prisma.StudyGroupUncheckedCreateWithoutConsoleOwnerInput>
+}
+
+export type StudyGroupUpdateWithWhereUniqueWithoutConsoleOwnerInput = {
+  where: Prisma.StudyGroupWhereUniqueInput
+  data: Prisma.XOR<Prisma.StudyGroupUpdateWithoutConsoleOwnerInput, Prisma.StudyGroupUncheckedUpdateWithoutConsoleOwnerInput>
+}
+
+export type StudyGroupUpdateManyWithWhereWithoutConsoleOwnerInput = {
+  where: Prisma.StudyGroupScalarWhereInput
+  data: Prisma.XOR<Prisma.StudyGroupUpdateManyMutationInput, Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerInput>
+}
+
 export type StudyGroupCreateWithoutMembersInput = {
   id?: string
   name: string
   description?: string | null
+  bannerColor?: string
   inviteCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutGruposCriadosInput
+  consoleOwner?: Prisma.UserCreateNestedOneWithoutOwnedConsoleGroupsInput
+  consoleMembers?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
   disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutStudyGroupInput
   tarefas?: Prisma.TarefaCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutGroupInput
 }
 
 export type StudyGroupUncheckedCreateWithoutMembersInput = {
   id?: string
   name: string
   description?: string | null
+  bannerColor?: string
   inviteCode: string
   ownerId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  consoleMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
   disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutStudyGroupInput
   tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type StudyGroupCreateOrConnectWithoutMembersInput = {
@@ -587,48 +801,312 @@ export type StudyGroupUpdateWithoutMembersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutGruposCriadosNestedInput
+  consoleOwner?: Prisma.UserUpdateOneWithoutOwnedConsoleGroupsNestedInput
+  consoleMembers?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
   disciplinas?: Prisma.DisciplinaUpdateManyWithoutStudyGroupNestedInput
   tarefas?: Prisma.TarefaUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutGroupNestedInput
 }
 
 export type StudyGroupUncheckedUpdateWithoutMembersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  consoleMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
   disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutStudyGroupNestedInput
   tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutGroupNestedInput
+}
+
+export type StudyGroupCreateWithoutConsoleMembersInput = {
+  id?: string
+  name: string
+  description?: string | null
+  bannerColor?: string
+  inviteCode: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutGruposCriadosInput
+  consoleOwner?: Prisma.UserCreateNestedOneWithoutOwnedConsoleGroupsInput
+  members?: Prisma.StudyGroupMemberCreateNestedManyWithoutGroupInput
+  disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutStudyGroupInput
+  tarefas?: Prisma.TarefaCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutGroupInput
+}
+
+export type StudyGroupUncheckedCreateWithoutConsoleMembersInput = {
+  id?: string
+  name: string
+  description?: string | null
+  bannerColor?: string
+  inviteCode: string
+  ownerId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutStudyGroupInput
+  tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutGroupInput
+}
+
+export type StudyGroupCreateOrConnectWithoutConsoleMembersInput = {
+  where: Prisma.StudyGroupWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudyGroupCreateWithoutConsoleMembersInput, Prisma.StudyGroupUncheckedCreateWithoutConsoleMembersInput>
+}
+
+export type StudyGroupUpsertWithoutConsoleMembersInput = {
+  update: Prisma.XOR<Prisma.StudyGroupUpdateWithoutConsoleMembersInput, Prisma.StudyGroupUncheckedUpdateWithoutConsoleMembersInput>
+  create: Prisma.XOR<Prisma.StudyGroupCreateWithoutConsoleMembersInput, Prisma.StudyGroupUncheckedCreateWithoutConsoleMembersInput>
+  where?: Prisma.StudyGroupWhereInput
+}
+
+export type StudyGroupUpdateToOneWithWhereWithoutConsoleMembersInput = {
+  where?: Prisma.StudyGroupWhereInput
+  data: Prisma.XOR<Prisma.StudyGroupUpdateWithoutConsoleMembersInput, Prisma.StudyGroupUncheckedUpdateWithoutConsoleMembersInput>
+}
+
+export type StudyGroupUpdateWithoutConsoleMembersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutGruposCriadosNestedInput
+  consoleOwner?: Prisma.UserUpdateOneWithoutOwnedConsoleGroupsNestedInput
+  members?: Prisma.StudyGroupMemberUpdateManyWithoutGroupNestedInput
+  disciplinas?: Prisma.DisciplinaUpdateManyWithoutStudyGroupNestedInput
+  tarefas?: Prisma.TarefaUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutGroupNestedInput
+}
+
+export type StudyGroupUncheckedUpdateWithoutConsoleMembersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutGroupNestedInput
+}
+
+export type StudyGroupCreateWithoutSubjectsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  bannerColor?: string
+  inviteCode: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutGruposCriadosInput
+  consoleOwner?: Prisma.UserCreateNestedOneWithoutOwnedConsoleGroupsInput
+  members?: Prisma.StudyGroupMemberCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
+  disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutStudyGroupInput
+  tarefas?: Prisma.TarefaCreateNestedManyWithoutStudyGroupInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutGroupInput
+}
+
+export type StudyGroupUncheckedCreateWithoutSubjectsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  bannerColor?: string
+  inviteCode: string
+  ownerId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutStudyGroupInput
+  tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutStudyGroupInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutGroupInput
+}
+
+export type StudyGroupCreateOrConnectWithoutSubjectsInput = {
+  where: Prisma.StudyGroupWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudyGroupCreateWithoutSubjectsInput, Prisma.StudyGroupUncheckedCreateWithoutSubjectsInput>
+}
+
+export type StudyGroupUpsertWithoutSubjectsInput = {
+  update: Prisma.XOR<Prisma.StudyGroupUpdateWithoutSubjectsInput, Prisma.StudyGroupUncheckedUpdateWithoutSubjectsInput>
+  create: Prisma.XOR<Prisma.StudyGroupCreateWithoutSubjectsInput, Prisma.StudyGroupUncheckedCreateWithoutSubjectsInput>
+  where?: Prisma.StudyGroupWhereInput
+}
+
+export type StudyGroupUpdateToOneWithWhereWithoutSubjectsInput = {
+  where?: Prisma.StudyGroupWhereInput
+  data: Prisma.XOR<Prisma.StudyGroupUpdateWithoutSubjectsInput, Prisma.StudyGroupUncheckedUpdateWithoutSubjectsInput>
+}
+
+export type StudyGroupUpdateWithoutSubjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutGruposCriadosNestedInput
+  consoleOwner?: Prisma.UserUpdateOneWithoutOwnedConsoleGroupsNestedInput
+  members?: Prisma.StudyGroupMemberUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
+  disciplinas?: Prisma.DisciplinaUpdateManyWithoutStudyGroupNestedInput
+  tarefas?: Prisma.TarefaUpdateManyWithoutStudyGroupNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutGroupNestedInput
+}
+
+export type StudyGroupUncheckedUpdateWithoutSubjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutGroupNestedInput
+}
+
+export type StudyGroupCreateWithoutTasksInput = {
+  id?: string
+  name: string
+  description?: string | null
+  bannerColor?: string
+  inviteCode: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutGruposCriadosInput
+  consoleOwner?: Prisma.UserCreateNestedOneWithoutOwnedConsoleGroupsInput
+  members?: Prisma.StudyGroupMemberCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
+  disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutStudyGroupInput
+  tarefas?: Prisma.TarefaCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutGroupInput
+}
+
+export type StudyGroupUncheckedCreateWithoutTasksInput = {
+  id?: string
+  name: string
+  description?: string | null
+  bannerColor?: string
+  inviteCode: string
+  ownerId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutStudyGroupInput
+  tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutGroupInput
+}
+
+export type StudyGroupCreateOrConnectWithoutTasksInput = {
+  where: Prisma.StudyGroupWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudyGroupCreateWithoutTasksInput, Prisma.StudyGroupUncheckedCreateWithoutTasksInput>
+}
+
+export type StudyGroupUpsertWithoutTasksInput = {
+  update: Prisma.XOR<Prisma.StudyGroupUpdateWithoutTasksInput, Prisma.StudyGroupUncheckedUpdateWithoutTasksInput>
+  create: Prisma.XOR<Prisma.StudyGroupCreateWithoutTasksInput, Prisma.StudyGroupUncheckedCreateWithoutTasksInput>
+  where?: Prisma.StudyGroupWhereInput
+}
+
+export type StudyGroupUpdateToOneWithWhereWithoutTasksInput = {
+  where?: Prisma.StudyGroupWhereInput
+  data: Prisma.XOR<Prisma.StudyGroupUpdateWithoutTasksInput, Prisma.StudyGroupUncheckedUpdateWithoutTasksInput>
+}
+
+export type StudyGroupUpdateWithoutTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutGruposCriadosNestedInput
+  consoleOwner?: Prisma.UserUpdateOneWithoutOwnedConsoleGroupsNestedInput
+  members?: Prisma.StudyGroupMemberUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
+  disciplinas?: Prisma.DisciplinaUpdateManyWithoutStudyGroupNestedInput
+  tarefas?: Prisma.TarefaUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutGroupNestedInput
+}
+
+export type StudyGroupUncheckedUpdateWithoutTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type StudyGroupCreateWithoutDisciplinasInput = {
   id?: string
   name: string
   description?: string | null
+  bannerColor?: string
   inviteCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutGruposCriadosInput
+  consoleOwner?: Prisma.UserCreateNestedOneWithoutOwnedConsoleGroupsInput
   members?: Prisma.StudyGroupMemberCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
   tarefas?: Prisma.TarefaCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutGroupInput
 }
 
 export type StudyGroupUncheckedCreateWithoutDisciplinasInput = {
   id?: string
   name: string
   description?: string | null
+  bannerColor?: string
   inviteCode: string
   ownerId: string
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
   tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type StudyGroupCreateOrConnectWithoutDisciplinasInput = {
@@ -651,48 +1129,66 @@ export type StudyGroupUpdateWithoutDisciplinasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutGruposCriadosNestedInput
+  consoleOwner?: Prisma.UserUpdateOneWithoutOwnedConsoleGroupsNestedInput
   members?: Prisma.StudyGroupMemberUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
   tarefas?: Prisma.TarefaUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutGroupNestedInput
 }
 
 export type StudyGroupUncheckedUpdateWithoutDisciplinasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
   tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type StudyGroupCreateWithoutTarefasInput = {
   id?: string
   name: string
   description?: string | null
+  bannerColor?: string
   inviteCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutGruposCriadosInput
+  consoleOwner?: Prisma.UserCreateNestedOneWithoutOwnedConsoleGroupsInput
   members?: Prisma.StudyGroupMemberCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
   disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutGroupInput
 }
 
 export type StudyGroupUncheckedCreateWithoutTarefasInput = {
   id?: string
   name: string
   description?: string | null
+  bannerColor?: string
   inviteCode: string
   ownerId: string
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  consoleMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
   disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutStudyGroupInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutGroupInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type StudyGroupCreateOrConnectWithoutTarefasInput = {
@@ -715,30 +1211,50 @@ export type StudyGroupUpdateWithoutTarefasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutGruposCriadosNestedInput
+  consoleOwner?: Prisma.UserUpdateOneWithoutOwnedConsoleGroupsNestedInput
   members?: Prisma.StudyGroupMemberUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
   disciplinas?: Prisma.DisciplinaUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutGroupNestedInput
 }
 
 export type StudyGroupUncheckedUpdateWithoutTarefasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
   disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type StudyGroupCreateManyOwnerInput = {
   id?: string
   name: string
   description?: string | null
+  bannerColor?: string
+  inviteCode: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type StudyGroupCreateManyConsoleOwnerInput = {
+  id?: string
+  name: string
+  description?: string | null
+  bannerColor?: string
   inviteCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -748,30 +1264,83 @@ export type StudyGroupUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  consoleOwner?: Prisma.UserUpdateOneWithoutOwnedConsoleGroupsNestedInput
   members?: Prisma.StudyGroupMemberUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
   disciplinas?: Prisma.DisciplinaUpdateManyWithoutStudyGroupNestedInput
   tarefas?: Prisma.TarefaUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutGroupNestedInput
 }
 
 export type StudyGroupUncheckedUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
   disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutStudyGroupNestedInput
   tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type StudyGroupUncheckedUpdateManyWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StudyGroupUpdateWithoutConsoleOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutGruposCriadosNestedInput
+  members?: Prisma.StudyGroupMemberUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
+  disciplinas?: Prisma.DisciplinaUpdateManyWithoutStudyGroupNestedInput
+  tarefas?: Prisma.TarefaUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutGroupNestedInput
+}
+
+export type StudyGroupUncheckedUpdateWithoutConsoleOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
+  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  consoleMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutStudyGroupNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutGroupNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutGroupNestedInput
+}
+
+export type StudyGroupUncheckedUpdateManyWithoutConsoleOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerColor?: Prisma.StringFieldUpdateOperationsInput | string
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -784,14 +1353,20 @@ export type StudyGroupUncheckedUpdateManyWithoutOwnerInput = {
 
 export type StudyGroupCountOutputType = {
   members: number
+  consoleMembers: number
   disciplinas: number
   tarefas: number
+  subjects: number
+  tasks: number
 }
 
 export type StudyGroupCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | StudyGroupCountOutputTypeCountMembersArgs
+  consoleMembers?: boolean | StudyGroupCountOutputTypeCountConsoleMembersArgs
   disciplinas?: boolean | StudyGroupCountOutputTypeCountDisciplinasArgs
   tarefas?: boolean | StudyGroupCountOutputTypeCountTarefasArgs
+  subjects?: boolean | StudyGroupCountOutputTypeCountSubjectsArgs
+  tasks?: boolean | StudyGroupCountOutputTypeCountTasksArgs
 }
 
 /**
@@ -814,6 +1389,13 @@ export type StudyGroupCountOutputTypeCountMembersArgs<ExtArgs extends runtime.Ty
 /**
  * StudyGroupCountOutputType without action
  */
+export type StudyGroupCountOutputTypeCountConsoleMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GroupMemberWhereInput
+}
+
+/**
+ * StudyGroupCountOutputType without action
+ */
 export type StudyGroupCountOutputTypeCountDisciplinasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.DisciplinaWhereInput
 }
@@ -825,19 +1407,38 @@ export type StudyGroupCountOutputTypeCountTarefasArgs<ExtArgs extends runtime.Ty
   where?: Prisma.TarefaWhereInput
 }
 
+/**
+ * StudyGroupCountOutputType without action
+ */
+export type StudyGroupCountOutputTypeCountSubjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubjectWhereInput
+}
+
+/**
+ * StudyGroupCountOutputType without action
+ */
+export type StudyGroupCountOutputTypeCountTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TaskWhereInput
+}
+
 
 export type StudyGroupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   description?: boolean
+  bannerColor?: boolean
   inviteCode?: boolean
   ownerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  consoleOwner?: boolean | Prisma.StudyGroup$consoleOwnerArgs<ExtArgs>
   members?: boolean | Prisma.StudyGroup$membersArgs<ExtArgs>
+  consoleMembers?: boolean | Prisma.StudyGroup$consoleMembersArgs<ExtArgs>
   disciplinas?: boolean | Prisma.StudyGroup$disciplinasArgs<ExtArgs>
   tarefas?: boolean | Prisma.StudyGroup$tarefasArgs<ExtArgs>
+  subjects?: boolean | Prisma.StudyGroup$subjectsArgs<ExtArgs>
+  tasks?: boolean | Prisma.StudyGroup$tasksArgs<ExtArgs>
   _count?: boolean | Prisma.StudyGroupCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studyGroup"]>
 
@@ -845,61 +1446,77 @@ export type StudyGroupSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   name?: boolean
   description?: boolean
+  bannerColor?: boolean
   inviteCode?: boolean
   ownerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  consoleOwner?: boolean | Prisma.StudyGroup$consoleOwnerArgs<ExtArgs>
 }, ExtArgs["result"]["studyGroup"]>
 
 export type StudyGroupSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   description?: boolean
+  bannerColor?: boolean
   inviteCode?: boolean
   ownerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  consoleOwner?: boolean | Prisma.StudyGroup$consoleOwnerArgs<ExtArgs>
 }, ExtArgs["result"]["studyGroup"]>
 
 export type StudyGroupSelectScalar = {
   id?: boolean
   name?: boolean
   description?: boolean
+  bannerColor?: boolean
   inviteCode?: boolean
   ownerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type StudyGroupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "inviteCode" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["studyGroup"]>
+export type StudyGroupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "bannerColor" | "inviteCode" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["studyGroup"]>
 export type StudyGroupInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  consoleOwner?: boolean | Prisma.StudyGroup$consoleOwnerArgs<ExtArgs>
   members?: boolean | Prisma.StudyGroup$membersArgs<ExtArgs>
+  consoleMembers?: boolean | Prisma.StudyGroup$consoleMembersArgs<ExtArgs>
   disciplinas?: boolean | Prisma.StudyGroup$disciplinasArgs<ExtArgs>
   tarefas?: boolean | Prisma.StudyGroup$tarefasArgs<ExtArgs>
+  subjects?: boolean | Prisma.StudyGroup$subjectsArgs<ExtArgs>
+  tasks?: boolean | Prisma.StudyGroup$tasksArgs<ExtArgs>
   _count?: boolean | Prisma.StudyGroupCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StudyGroupIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  consoleOwner?: boolean | Prisma.StudyGroup$consoleOwnerArgs<ExtArgs>
 }
 export type StudyGroupIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  consoleOwner?: boolean | Prisma.StudyGroup$consoleOwnerArgs<ExtArgs>
 }
 
 export type $StudyGroupPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "StudyGroup"
   objects: {
     owner: Prisma.$UserPayload<ExtArgs>
+    consoleOwner: Prisma.$UserPayload<ExtArgs> | null
     members: Prisma.$StudyGroupMemberPayload<ExtArgs>[]
+    consoleMembers: Prisma.$GroupMemberPayload<ExtArgs>[]
     disciplinas: Prisma.$DisciplinaPayload<ExtArgs>[]
     tarefas: Prisma.$TarefaPayload<ExtArgs>[]
+    subjects: Prisma.$SubjectPayload<ExtArgs>[]
+    tasks: Prisma.$TaskPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
     description: string | null
+    bannerColor: string
     inviteCode: string
     ownerId: string
     createdAt: Date
@@ -1299,9 +1916,13 @@ readonly fields: StudyGroupFieldRefs;
 export interface Prisma__StudyGroupClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   owner<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  consoleOwner<T extends Prisma.StudyGroup$consoleOwnerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudyGroup$consoleOwnerArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   members<T extends Prisma.StudyGroup$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudyGroup$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  consoleMembers<T extends Prisma.StudyGroup$consoleMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudyGroup$consoleMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   disciplinas<T extends Prisma.StudyGroup$disciplinasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudyGroup$disciplinasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DisciplinaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tarefas<T extends Prisma.StudyGroup$tarefasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudyGroup$tarefasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TarefaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subjects<T extends Prisma.StudyGroup$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudyGroup$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tasks<T extends Prisma.StudyGroup$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudyGroup$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1334,6 +1955,7 @@ export interface StudyGroupFieldRefs {
   readonly id: Prisma.FieldRef<"StudyGroup", 'String'>
   readonly name: Prisma.FieldRef<"StudyGroup", 'String'>
   readonly description: Prisma.FieldRef<"StudyGroup", 'String'>
+  readonly bannerColor: Prisma.FieldRef<"StudyGroup", 'String'>
   readonly inviteCode: Prisma.FieldRef<"StudyGroup", 'String'>
   readonly ownerId: Prisma.FieldRef<"StudyGroup", 'String'>
   readonly createdAt: Prisma.FieldRef<"StudyGroup", 'DateTime'>
@@ -1739,6 +2361,25 @@ export type StudyGroupDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * StudyGroup.consoleOwner
+ */
+export type StudyGroup$consoleOwnerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
  * StudyGroup.members
  */
 export type StudyGroup$membersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1760,6 +2401,30 @@ export type StudyGroup$membersArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.StudyGroupMemberScalarFieldEnum | Prisma.StudyGroupMemberScalarFieldEnum[]
+}
+
+/**
+ * StudyGroup.consoleMembers
+ */
+export type StudyGroup$consoleMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GroupMember
+   */
+  select?: Prisma.GroupMemberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GroupMember
+   */
+  omit?: Prisma.GroupMemberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroupMemberInclude<ExtArgs> | null
+  where?: Prisma.GroupMemberWhereInput
+  orderBy?: Prisma.GroupMemberOrderByWithRelationInput | Prisma.GroupMemberOrderByWithRelationInput[]
+  cursor?: Prisma.GroupMemberWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GroupMemberScalarFieldEnum | Prisma.GroupMemberScalarFieldEnum[]
 }
 
 /**
@@ -1808,6 +2473,54 @@ export type StudyGroup$tarefasArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.TarefaScalarFieldEnum | Prisma.TarefaScalarFieldEnum[]
+}
+
+/**
+ * StudyGroup.subjects
+ */
+export type StudyGroup$subjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Subject
+   */
+  select?: Prisma.SubjectSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Subject
+   */
+  omit?: Prisma.SubjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubjectInclude<ExtArgs> | null
+  where?: Prisma.SubjectWhereInput
+  orderBy?: Prisma.SubjectOrderByWithRelationInput | Prisma.SubjectOrderByWithRelationInput[]
+  cursor?: Prisma.SubjectWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubjectScalarFieldEnum | Prisma.SubjectScalarFieldEnum[]
+}
+
+/**
+ * StudyGroup.tasks
+ */
+export type StudyGroup$tasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Task
+   */
+  select?: Prisma.TaskSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Task
+   */
+  omit?: Prisma.TaskOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaskInclude<ExtArgs> | null
+  where?: Prisma.TaskWhereInput
+  orderBy?: Prisma.TaskOrderByWithRelationInput | Prisma.TaskOrderByWithRelationInput[]
+  cursor?: Prisma.TaskWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TaskScalarFieldEnum | Prisma.TaskScalarFieldEnum[]
 }
 
 /**

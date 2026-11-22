@@ -33,3 +33,51 @@ export const PapelGrupo = {
 } as const
 
 export type PapelGrupo = (typeof PapelGrupo)[keyof typeof PapelGrupo]
+
+
+export const PresenceStatus = {
+  ONLINE: 'ONLINE',
+  STUDYING: 'STUDYING',
+  BUSY: 'BUSY',
+  OFFLINE: 'OFFLINE'
+} as const
+
+export type PresenceStatus = (typeof PresenceStatus)[keyof typeof PresenceStatus]
+
+
+export const FriendshipStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED'
+} as const
+
+export type FriendshipStatus = (typeof FriendshipStatus)[keyof typeof FriendshipStatus]
+
+
+export const GroupMemberRole = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+} as const
+
+export type GroupMemberRole = (typeof GroupMemberRole)[keyof typeof GroupMemberRole]
+
+
+export const TaskPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
+} as const
+
+export type TaskPriority = (typeof TaskPriority)[keyof typeof TaskPriority]
+
+
+export const TaskBoardStatus = {
+  TODO: 'TODO',
+  IN_PROGRESS: 'IN_PROGRESS',
+  REVIEW: 'REVIEW',
+  DONE: 'DONE'
+} as const
+
+export type TaskBoardStatus = (typeof TaskBoardStatus)[keyof typeof TaskBoardStatus]

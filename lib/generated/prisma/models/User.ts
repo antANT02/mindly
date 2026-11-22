@@ -27,11 +27,15 @@ export type AggregateUser = {
 }
 
 export type UserAvgAggregateOutputType = {
+  xp: number | null
+  streakDays: number | null
   metaDiariaMinutos: number | null
   fatorFacilidadePadrao: number | null
 }
 
 export type UserSumAggregateOutputType = {
+  xp: number | null
+  streakDays: number | null
   metaDiariaMinutos: number | null
   fatorFacilidadePadrao: number | null
 }
@@ -39,11 +43,17 @@ export type UserSumAggregateOutputType = {
 export type UserMinAggregateOutputType = {
   id: string | null
   name: string | null
+  username: string | null
   email: string | null
   emailVerified: boolean | null
   role: string | null
   image: string | null
+  avatarUrl: string | null
   bio: string | null
+  statusText: string | null
+  presence: $Enums.PresenceStatus | null
+  xp: number | null
+  streakDays: number | null
   metaDiariaMinutos: number | null
   fatorFacilidadePadrao: number | null
   createdAt: Date | null
@@ -53,11 +63,17 @@ export type UserMinAggregateOutputType = {
 export type UserMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  username: string | null
   email: string | null
   emailVerified: boolean | null
   role: string | null
   image: string | null
+  avatarUrl: string | null
   bio: string | null
+  statusText: string | null
+  presence: $Enums.PresenceStatus | null
+  xp: number | null
+  streakDays: number | null
   metaDiariaMinutos: number | null
   fatorFacilidadePadrao: number | null
   createdAt: Date | null
@@ -67,11 +83,17 @@ export type UserMaxAggregateOutputType = {
 export type UserCountAggregateOutputType = {
   id: number
   name: number
+  username: number
   email: number
   emailVerified: number
   role: number
   image: number
+  avatarUrl: number
   bio: number
+  statusText: number
+  presence: number
+  xp: number
+  streakDays: number
   metaDiariaMinutos: number
   fatorFacilidadePadrao: number
   createdAt: number
@@ -81,11 +103,15 @@ export type UserCountAggregateOutputType = {
 
 
 export type UserAvgAggregateInputType = {
+  xp?: true
+  streakDays?: true
   metaDiariaMinutos?: true
   fatorFacilidadePadrao?: true
 }
 
 export type UserSumAggregateInputType = {
+  xp?: true
+  streakDays?: true
   metaDiariaMinutos?: true
   fatorFacilidadePadrao?: true
 }
@@ -93,11 +119,17 @@ export type UserSumAggregateInputType = {
 export type UserMinAggregateInputType = {
   id?: true
   name?: true
+  username?: true
   email?: true
   emailVerified?: true
   role?: true
   image?: true
+  avatarUrl?: true
   bio?: true
+  statusText?: true
+  presence?: true
+  xp?: true
+  streakDays?: true
   metaDiariaMinutos?: true
   fatorFacilidadePadrao?: true
   createdAt?: true
@@ -107,11 +139,17 @@ export type UserMinAggregateInputType = {
 export type UserMaxAggregateInputType = {
   id?: true
   name?: true
+  username?: true
   email?: true
   emailVerified?: true
   role?: true
   image?: true
+  avatarUrl?: true
   bio?: true
+  statusText?: true
+  presence?: true
+  xp?: true
+  streakDays?: true
   metaDiariaMinutos?: true
   fatorFacilidadePadrao?: true
   createdAt?: true
@@ -121,11 +159,17 @@ export type UserMaxAggregateInputType = {
 export type UserCountAggregateInputType = {
   id?: true
   name?: true
+  username?: true
   email?: true
   emailVerified?: true
   role?: true
   image?: true
+  avatarUrl?: true
   bio?: true
+  statusText?: true
+  presence?: true
+  xp?: true
+  streakDays?: true
   metaDiariaMinutos?: true
   fatorFacilidadePadrao?: true
   createdAt?: true
@@ -222,11 +266,17 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type UserGroupByOutputType = {
   id: string
   name: string
+  username: string | null
   email: string
   emailVerified: boolean
   role: string
   image: string | null
+  avatarUrl: string | null
   bio: string | null
+  statusText: string | null
+  presence: $Enums.PresenceStatus
+  xp: number
+  streakDays: number
   metaDiariaMinutos: number
   fatorFacilidadePadrao: number
   createdAt: Date
@@ -259,11 +309,17 @@ export type UserWhereInput = {
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   id?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringFilter<"User"> | string
+  username?: Prisma.StringNullableFilter<"User"> | string | null
   email?: Prisma.StringFilter<"User"> | string
   emailVerified?: Prisma.BoolFilter<"User"> | boolean
   role?: Prisma.StringFilter<"User"> | string
   image?: Prisma.StringNullableFilter<"User"> | string | null
+  avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
+  statusText?: Prisma.StringNullableFilter<"User"> | string | null
+  presence?: Prisma.EnumPresenceStatusFilter<"User"> | $Enums.PresenceStatus
+  xp?: Prisma.IntFilter<"User"> | number
+  streakDays?: Prisma.IntFilter<"User"> | number
   metaDiariaMinutos?: Prisma.IntFilter<"User"> | number
   fatorFacilidadePadrao?: Prisma.FloatFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -277,16 +333,29 @@ export type UserWhereInput = {
   gruposCriados?: Prisma.StudyGroupListRelationFilter
   membrosGrupos?: Prisma.StudyGroupMemberListRelationFilter
   conclusoesTarefa?: Prisma.TarefaConclusaoListRelationFilter
+  sentFriendRequests?: Prisma.FriendshipListRelationFilter
+  receivedFriendRequests?: Prisma.FriendshipListRelationFilter
+  ownedConsoleGroups?: Prisma.StudyGroupListRelationFilter
+  consoleGroupMembers?: Prisma.GroupMemberListRelationFilter
+  subjects?: Prisma.SubjectListRelationFilter
+  createdTasks?: Prisma.TaskListRelationFilter
+  taskAssignments?: Prisma.TaskAssigneeListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  username?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
   role?: Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  statusText?: Prisma.SortOrderInput | Prisma.SortOrder
+  presence?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
+  streakDays?: Prisma.SortOrder
   metaDiariaMinutos?: Prisma.SortOrder
   fatorFacilidadePadrao?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -300,10 +369,18 @@ export type UserOrderByWithRelationInput = {
   gruposCriados?: Prisma.StudyGroupOrderByRelationAggregateInput
   membrosGrupos?: Prisma.StudyGroupMemberOrderByRelationAggregateInput
   conclusoesTarefa?: Prisma.TarefaConclusaoOrderByRelationAggregateInput
+  sentFriendRequests?: Prisma.FriendshipOrderByRelationAggregateInput
+  receivedFriendRequests?: Prisma.FriendshipOrderByRelationAggregateInput
+  ownedConsoleGroups?: Prisma.StudyGroupOrderByRelationAggregateInput
+  consoleGroupMembers?: Prisma.GroupMemberOrderByRelationAggregateInput
+  subjects?: Prisma.SubjectOrderByRelationAggregateInput
+  createdTasks?: Prisma.TaskOrderByRelationAggregateInput
+  taskAssignments?: Prisma.TaskAssigneeOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  username?: string
   email?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
@@ -312,7 +389,12 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   emailVerified?: Prisma.BoolFilter<"User"> | boolean
   role?: Prisma.StringFilter<"User"> | string
   image?: Prisma.StringNullableFilter<"User"> | string | null
+  avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
+  statusText?: Prisma.StringNullableFilter<"User"> | string | null
+  presence?: Prisma.EnumPresenceStatusFilter<"User"> | $Enums.PresenceStatus
+  xp?: Prisma.IntFilter<"User"> | number
+  streakDays?: Prisma.IntFilter<"User"> | number
   metaDiariaMinutos?: Prisma.IntFilter<"User"> | number
   fatorFacilidadePadrao?: Prisma.FloatFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -326,16 +408,29 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   gruposCriados?: Prisma.StudyGroupListRelationFilter
   membrosGrupos?: Prisma.StudyGroupMemberListRelationFilter
   conclusoesTarefa?: Prisma.TarefaConclusaoListRelationFilter
-}, "id" | "email">
+  sentFriendRequests?: Prisma.FriendshipListRelationFilter
+  receivedFriendRequests?: Prisma.FriendshipListRelationFilter
+  ownedConsoleGroups?: Prisma.StudyGroupListRelationFilter
+  consoleGroupMembers?: Prisma.GroupMemberListRelationFilter
+  subjects?: Prisma.SubjectListRelationFilter
+  createdTasks?: Prisma.TaskListRelationFilter
+  taskAssignments?: Prisma.TaskAssigneeListRelationFilter
+}, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  username?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
   role?: Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  statusText?: Prisma.SortOrderInput | Prisma.SortOrder
+  presence?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
+  streakDays?: Prisma.SortOrder
   metaDiariaMinutos?: Prisma.SortOrder
   fatorFacilidadePadrao?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -353,11 +448,17 @@ export type UserScalarWhereWithAggregatesInput = {
   NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
+  username?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   emailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   role?: Prisma.StringWithAggregatesFilter<"User"> | string
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  statusText?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  presence?: Prisma.EnumPresenceStatusWithAggregatesFilter<"User"> | $Enums.PresenceStatus
+  xp?: Prisma.IntWithAggregatesFilter<"User"> | number
+  streakDays?: Prisma.IntWithAggregatesFilter<"User"> | number
   metaDiariaMinutos?: Prisma.IntWithAggregatesFilter<"User"> | number
   fatorFacilidadePadrao?: Prisma.FloatWithAggregatesFilter<"User"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -367,11 +468,17 @@ export type UserScalarWhereWithAggregatesInput = {
 export type UserCreateInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -385,16 +492,29 @@ export type UserCreateInput = {
   gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -408,16 +528,29 @@ export type UserUncheckedCreateInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -431,16 +564,29 @@ export type UserUpdateInput = {
   gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -454,16 +600,29 @@ export type UserUncheckedUpdateInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -473,11 +632,17 @@ export type UserCreateManyInput = {
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -487,11 +652,17 @@ export type UserUpdateManyMutationInput = {
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -501,11 +672,17 @@ export type UserUncheckedUpdateManyInput = {
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  username?: Prisma.SortOrder
   email?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
   role?: Prisma.SortOrder
   image?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  statusText?: Prisma.SortOrder
+  presence?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
+  streakDays?: Prisma.SortOrder
   metaDiariaMinutos?: Prisma.SortOrder
   fatorFacilidadePadrao?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -513,6 +690,8 @@ export type UserCountOrderByAggregateInput = {
 }
 
 export type UserAvgOrderByAggregateInput = {
+  xp?: Prisma.SortOrder
+  streakDays?: Prisma.SortOrder
   metaDiariaMinutos?: Prisma.SortOrder
   fatorFacilidadePadrao?: Prisma.SortOrder
 }
@@ -520,11 +699,17 @@ export type UserAvgOrderByAggregateInput = {
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  username?: Prisma.SortOrder
   email?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
   role?: Prisma.SortOrder
   image?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  statusText?: Prisma.SortOrder
+  presence?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
+  streakDays?: Prisma.SortOrder
   metaDiariaMinutos?: Prisma.SortOrder
   fatorFacilidadePadrao?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -534,11 +719,17 @@ export type UserMaxOrderByAggregateInput = {
 export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  username?: Prisma.SortOrder
   email?: Prisma.SortOrder
   emailVerified?: Prisma.SortOrder
   role?: Prisma.SortOrder
   image?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  statusText?: Prisma.SortOrder
+  presence?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
+  streakDays?: Prisma.SortOrder
   metaDiariaMinutos?: Prisma.SortOrder
   fatorFacilidadePadrao?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -546,6 +737,8 @@ export type UserMinOrderByAggregateInput = {
 }
 
 export type UserSumOrderByAggregateInput = {
+  xp?: Prisma.SortOrder
+  streakDays?: Prisma.SortOrder
   metaDiariaMinutos?: Prisma.SortOrder
   fatorFacilidadePadrao?: Prisma.SortOrder
 }
@@ -555,16 +748,25 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
+export type EnumPresenceStatusFieldUpdateOperationsInput = {
+  set?: $Enums.PresenceStatus
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -615,9 +817,43 @@ export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAccountsInput, Prisma.UserUpdateWithoutAccountsInput>, Prisma.UserUncheckedUpdateWithoutAccountsInput>
 }
 
+export type UserCreateNestedOneWithoutSentFriendRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSentFriendRequestsInput, Prisma.UserUncheckedCreateWithoutSentFriendRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentFriendRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutReceivedFriendRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReceivedFriendRequestsInput, Prisma.UserUncheckedCreateWithoutReceivedFriendRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReceivedFriendRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSentFriendRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSentFriendRequestsInput, Prisma.UserUncheckedCreateWithoutSentFriendRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentFriendRequestsInput
+  upsert?: Prisma.UserUpsertWithoutSentFriendRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSentFriendRequestsInput, Prisma.UserUpdateWithoutSentFriendRequestsInput>, Prisma.UserUncheckedUpdateWithoutSentFriendRequestsInput>
+}
+
+export type UserUpdateOneRequiredWithoutReceivedFriendRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReceivedFriendRequestsInput, Prisma.UserUncheckedCreateWithoutReceivedFriendRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReceivedFriendRequestsInput
+  upsert?: Prisma.UserUpsertWithoutReceivedFriendRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReceivedFriendRequestsInput, Prisma.UserUpdateWithoutReceivedFriendRequestsInput>, Prisma.UserUncheckedUpdateWithoutReceivedFriendRequestsInput>
+}
+
 export type UserCreateNestedOneWithoutGruposCriadosInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutGruposCriadosInput, Prisma.UserUncheckedCreateWithoutGruposCriadosInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutGruposCriadosInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutOwnedConsoleGroupsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOwnedConsoleGroupsInput, Prisma.UserUncheckedCreateWithoutOwnedConsoleGroupsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOwnedConsoleGroupsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
@@ -627,6 +863,16 @@ export type UserUpdateOneRequiredWithoutGruposCriadosNestedInput = {
   upsert?: Prisma.UserUpsertWithoutGruposCriadosInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGruposCriadosInput, Prisma.UserUpdateWithoutGruposCriadosInput>, Prisma.UserUncheckedUpdateWithoutGruposCriadosInput>
+}
+
+export type UserUpdateOneWithoutOwnedConsoleGroupsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOwnedConsoleGroupsInput, Prisma.UserUncheckedCreateWithoutOwnedConsoleGroupsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOwnedConsoleGroupsInput
+  upsert?: Prisma.UserUpsertWithoutOwnedConsoleGroupsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOwnedConsoleGroupsInput, Prisma.UserUpdateWithoutOwnedConsoleGroupsInput>, Prisma.UserUncheckedUpdateWithoutOwnedConsoleGroupsInput>
 }
 
 export type UserCreateNestedOneWithoutMembrosGruposInput = {
@@ -641,6 +887,62 @@ export type UserUpdateOneRequiredWithoutMembrosGruposNestedInput = {
   upsert?: Prisma.UserUpsertWithoutMembrosGruposInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMembrosGruposInput, Prisma.UserUpdateWithoutMembrosGruposInput>, Prisma.UserUncheckedUpdateWithoutMembrosGruposInput>
+}
+
+export type UserCreateNestedOneWithoutConsoleGroupMembersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutConsoleGroupMembersInput, Prisma.UserUncheckedCreateWithoutConsoleGroupMembersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutConsoleGroupMembersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutConsoleGroupMembersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutConsoleGroupMembersInput, Prisma.UserUncheckedCreateWithoutConsoleGroupMembersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutConsoleGroupMembersInput
+  upsert?: Prisma.UserUpsertWithoutConsoleGroupMembersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConsoleGroupMembersInput, Prisma.UserUpdateWithoutConsoleGroupMembersInput>, Prisma.UserUncheckedUpdateWithoutConsoleGroupMembersInput>
+}
+
+export type UserCreateNestedOneWithoutSubjectsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSubjectsInput, Prisma.UserUncheckedCreateWithoutSubjectsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubjectsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSubjectsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSubjectsInput, Prisma.UserUncheckedCreateWithoutSubjectsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubjectsInput
+  upsert?: Prisma.UserUpsertWithoutSubjectsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSubjectsInput, Prisma.UserUpdateWithoutSubjectsInput>, Prisma.UserUncheckedUpdateWithoutSubjectsInput>
+}
+
+export type UserCreateNestedOneWithoutCreatedTasksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedTasksInput, Prisma.UserUncheckedCreateWithoutCreatedTasksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedTasksInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCreatedTasksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedTasksInput, Prisma.UserUncheckedCreateWithoutCreatedTasksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedTasksInput
+  upsert?: Prisma.UserUpsertWithoutCreatedTasksInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedTasksInput, Prisma.UserUpdateWithoutCreatedTasksInput>, Prisma.UserUncheckedUpdateWithoutCreatedTasksInput>
+}
+
+export type UserCreateNestedOneWithoutTaskAssignmentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTaskAssignmentsInput, Prisma.UserUncheckedCreateWithoutTaskAssignmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTaskAssignmentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTaskAssignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTaskAssignmentsInput, Prisma.UserUncheckedCreateWithoutTaskAssignmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTaskAssignmentsInput
+  upsert?: Prisma.UserUpsertWithoutTaskAssignmentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTaskAssignmentsInput, Prisma.UserUpdateWithoutTaskAssignmentsInput>, Prisma.UserUncheckedUpdateWithoutTaskAssignmentsInput>
 }
 
 export type UserCreateNestedOneWithoutDisciplinasInput = {
@@ -716,11 +1018,17 @@ export type UserUpdateOneRequiredWithoutSessoesEstudoNestedInput = {
 export type UserCreateWithoutSessionsInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -733,16 +1041,29 @@ export type UserCreateWithoutSessionsInput = {
   gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -755,6 +1076,13 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -776,11 +1104,17 @@ export type UserUpdateToOneWithWhereWithoutSessionsInput = {
 export type UserUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -793,16 +1127,29 @@ export type UserUpdateWithoutSessionsInput = {
   gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -815,16 +1162,29 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -837,16 +1197,29 @@ export type UserCreateWithoutAccountsInput = {
   gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -859,6 +1232,13 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -880,11 +1260,17 @@ export type UserUpdateToOneWithWhereWithoutAccountsInput = {
 export type UserUpdateWithoutAccountsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -897,16 +1283,29 @@ export type UserUpdateWithoutAccountsInput = {
   gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -919,16 +1318,341 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSentFriendRequestsInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSentFriendRequestsInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaUncheckedCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSentFriendRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSentFriendRequestsInput, Prisma.UserUncheckedCreateWithoutSentFriendRequestsInput>
+}
+
+export type UserCreateWithoutReceivedFriendRequestsInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutReceivedFriendRequestsInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaUncheckedCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutReceivedFriendRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReceivedFriendRequestsInput, Prisma.UserUncheckedCreateWithoutReceivedFriendRequestsInput>
+}
+
+export type UserUpsertWithoutSentFriendRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSentFriendRequestsInput, Prisma.UserUncheckedUpdateWithoutSentFriendRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSentFriendRequestsInput, Prisma.UserUncheckedCreateWithoutSentFriendRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSentFriendRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSentFriendRequestsInput, Prisma.UserUncheckedUpdateWithoutSentFriendRequestsInput>
+}
+
+export type UserUpdateWithoutSentFriendRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSentFriendRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUncheckedUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutReceivedFriendRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReceivedFriendRequestsInput, Prisma.UserUncheckedUpdateWithoutReceivedFriendRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReceivedFriendRequestsInput, Prisma.UserUncheckedCreateWithoutReceivedFriendRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReceivedFriendRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReceivedFriendRequestsInput, Prisma.UserUncheckedUpdateWithoutReceivedFriendRequestsInput>
+}
+
+export type UserUpdateWithoutReceivedFriendRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReceivedFriendRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUncheckedUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGruposCriadosInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -941,16 +1665,29 @@ export type UserCreateWithoutGruposCriadosInput = {
   sessoesEstudo?: Prisma.SessaoEstudoCreateNestedManyWithoutUserInput
   membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGruposCriadosInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -963,11 +1700,93 @@ export type UserUncheckedCreateWithoutGruposCriadosInput = {
   sessoesEstudo?: Prisma.SessaoEstudoUncheckedCreateNestedManyWithoutUserInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGruposCriadosInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutGruposCriadosInput, Prisma.UserUncheckedCreateWithoutGruposCriadosInput>
+}
+
+export type UserCreateWithoutOwnedConsoleGroupsInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutOwnedConsoleGroupsInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaUncheckedCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutOwnedConsoleGroupsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutOwnedConsoleGroupsInput, Prisma.UserUncheckedCreateWithoutOwnedConsoleGroupsInput>
 }
 
 export type UserUpsertWithoutGruposCriadosInput = {
@@ -984,11 +1803,17 @@ export type UserUpdateToOneWithWhereWithoutGruposCriadosInput = {
 export type UserUpdateWithoutGruposCriadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1001,16 +1826,29 @@ export type UserUpdateWithoutGruposCriadosInput = {
   sessoesEstudo?: Prisma.SessaoEstudoUpdateManyWithoutUserNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGruposCriadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1023,16 +1861,110 @@ export type UserUncheckedUpdateWithoutGruposCriadosInput = {
   sessoesEstudo?: Prisma.SessaoEstudoUncheckedUpdateManyWithoutUserNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutOwnedConsoleGroupsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutOwnedConsoleGroupsInput, Prisma.UserUncheckedUpdateWithoutOwnedConsoleGroupsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutOwnedConsoleGroupsInput, Prisma.UserUncheckedCreateWithoutOwnedConsoleGroupsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutOwnedConsoleGroupsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutOwnedConsoleGroupsInput, Prisma.UserUncheckedUpdateWithoutOwnedConsoleGroupsInput>
+}
+
+export type UserUpdateWithoutOwnedConsoleGroupsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutOwnedConsoleGroupsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUncheckedUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMembrosGruposInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1045,16 +1977,29 @@ export type UserCreateWithoutMembrosGruposInput = {
   sessoesEstudo?: Prisma.SessaoEstudoCreateNestedManyWithoutUserInput
   gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
   conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMembrosGruposInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1067,6 +2012,13 @@ export type UserUncheckedCreateWithoutMembrosGruposInput = {
   sessoesEstudo?: Prisma.SessaoEstudoUncheckedCreateNestedManyWithoutUserInput
   gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMembrosGruposInput = {
@@ -1088,11 +2040,17 @@ export type UserUpdateToOneWithWhereWithoutMembrosGruposInput = {
 export type UserUpdateWithoutMembrosGruposInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1105,16 +2063,29 @@ export type UserUpdateWithoutMembrosGruposInput = {
   sessoesEstudo?: Prisma.SessaoEstudoUpdateManyWithoutUserNestedInput
   gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMembrosGruposInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1127,16 +2098,653 @@ export type UserUncheckedUpdateWithoutMembrosGruposInput = {
   sessoesEstudo?: Prisma.SessaoEstudoUncheckedUpdateManyWithoutUserNestedInput
   gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutConsoleGroupMembersInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutConsoleGroupMembersInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaUncheckedCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutConsoleGroupMembersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutConsoleGroupMembersInput, Prisma.UserUncheckedCreateWithoutConsoleGroupMembersInput>
+}
+
+export type UserUpsertWithoutConsoleGroupMembersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutConsoleGroupMembersInput, Prisma.UserUncheckedUpdateWithoutConsoleGroupMembersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutConsoleGroupMembersInput, Prisma.UserUncheckedCreateWithoutConsoleGroupMembersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutConsoleGroupMembersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutConsoleGroupMembersInput, Prisma.UserUncheckedUpdateWithoutConsoleGroupMembersInput>
+}
+
+export type UserUpdateWithoutConsoleGroupMembersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutConsoleGroupMembersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUncheckedUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSubjectsInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSubjectsInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaUncheckedCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSubjectsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSubjectsInput, Prisma.UserUncheckedCreateWithoutSubjectsInput>
+}
+
+export type UserUpsertWithoutSubjectsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSubjectsInput, Prisma.UserUncheckedUpdateWithoutSubjectsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSubjectsInput, Prisma.UserUncheckedCreateWithoutSubjectsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSubjectsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSubjectsInput, Prisma.UserUncheckedUpdateWithoutSubjectsInput>
+}
+
+export type UserUpdateWithoutSubjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSubjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUncheckedUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCreatedTasksInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCreatedTasksInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaUncheckedCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCreatedTasksInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedTasksInput, Prisma.UserUncheckedCreateWithoutCreatedTasksInput>
+}
+
+export type UserUpsertWithoutCreatedTasksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedTasksInput, Prisma.UserUncheckedUpdateWithoutCreatedTasksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedTasksInput, Prisma.UserUncheckedCreateWithoutCreatedTasksInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCreatedTasksInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedTasksInput, Prisma.UserUncheckedUpdateWithoutCreatedTasksInput>
+}
+
+export type UserUpdateWithoutCreatedTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCreatedTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUncheckedUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTaskAssignmentsInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+}
+
+export type UserUncheckedCreateWithoutTaskAssignmentsInput = {
+  id?: string
+  name: string
+  username?: string | null
+  email: string
+  emailVerified?: boolean
+  role?: string
+  image?: string | null
+  avatarUrl?: string | null
+  bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
+  metaDiariaMinutos?: number
+  fatorFacilidadePadrao?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  disciplinas?: Prisma.DisciplinaUncheckedCreateNestedManyWithoutUserInput
+  tarefas?: Prisma.TarefaUncheckedCreateNestedManyWithoutUserInput
+  metas?: Prisma.MetaUncheckedCreateNestedManyWithoutUserInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedCreateNestedManyWithoutUserInput
+  gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+}
+
+export type UserCreateOrConnectWithoutTaskAssignmentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTaskAssignmentsInput, Prisma.UserUncheckedCreateWithoutTaskAssignmentsInput>
+}
+
+export type UserUpsertWithoutTaskAssignmentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTaskAssignmentsInput, Prisma.UserUncheckedUpdateWithoutTaskAssignmentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTaskAssignmentsInput, Prisma.UserUncheckedCreateWithoutTaskAssignmentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTaskAssignmentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTaskAssignmentsInput, Prisma.UserUncheckedUpdateWithoutTaskAssignmentsInput>
+}
+
+export type UserUpdateWithoutTaskAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTaskAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
+  metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
+  fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  disciplinas?: Prisma.DisciplinaUncheckedUpdateManyWithoutUserNestedInput
+  tarefas?: Prisma.TarefaUncheckedUpdateManyWithoutUserNestedInput
+  metas?: Prisma.MetaUncheckedUpdateManyWithoutUserNestedInput
+  sessoesEstudo?: Prisma.SessaoEstudoUncheckedUpdateManyWithoutUserNestedInput
+  gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
+  membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
 }
 
 export type UserCreateWithoutDisciplinasInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1149,16 +2757,29 @@ export type UserCreateWithoutDisciplinasInput = {
   gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDisciplinasInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1171,6 +2792,13 @@ export type UserUncheckedCreateWithoutDisciplinasInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDisciplinasInput = {
@@ -1192,11 +2820,17 @@ export type UserUpdateToOneWithWhereWithoutDisciplinasInput = {
 export type UserUpdateWithoutDisciplinasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1209,16 +2843,29 @@ export type UserUpdateWithoutDisciplinasInput = {
   gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDisciplinasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1231,16 +2878,29 @@ export type UserUncheckedUpdateWithoutDisciplinasInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTarefasInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1253,16 +2913,29 @@ export type UserCreateWithoutTarefasInput = {
   gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTarefasInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1275,6 +2948,13 @@ export type UserUncheckedCreateWithoutTarefasInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTarefasInput = {
@@ -1296,11 +2976,17 @@ export type UserUpdateToOneWithWhereWithoutTarefasInput = {
 export type UserUpdateWithoutTarefasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1313,16 +2999,29 @@ export type UserUpdateWithoutTarefasInput = {
   gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTarefasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1335,16 +3034,29 @@ export type UserUncheckedUpdateWithoutTarefasInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutConclusoesTarefaInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1357,16 +3069,29 @@ export type UserCreateWithoutConclusoesTarefaInput = {
   sessoesEstudo?: Prisma.SessaoEstudoCreateNestedManyWithoutUserInput
   gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutConclusoesTarefaInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1379,6 +3104,13 @@ export type UserUncheckedCreateWithoutConclusoesTarefaInput = {
   sessoesEstudo?: Prisma.SessaoEstudoUncheckedCreateNestedManyWithoutUserInput
   gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutConclusoesTarefaInput = {
@@ -1400,11 +3132,17 @@ export type UserUpdateToOneWithWhereWithoutConclusoesTarefaInput = {
 export type UserUpdateWithoutConclusoesTarefaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1417,16 +3155,29 @@ export type UserUpdateWithoutConclusoesTarefaInput = {
   sessoesEstudo?: Prisma.SessaoEstudoUpdateManyWithoutUserNestedInput
   gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConclusoesTarefaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1439,16 +3190,29 @@ export type UserUncheckedUpdateWithoutConclusoesTarefaInput = {
   sessoesEstudo?: Prisma.SessaoEstudoUncheckedUpdateManyWithoutUserNestedInput
   gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMetasInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1461,16 +3225,29 @@ export type UserCreateWithoutMetasInput = {
   gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMetasInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1483,6 +3260,13 @@ export type UserUncheckedCreateWithoutMetasInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMetasInput = {
@@ -1504,11 +3288,17 @@ export type UserUpdateToOneWithWhereWithoutMetasInput = {
 export type UserUpdateWithoutMetasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1521,16 +3311,29 @@ export type UserUpdateWithoutMetasInput = {
   gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMetasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1543,16 +3346,29 @@ export type UserUncheckedUpdateWithoutMetasInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessoesEstudoInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1565,16 +3381,29 @@ export type UserCreateWithoutSessoesEstudoInput = {
   gruposCriados?: Prisma.StudyGroupCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessoesEstudoInput = {
   id?: string
   name: string
+  username?: string | null
   email: string
   emailVerified?: boolean
   role?: string
   image?: string | null
+  avatarUrl?: string | null
   bio?: string | null
+  statusText?: string | null
+  presence?: $Enums.PresenceStatus
+  xp?: number
+  streakDays?: number
   metaDiariaMinutos?: number
   fatorFacilidadePadrao?: number
   createdAt?: Date | string
@@ -1587,6 +3416,13 @@ export type UserUncheckedCreateWithoutSessoesEstudoInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutOwnerInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedCreateNestedManyWithoutUserInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedCreateNestedManyWithoutAddresseeInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedCreateNestedManyWithoutConsoleOwnerInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatorInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessoesEstudoInput = {
@@ -1608,11 +3444,17 @@ export type UserUpdateToOneWithWhereWithoutSessoesEstudoInput = {
 export type UserUpdateWithoutSessoesEstudoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1625,16 +3467,29 @@ export type UserUpdateWithoutSessoesEstudoInput = {
   gruposCriados?: Prisma.StudyGroupUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessoesEstudoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  presence?: Prisma.EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  streakDays?: Prisma.IntFieldUpdateOperationsInput | number
   metaDiariaMinutos?: Prisma.IntFieldUpdateOperationsInput | number
   fatorFacilidadePadrao?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1647,6 +3502,13 @@ export type UserUncheckedUpdateWithoutSessoesEstudoInput = {
   gruposCriados?: Prisma.StudyGroupUncheckedUpdateManyWithoutOwnerNestedInput
   membrosGrupos?: Prisma.StudyGroupMemberUncheckedUpdateManyWithoutUserNestedInput
   conclusoesTarefa?: Prisma.TarefaConclusaoUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendshipUncheckedUpdateManyWithoutAddresseeNestedInput
+  ownedConsoleGroups?: Prisma.StudyGroupUncheckedUpdateManyWithoutConsoleOwnerNestedInput
+  consoleGroupMembers?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatorNestedInput
+  taskAssignments?: Prisma.TaskAssigneeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1664,6 +3526,13 @@ export type UserCountOutputType = {
   gruposCriados: number
   membrosGrupos: number
   conclusoesTarefa: number
+  sentFriendRequests: number
+  receivedFriendRequests: number
+  ownedConsoleGroups: number
+  consoleGroupMembers: number
+  subjects: number
+  createdTasks: number
+  taskAssignments: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1676,6 +3545,13 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   gruposCriados?: boolean | UserCountOutputTypeCountGruposCriadosArgs
   membrosGrupos?: boolean | UserCountOutputTypeCountMembrosGruposArgs
   conclusoesTarefa?: boolean | UserCountOutputTypeCountConclusoesTarefaArgs
+  sentFriendRequests?: boolean | UserCountOutputTypeCountSentFriendRequestsArgs
+  receivedFriendRequests?: boolean | UserCountOutputTypeCountReceivedFriendRequestsArgs
+  ownedConsoleGroups?: boolean | UserCountOutputTypeCountOwnedConsoleGroupsArgs
+  consoleGroupMembers?: boolean | UserCountOutputTypeCountConsoleGroupMembersArgs
+  subjects?: boolean | UserCountOutputTypeCountSubjectsArgs
+  createdTasks?: boolean | UserCountOutputTypeCountCreatedTasksArgs
+  taskAssignments?: boolean | UserCountOutputTypeCountTaskAssignmentsArgs
 }
 
 /**
@@ -1751,15 +3627,70 @@ export type UserCountOutputTypeCountConclusoesTarefaArgs<ExtArgs extends runtime
   where?: Prisma.TarefaConclusaoWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSentFriendRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FriendshipWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReceivedFriendRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FriendshipWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountOwnedConsoleGroupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudyGroupWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountConsoleGroupMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GroupMemberWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSubjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubjectWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCreatedTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TaskWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTaskAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TaskAssigneeWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  username?: boolean
   email?: boolean
   emailVerified?: boolean
   role?: boolean
   image?: boolean
+  avatarUrl?: boolean
   bio?: boolean
+  statusText?: boolean
+  presence?: boolean
+  xp?: boolean
+  streakDays?: boolean
   metaDiariaMinutos?: boolean
   fatorFacilidadePadrao?: boolean
   createdAt?: boolean
@@ -1773,17 +3704,30 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   gruposCriados?: boolean | Prisma.User$gruposCriadosArgs<ExtArgs>
   membrosGrupos?: boolean | Prisma.User$membrosGruposArgs<ExtArgs>
   conclusoesTarefa?: boolean | Prisma.User$conclusoesTarefaArgs<ExtArgs>
+  sentFriendRequests?: boolean | Prisma.User$sentFriendRequestsArgs<ExtArgs>
+  receivedFriendRequests?: boolean | Prisma.User$receivedFriendRequestsArgs<ExtArgs>
+  ownedConsoleGroups?: boolean | Prisma.User$ownedConsoleGroupsArgs<ExtArgs>
+  consoleGroupMembers?: boolean | Prisma.User$consoleGroupMembersArgs<ExtArgs>
+  subjects?: boolean | Prisma.User$subjectsArgs<ExtArgs>
+  createdTasks?: boolean | Prisma.User$createdTasksArgs<ExtArgs>
+  taskAssignments?: boolean | Prisma.User$taskAssignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  username?: boolean
   email?: boolean
   emailVerified?: boolean
   role?: boolean
   image?: boolean
+  avatarUrl?: boolean
   bio?: boolean
+  statusText?: boolean
+  presence?: boolean
+  xp?: boolean
+  streakDays?: boolean
   metaDiariaMinutos?: boolean
   fatorFacilidadePadrao?: boolean
   createdAt?: boolean
@@ -1793,11 +3737,17 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  username?: boolean
   email?: boolean
   emailVerified?: boolean
   role?: boolean
   image?: boolean
+  avatarUrl?: boolean
   bio?: boolean
+  statusText?: boolean
+  presence?: boolean
+  xp?: boolean
+  streakDays?: boolean
   metaDiariaMinutos?: boolean
   fatorFacilidadePadrao?: boolean
   createdAt?: boolean
@@ -1807,18 +3757,24 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type UserSelectScalar = {
   id?: boolean
   name?: boolean
+  username?: boolean
   email?: boolean
   emailVerified?: boolean
   role?: boolean
   image?: boolean
+  avatarUrl?: boolean
   bio?: boolean
+  statusText?: boolean
+  presence?: boolean
+  xp?: boolean
+  streakDays?: boolean
   metaDiariaMinutos?: boolean
   fatorFacilidadePadrao?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "role" | "image" | "bio" | "metaDiariaMinutos" | "fatorFacilidadePadrao" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "email" | "emailVerified" | "role" | "image" | "avatarUrl" | "bio" | "statusText" | "presence" | "xp" | "streakDays" | "metaDiariaMinutos" | "fatorFacilidadePadrao" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -1829,6 +3785,13 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   gruposCriados?: boolean | Prisma.User$gruposCriadosArgs<ExtArgs>
   membrosGrupos?: boolean | Prisma.User$membrosGruposArgs<ExtArgs>
   conclusoesTarefa?: boolean | Prisma.User$conclusoesTarefaArgs<ExtArgs>
+  sentFriendRequests?: boolean | Prisma.User$sentFriendRequestsArgs<ExtArgs>
+  receivedFriendRequests?: boolean | Prisma.User$receivedFriendRequestsArgs<ExtArgs>
+  ownedConsoleGroups?: boolean | Prisma.User$ownedConsoleGroupsArgs<ExtArgs>
+  consoleGroupMembers?: boolean | Prisma.User$consoleGroupMembersArgs<ExtArgs>
+  subjects?: boolean | Prisma.User$subjectsArgs<ExtArgs>
+  createdTasks?: boolean | Prisma.User$createdTasksArgs<ExtArgs>
+  taskAssignments?: boolean | Prisma.User$taskAssignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1846,15 +3809,28 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     gruposCriados: Prisma.$StudyGroupPayload<ExtArgs>[]
     membrosGrupos: Prisma.$StudyGroupMemberPayload<ExtArgs>[]
     conclusoesTarefa: Prisma.$TarefaConclusaoPayload<ExtArgs>[]
+    sentFriendRequests: Prisma.$FriendshipPayload<ExtArgs>[]
+    receivedFriendRequests: Prisma.$FriendshipPayload<ExtArgs>[]
+    ownedConsoleGroups: Prisma.$StudyGroupPayload<ExtArgs>[]
+    consoleGroupMembers: Prisma.$GroupMemberPayload<ExtArgs>[]
+    subjects: Prisma.$SubjectPayload<ExtArgs>[]
+    createdTasks: Prisma.$TaskPayload<ExtArgs>[]
+    taskAssignments: Prisma.$TaskAssigneePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    username: string | null
     email: string
     emailVerified: boolean
     role: string
     image: string | null
+    avatarUrl: string | null
     bio: string | null
+    statusText: string | null
+    presence: $Enums.PresenceStatus
+    xp: number
+    streakDays: number
     metaDiariaMinutos: number
     fatorFacilidadePadrao: number
     createdAt: Date
@@ -2262,6 +4238,13 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   gruposCriados<T extends Prisma.User$gruposCriadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$gruposCriadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   membrosGrupos<T extends Prisma.User$membrosGruposArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$membrosGruposArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyGroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conclusoesTarefa<T extends Prisma.User$conclusoesTarefaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conclusoesTarefaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TarefaConclusaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sentFriendRequests<T extends Prisma.User$sentFriendRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentFriendRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  receivedFriendRequests<T extends Prisma.User$receivedFriendRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$receivedFriendRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ownedConsoleGroups<T extends Prisma.User$ownedConsoleGroupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ownedConsoleGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  consoleGroupMembers<T extends Prisma.User$consoleGroupMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$consoleGroupMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subjects<T extends Prisma.User$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  createdTasks<T extends Prisma.User$createdTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  taskAssignments<T extends Prisma.User$taskAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$taskAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskAssigneePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2293,11 +4276,17 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
   readonly name: Prisma.FieldRef<"User", 'String'>
+  readonly username: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly emailVerified: Prisma.FieldRef<"User", 'Boolean'>
   readonly role: Prisma.FieldRef<"User", 'String'>
   readonly image: Prisma.FieldRef<"User", 'String'>
+  readonly avatarUrl: Prisma.FieldRef<"User", 'String'>
   readonly bio: Prisma.FieldRef<"User", 'String'>
+  readonly statusText: Prisma.FieldRef<"User", 'String'>
+  readonly presence: Prisma.FieldRef<"User", 'PresenceStatus'>
+  readonly xp: Prisma.FieldRef<"User", 'Int'>
+  readonly streakDays: Prisma.FieldRef<"User", 'Int'>
   readonly metaDiariaMinutos: Prisma.FieldRef<"User", 'Int'>
   readonly fatorFacilidadePadrao: Prisma.FieldRef<"User", 'Float'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
@@ -2908,6 +4897,174 @@ export type User$conclusoesTarefaArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.TarefaConclusaoScalarFieldEnum | Prisma.TarefaConclusaoScalarFieldEnum[]
+}
+
+/**
+ * User.sentFriendRequests
+ */
+export type User$sentFriendRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Friendship
+   */
+  select?: Prisma.FriendshipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Friendship
+   */
+  omit?: Prisma.FriendshipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FriendshipInclude<ExtArgs> | null
+  where?: Prisma.FriendshipWhereInput
+  orderBy?: Prisma.FriendshipOrderByWithRelationInput | Prisma.FriendshipOrderByWithRelationInput[]
+  cursor?: Prisma.FriendshipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FriendshipScalarFieldEnum | Prisma.FriendshipScalarFieldEnum[]
+}
+
+/**
+ * User.receivedFriendRequests
+ */
+export type User$receivedFriendRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Friendship
+   */
+  select?: Prisma.FriendshipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Friendship
+   */
+  omit?: Prisma.FriendshipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FriendshipInclude<ExtArgs> | null
+  where?: Prisma.FriendshipWhereInput
+  orderBy?: Prisma.FriendshipOrderByWithRelationInput | Prisma.FriendshipOrderByWithRelationInput[]
+  cursor?: Prisma.FriendshipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FriendshipScalarFieldEnum | Prisma.FriendshipScalarFieldEnum[]
+}
+
+/**
+ * User.ownedConsoleGroups
+ */
+export type User$ownedConsoleGroupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudyGroup
+   */
+  select?: Prisma.StudyGroupSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudyGroup
+   */
+  omit?: Prisma.StudyGroupOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudyGroupInclude<ExtArgs> | null
+  where?: Prisma.StudyGroupWhereInput
+  orderBy?: Prisma.StudyGroupOrderByWithRelationInput | Prisma.StudyGroupOrderByWithRelationInput[]
+  cursor?: Prisma.StudyGroupWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudyGroupScalarFieldEnum | Prisma.StudyGroupScalarFieldEnum[]
+}
+
+/**
+ * User.consoleGroupMembers
+ */
+export type User$consoleGroupMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GroupMember
+   */
+  select?: Prisma.GroupMemberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GroupMember
+   */
+  omit?: Prisma.GroupMemberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroupMemberInclude<ExtArgs> | null
+  where?: Prisma.GroupMemberWhereInput
+  orderBy?: Prisma.GroupMemberOrderByWithRelationInput | Prisma.GroupMemberOrderByWithRelationInput[]
+  cursor?: Prisma.GroupMemberWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GroupMemberScalarFieldEnum | Prisma.GroupMemberScalarFieldEnum[]
+}
+
+/**
+ * User.subjects
+ */
+export type User$subjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Subject
+   */
+  select?: Prisma.SubjectSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Subject
+   */
+  omit?: Prisma.SubjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubjectInclude<ExtArgs> | null
+  where?: Prisma.SubjectWhereInput
+  orderBy?: Prisma.SubjectOrderByWithRelationInput | Prisma.SubjectOrderByWithRelationInput[]
+  cursor?: Prisma.SubjectWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubjectScalarFieldEnum | Prisma.SubjectScalarFieldEnum[]
+}
+
+/**
+ * User.createdTasks
+ */
+export type User$createdTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Task
+   */
+  select?: Prisma.TaskSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Task
+   */
+  omit?: Prisma.TaskOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaskInclude<ExtArgs> | null
+  where?: Prisma.TaskWhereInput
+  orderBy?: Prisma.TaskOrderByWithRelationInput | Prisma.TaskOrderByWithRelationInput[]
+  cursor?: Prisma.TaskWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TaskScalarFieldEnum | Prisma.TaskScalarFieldEnum[]
+}
+
+/**
+ * User.taskAssignments
+ */
+export type User$taskAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TaskAssignee
+   */
+  select?: Prisma.TaskAssigneeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TaskAssignee
+   */
+  omit?: Prisma.TaskAssigneeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaskAssigneeInclude<ExtArgs> | null
+  where?: Prisma.TaskAssigneeWhereInput
+  orderBy?: Prisma.TaskAssigneeOrderByWithRelationInput | Prisma.TaskAssigneeOrderByWithRelationInput[]
+  cursor?: Prisma.TaskAssigneeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TaskAssigneeScalarFieldEnum | Prisma.TaskAssigneeScalarFieldEnum[]
 }
 
 /**
