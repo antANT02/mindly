@@ -3,8 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
-import { Search, Users } from "lucide-react";
+import { Search } from "lucide-react";
 import { MindlyWordmark } from "@/components/brand/mindly-wordmark";
 
 export type ConsolePresence = "ONLINE" | "STUDYING" | "BUSY" | "OFFLINE";
@@ -40,34 +39,29 @@ interface ConsoleHudShellProps {
 
 const PRESENCE_META: Record<
   ConsolePresence,
-  { label: string; dotClass: string; ringClass: string }
+  { label: string; dotClass: string }
 > = {
   ONLINE: {
     label: "Online",
     dotClass: "bg-[#A4D007]",
-    ringClass: "ring-[#A4D007]/60",
   },
   STUDYING: {
     label: "Estudando",
-    dotClass: "bg-[#66C0F4]",
-    ringClass: "ring-[#66C0F4]/60",
+    dotClass: "bg-[#CBB6FF]",
   },
   BUSY: {
     label: "Ocupado",
     dotClass: "bg-[#E5A93C]",
-    ringClass: "ring-[#E5A93C]/60",
   },
   OFFLINE: {
     label: "Offline",
-    dotClass: "bg-[#8F98A0]",
-    ringClass: "ring-white/15",
+    dotClass: "bg-[#9D8EC4]",
   },
 };
 
 export function ConsoleHudShell({
   children,
   user,
-  ambientColor = "#1A9FFF",
   pendingRequestsCount = 0,
   onlineFriendsCount = 0,
   socialOverlayOpen = false,
@@ -161,32 +155,21 @@ export function ConsoleHudShell({
   ];
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#0B0F14] text-[#F3F4F6] selection:bg-[#66C0F4]/25 selection:text-white">
-      {/* Ambient Canvas Dinâmico */}
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <motion.div
-          animate={{
-            background: `radial-gradient(ellipse 75% 45% at 20% 0%, ${ambientColor}24 0%, transparent 65%), radial-gradient(ellipse 55% 40% at 85% 8%, #1A9FFF14 0%, transparent 60%), #0B0F14`,
-          }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="h-full w-full"
-        />
-      </div>
-
-      {/* Top System Bar (Frameless estilo SteamOS) */}
-      <header className="sticky top-0 z-30 border-b border-white/[0.07] bg-[#0B0F14]/85 backdrop-blur-xl">
+    <div className="min-h-screen bg-[#070512] text-[#F4F1FA]">
+      {/* Top Bar Sólida de 1px (Sem Glassmorphism / Sem Glow) */}
+      <header className="sticky top-0 z-30 border-b border-[#CBB6FF]/15 bg-[#070512]">
         <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
-          {/* Esquerda: Wordmark MindLy + Navegação Limpa */}
-          <div className="flex items-center gap-7">
+          {/* Esquerda: Wordmark + Navegação */}
+          <div className="flex items-center gap-8">
             <Link
               href="/"
               data-console-focusable="true"
-              className="rounded outline-none focus-visible:ring-2 focus-visible:ring-[#66C0F4]"
+              className="rounded-[2px] outline-none focus-visible:ring-1 focus-visible:ring-[#CBB6FF]"
             >
               <MindlyWordmark size="md" />
             </Link>
 
-            <nav className="hidden items-center gap-5 md:flex">
+            <nav className="hidden items-center gap-6 md:flex">
               {navItems.map((item) => {
                 const isActive =
                   item.href === "/"
@@ -198,23 +181,15 @@ export function ConsoleHudShell({
                     key={item.href}
                     href={item.href}
                     data-console-focusable="true"
-                    className={`relative py-1.5 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#66C0F4] ${
+                    className={`relative py-1 text-xs font-medium tracking-wide outline-none transition-colors duration-150 focus-visible:ring-1 focus-visible:ring-[#CBB6FF] ${
                       isActive
-                        ? "text-[#F3F4F6]"
-                        : "text-[#8F98A0] hover:text-[#F3F4F6]"
+                        ? "text-[#F4F1FA]"
+                        : "text-[#9D8EC4] hover:text-[#CBB6FF]"
                     }`}
                   >
                     {item.label}
                     {isActive && (
-                      <motion.span
-                        layoutId="activeNavTab"
-                        transition={{
-                          type: "spring",
-                          stiffness: 420,
-                          damping: 34,
-                        }}
-                        className="absolute inset-x-0 -bottom-[11px] h-[2px] bg-[#66C0F4]"
-                      />
+                      <span className="absolute inset-x-0 -bottom-[11px] h-[2px] bg-[#7E49C7]" />
                     )}
                   </Link>
                 );
@@ -222,10 +197,10 @@ export function ConsoleHudShell({
             </nav>
           </div>
 
-          {/* Centro: Campo de Busca Compacto com padding seguro para Ctrl K */}
+          {/* Centro: Busca Técnica */}
           <div className="order-3 w-full max-w-xs sm:order-2">
             <div className="relative flex items-center">
-              <Search className="pointer-events-none absolute left-3 h-3.5 w-3.5 text-[#8F98A0]" />
+              <Search className="pointer-events-none absolute left-2.5 h-3.5 w-3.5 text-[#9D8EC4]" />
               <input
                 ref={searchInputRef}
                 type="text"
@@ -242,60 +217,60 @@ export function ConsoleHudShell({
                     );
                   }
                 }}
-                placeholder="Buscar..."
-                className="w-full rounded-lg border border-white/[0.08] bg-[#121820] py-1.5 pl-8 pr-14 text-xs text-[#F3F4F6] placeholder-[#8F98A0]/80 outline-none transition focus:border-[#66C0F4] focus:ring-2 focus:ring-[#66C0F4]/25"
+                placeholder="Filtrar biblioteca..."
+                className="w-full rounded-[2px] border border-[#CBB6FF]/15 bg-[#1B0B3A]/70 py-1.5 pl-8 pr-14 text-xs text-[#F4F1FA] placeholder-[#9D8EC4]/70 outline-none transition-colors duration-150 focus:border-[#7E49C7] focus:bg-[#1B0B3A]"
               />
-              <kbd className="pointer-events-none absolute right-2 rounded border border-white/10 bg-[#1A222D] px-1.5 py-0.5 font-mono text-[10px] tabular-nums text-[#8F98A0]">
+              <kbd className="pointer-events-none absolute right-2 rounded-[2px] border border-[#CBB6FF]/15 bg-[#070512] px-1.5 py-0.5 font-mono text-[10px] tabular-nums text-[#9D8EC4]">
                 Ctrl K
               </kbd>
             </div>
           </div>
 
-          {/* Direita: Cluster Unificado de Telemetria + Social + Perfil */}
-          <div className="order-2 flex items-center rounded-xl border border-white/[0.08] bg-[#121820]/90 px-2.5 py-1 sm:order-3">
+          {/* Direita: Telemetria + Social + Identidade */}
+          <div className="order-2 flex items-center rounded-[2px] border border-[#CBB6FF]/15 bg-[#1B0B3A] px-2.5 py-1 sm:order-3">
             {user && (
               <>
-                <div className="hidden items-center gap-3 px-2 font-mono text-xs tabular-nums lg:flex">
-                  <span className="text-[#8F98A0]">
-                    <strong className="font-semibold text-[#E5A93C]">
+                <div className="hidden items-center gap-3.5 px-2 font-mono text-xs tabular-nums lg:flex">
+                  <span className="text-[#9D8EC4]">
+                    Ofensiva{" "}
+                    <strong className="font-semibold text-[#CBB6FF]">
                       {user.streakDays}d
                     </strong>
                   </span>
-                  <span className="text-[#8F98A0]">
-                    <strong className="font-semibold text-[#66C0F4]">
+                  <span className="text-[#9D8EC4]">
+                    <strong className="font-semibold text-[#F4F1FA]">
                       {user.xp}
                     </strong>{" "}
                     XP
                   </span>
                 </div>
-                <span className="hidden h-4 w-px bg-white/10 lg:block" />
+                <span className="hidden h-4 w-px bg-[#CBB6FF]/15 lg:block" />
               </>
             )}
 
-            <div className="hidden px-2.5 font-mono text-xs tabular-nums text-[#8F98A0] sm:block">
+            <div className="hidden px-2.5 font-mono text-xs tabular-nums text-[#9D8EC4] sm:block">
               {clockText || "--:--"}
             </div>
 
             {onToggleSocialOverlay && (
               <>
-                <span className="hidden h-4 w-px bg-white/10 sm:block" />
+                <span className="hidden h-4 w-px bg-[#CBB6FF]/15 sm:block" />
                 <button
                   type="button"
                   onClick={onToggleSocialOverlay}
                   data-console-focusable="true"
-                  className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-[#66C0F4] ${
+                  className={`flex items-center gap-1.5 rounded-[2px] px-2.5 py-1 text-xs font-medium outline-none transition-colors duration-150 focus-visible:ring-1 focus-visible:ring-[#CBB6FF] ${
                     socialOverlayOpen
-                      ? "bg-[#1A222D] text-[#66C0F4]"
-                      : "text-[#8F98A0] hover:bg-[#1A222D]/70 hover:text-[#F3F4F6]"
+                      ? "bg-[#3B1C6E] text-[#F4F1FA]"
+                      : "text-[#9D8EC4] hover:bg-[#3B1C6E]/60 hover:text-[#F4F1FA]"
                   }`}
                 >
-                  <Users className="h-3.5 w-3.5 text-[#66C0F4]" />
                   <span>Amigos</span>
-                  <span className="font-mono text-[11px] tabular-nums text-[#A4D007]">
+                  <span className="font-mono text-[11px] tabular-nums text-[#CBB6FF]">
                     {onlineFriendsCount}
                   </span>
                   {pendingRequestsCount > 0 && (
-                    <span className="rounded bg-[#E04F33] px-1 font-mono text-[10px] font-bold tabular-nums text-white">
+                    <span className="rounded-[2px] bg-[#7E49C7] px-1.5 font-mono text-[10px] font-bold tabular-nums text-[#F4F1FA]">
                       {pendingRequestsCount}
                     </span>
                   )}
@@ -303,38 +278,36 @@ export function ConsoleHudShell({
               </>
             )}
 
-            <span className="mx-1.5 h-4 w-px bg-white/10" />
+            <span className="mx-1.5 h-4 w-px bg-[#CBB6FF]/15" />
 
             {user ? (
               <Link
                 href="/perfil"
                 data-console-focusable="true"
-                className="flex items-center gap-2 rounded-lg py-0.5 pl-1 pr-1.5 outline-none transition hover:bg-[#1A222D] focus-visible:ring-2 focus-visible:ring-[#66C0F4]"
+                className="flex items-center gap-2 rounded-[2px] py-0.5 pl-1 pr-1.5 outline-none transition-colors duration-150 hover:bg-[#3B1C6E] focus-visible:ring-1 focus-visible:ring-[#CBB6FF]"
               >
-                <div className="relative h-7 w-7 shrink-0">
+                <div className="relative h-6 w-6 shrink-0">
                   {effectiveAvatar ? (
                     <img
                       src={effectiveAvatar}
                       alt={user.name}
-                      className={`h-7 w-7 rounded-md object-cover ring-1 ${presenceInfo.ringClass}`}
+                      className="h-6 w-6 rounded-[2px] border border-[#CBB6FF]/25 object-cover"
                     />
                   ) : (
-                    <div
-                      className={`flex h-7 w-7 items-center justify-center rounded-md bg-[#1A222D] font-mono text-xs font-bold text-[#66C0F4] ring-1 ${presenceInfo.ringClass}`}
-                    >
+                    <div className="flex h-6 w-6 items-center justify-center rounded-[2px] border border-[#CBB6FF]/25 bg-[#3B1C6E] font-mono text-[11px] font-bold text-[#CBB6FF]">
                       {user.name.charAt(0).toUpperCase()}
                     </div>
                   )}
                   <span
-                    className={`absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full ring-2 ring-[#121820] ${presenceInfo.dotClass}`}
+                    className={`absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full ring-1 ring-[#1B0B3A] ${presenceInfo.dotClass}`}
                   />
                 </div>
 
                 <div className="hidden text-left sm:block">
-                  <div className="max-w-[110px] truncate text-xs font-medium leading-tight text-[#F3F4F6]">
+                  <div className="max-w-[110px] truncate text-xs font-medium leading-tight text-[#F4F1FA]">
                     {user.name}
                   </div>
-                  <div className="max-w-[110px] truncate font-mono text-[10px] leading-tight text-[#8F98A0]">
+                  <div className="max-w-[110px] truncate font-mono text-[10px] leading-tight text-[#9D8EC4]">
                     {user.username ? `@${user.username}` : presenceInfo.label}
                   </div>
                 </div>
@@ -343,7 +316,7 @@ export function ConsoleHudShell({
               <Link
                 href="/login"
                 data-console-focusable="true"
-                className="rounded-lg bg-[#1A9FFF] px-3 py-1 text-xs font-semibold text-[#0B0F14] transition hover:bg-[#66C0F4]"
+                className="rounded-[2px] bg-[#7E49C7] px-3 py-1 text-xs font-semibold text-[#F4F1FA] transition-colors duration-150 hover:bg-[#9361D9]"
               >
                 Entrar
               </Link>
@@ -352,40 +325,30 @@ export function ConsoleHudShell({
         </div>
       </header>
 
-      {/* Área de Conteúdo */}
-      <main className="relative z-10 mx-auto max-w-[1440px] px-4 pb-16 pt-6 sm:px-6">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={pathname}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {children}
-          </motion.div>
-        </AnimatePresence>
+      {/* Conteúdo Principal */}
+      <main className="mx-auto max-w-[1440px] px-4 pb-14 pt-6 sm:px-6">
+        {children}
       </main>
 
-      {/* Bottom Action Bar (Rodapé Ultrafino de Navegação Espacial) */}
-      <footer className="fixed bottom-0 inset-x-0 z-30 h-9 border-t border-white/[0.06] bg-[#090C10]/90 backdrop-blur-md">
-        <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-4 font-mono text-[11px] tabular-nums text-[#8F98A0] sm:px-6">
+      {/* Barra de Atalhos Sólida */}
+      <footer className="fixed inset-x-0 bottom-0 z-30 h-8 border-t border-[#CBB6FF]/15 bg-[#070512]">
+        <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-4 font-mono text-[11px] tabular-nums text-[#9D8EC4] sm:px-6">
           <div className="flex items-center gap-4 overflow-x-auto">
             <span className="inline-flex shrink-0 items-center gap-1.5">
-              <kbd className="rounded border border-white/10 bg-[#121820] px-1.5 py-0.2 text-[10px] text-[#F3F4F6]">
+              <kbd className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#1B0B3A] px-1 text-[10px] text-[#CBB6FF]">
                 ←/→
               </kbd>
               Navegar
             </span>
             <span className="inline-flex shrink-0 items-center gap-1.5">
-              <kbd className="rounded border border-white/10 bg-[#121820] px-1.5 py-0.2 text-[10px] text-[#F3F4F6]">
+              <kbd className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#1B0B3A] px-1 text-[10px] text-[#CBB6FF]">
                 ENTER
               </kbd>
               Abrir
             </span>
             {onQuickCreateTask && (
               <span className="inline-flex shrink-0 items-center gap-1.5">
-                <kbd className="rounded border border-white/10 bg-[#121820] px-1.5 py-0.2 text-[10px] text-[#66C0F4]">
+                <kbd className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#1B0B3A] px-1 text-[10px] text-[#CBB6FF]">
                   N
                 </kbd>
                 Nova Tarefa
@@ -393,7 +356,7 @@ export function ConsoleHudShell({
             )}
             {onQuickCreateGroup && (
               <span className="inline-flex shrink-0 items-center gap-1.5">
-                <kbd className="rounded border border-white/10 bg-[#121820] px-1.5 py-0.2 text-[10px] text-[#66C0F4]">
+                <kbd className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#1B0B3A] px-1 text-[10px] text-[#CBB6FF]">
                   G
                 </kbd>
                 Novo Grupo
@@ -401,7 +364,7 @@ export function ConsoleHudShell({
             )}
             {onToggleSocialOverlay && (
               <span className="inline-flex shrink-0 items-center gap-1.5">
-                <kbd className="rounded border border-white/10 bg-[#121820] px-1.5 py-0.2 text-[10px] text-[#A4D007]">
+                <kbd className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#1B0B3A] px-1 text-[10px] text-[#CBB6FF]">
                   TAB
                 </kbd>
                 Social
@@ -410,11 +373,11 @@ export function ConsoleHudShell({
           </div>
 
           <div className="hidden items-center gap-2 sm:flex">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#A4D007]" />
+            <span className="h-1.5 w-1.5 bg-[#7E49C7]" />
             <span>
               {pendingRequestsCount > 0
-                ? `${pendingRequestsCount} convite(s)`
-                : "Pronto"}
+                ? `${pendingRequestsCount} solicitação(ões)`
+                : "Sistema ativo"}
             </span>
           </div>
         </div>

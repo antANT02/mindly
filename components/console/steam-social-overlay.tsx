@@ -2,14 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import {
-  Check,
-  Loader2,
-  Search,
-  UserPlus,
-  X,
-} from "lucide-react";
+import { Check, Loader2, Search, X } from "lucide-react";
 import {
   respondFriendRequestAction,
   searchUsersAction,
@@ -67,6 +60,8 @@ export function SteamSocialOverlay({
   const [selectedTaskByFriend, setSelectedTaskByFriend] = useState<
     Record<string, string>
   >({});
+
+  if (!open) return null;
 
   const studyingFriends = friends.filter((f) => f.presence === "STUDYING");
   const onlineFriends = friends.filter((f) => f.presence !== "STUDYING");
@@ -147,415 +142,386 @@ export function SteamSocialOverlay({
   };
 
   return (
-    <AnimatePresence>
-      {open && (
-        <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 z-40 bg-black/55 backdrop-blur-[2px]"
-          />
+    <>
+      <div
+        onClick={onClose}
+        className="fixed inset-0 z-40 bg-[#070512]/80"
+      />
 
-          <motion.aside
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", stiffness: 380, damping: 34 }}
-            className="fixed right-0 top-0 z-50 flex h-screen w-full max-w-[380px] flex-col border-l border-white/[0.08] bg-[#121820]/95 text-[#F3F4F6] shadow-2xl backdrop-blur-2xl"
-          >
-            {/* Topo do Overlay com Seletor de Presença */}
-            <div className="border-b border-white/[0.07] px-4 py-3.5">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold tracking-tight">
-                  Lista de Amigos
-                </span>
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="rounded-lg p-1 text-[#8F98A0] transition hover:bg-[#1A222D] hover:text-[#F3F4F6]"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
+      <aside className="fixed right-0 top-0 z-50 flex h-screen w-full max-w-[380px] flex-col border-l border-[#CBB6FF]/20 bg-[#1B0B3A] text-[#F4F1FA]">
+        {/* Cabeçalho */}
+        <div className="border-b border-[#CBB6FF]/15 px-4 py-3.5">
+          <div className="flex items-center justify-between">
+            <span className="font-serif text-lg tracking-tight text-[#F4F1FA]">
+              Rede de Estudo
+            </span>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Fechar painel social"
+              className="rounded-[2px] border border-[#CBB6FF]/15 bg-[#070512] p-1 text-[#9D8EC4] transition-colors duration-150 hover:text-[#F4F1FA]"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
 
-              <div className="mt-2.5 flex items-center justify-between gap-2">
-                <span className="font-mono text-[11px] text-[#8F98A0]">
-                  Seu estado
-                </span>
-                <select
-                  value={presence}
-                  onChange={(e) =>
-                    handlePresenceChange(e.target.value as ConsolePresence)
-                  }
-                  className="rounded-lg border border-white/[0.08] bg-[#0B0F14] px-2.5 py-1 text-xs text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
-                >
-                  <option value="ONLINE">Online</option>
-                  <option value="STUDYING">Estudando Agora</option>
-                  <option value="BUSY">Ocupado</option>
-                  <option value="OFFLINE">Offline</option>
-                </select>
-              </div>
+          <div className="mt-2.5 flex items-center justify-between gap-2">
+            <span className="font-mono text-[11px] uppercase tracking-wider text-[#9D8EC4]">
+              Estado
+            </span>
+            <select
+              value={presence}
+              onChange={(e) =>
+                handlePresenceChange(e.target.value as ConsolePresence)
+              }
+              className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-2.5 py-1 text-xs text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
+            >
+              <option value="ONLINE">Online</option>
+              <option value="STUDYING">Estudando Agora</option>
+              <option value="BUSY">Ocupado</option>
+              <option value="OFFLINE">Offline</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Abas Sólidas */}
+        <div className="grid grid-cols-3 border-b border-[#CBB6FF]/15 bg-[#070512] text-xs font-medium">
+          {(
+            [
+              { id: "FRIENDS", label: `Amigos (${friends.length})` },
+              { id: "GROUPS", label: `Grupos (${groups.length})` },
+              { id: "INVITES", label: `Convites (${pendingRequests.length})` },
+            ] as const
+          ).map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveTab(tab.id)}
+              className={`border-b-2 py-2.5 transition-colors duration-150 ${
+                activeTab === tab.id
+                  ? "border-[#7E49C7] bg-[#1B0B3A] text-[#F4F1FA]"
+                  : "border-transparent text-[#9D8EC4] hover:text-[#CBB6FF]"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Corpo */}
+        <div className="flex-1 space-y-5 overflow-y-auto p-4">
+          {statusMessage && (
+            <div className="rounded-[2px] border border-[#7E49C7] bg-[#3B1C6E] px-3 py-2 text-xs text-[#F4F1FA]">
+              {statusMessage}
             </div>
+          )}
 
-            {/* Abas */}
-            <div className="grid grid-cols-3 border-b border-white/[0.07] bg-[#0B0F14]/70 px-2 py-1.5 text-xs font-medium">
-              <button
-                type="button"
-                onClick={() => setActiveTab("FRIENDS")}
-                className={`rounded-lg py-1.5 transition ${
-                  activeTab === "FRIENDS"
-                    ? "bg-[#1A222D] text-[#F3F4F6]"
-                    : "text-[#8F98A0] hover:text-[#F3F4F6]"
-                }`}
-              >
-                Amigos ({friends.length})
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab("GROUPS")}
-                className={`rounded-lg py-1.5 transition ${
-                  activeTab === "GROUPS"
-                    ? "bg-[#1A222D] text-[#F3F4F6]"
-                    : "text-[#8F98A0] hover:text-[#F3F4F6]"
-                }`}
-              >
-                Grupos ({groups.length})
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab("INVITES")}
-                className={`rounded-lg py-1.5 transition ${
-                  activeTab === "INVITES"
-                    ? "bg-[#1A222D] text-[#66C0F4]"
-                    : "text-[#8F98A0] hover:text-[#F3F4F6]"
-                }`}
-              >
-                Convites ({pendingRequests.length})
-              </button>
-            </div>
-
-            {/* Corpo Rolável */}
-            <div className="flex-1 space-y-5 overflow-y-auto p-4">
-              {statusMessage && (
-                <div className="rounded-lg border border-[#66C0F4]/30 bg-[#66C0F4]/10 px-3 py-2 text-xs text-[#66C0F4]">
-                  {statusMessage}
-                </div>
-              )}
-
-              {activeTab === "FRIENDS" && (
-                <>
-                  {studyingFriends.length > 0 && (
-                    <div className="space-y-2">
-                      <div className="font-mono text-[11px] uppercase tracking-wider text-[#66C0F4]">
-                        Em Sessão ({studyingFriends.length})
-                      </div>
-                      {studyingFriends.map((friend) => {
-                        const avatar = friend.avatarUrl || friend.image;
-                        return (
-                          <div
-                            key={friend.id}
-                            className="space-y-2 rounded-xl border border-white/[0.07] bg-[#1A222D]/70 p-3"
-                          >
-                            <div className="flex items-center justify-between gap-2.5">
-                              <div className="flex items-center gap-2.5">
-                                {avatar ? (
-                                  <img
-                                    src={avatar}
-                                    alt={friend.name}
-                                    className="h-8 w-8 rounded-lg object-cover ring-1 ring-[#66C0F4]/60"
-                                  />
-                                ) : (
-                                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#121820] font-mono text-xs font-bold text-[#66C0F4]">
-                                    {friend.name.charAt(0).toUpperCase()}
-                                  </div>
-                                )}
-                                <div>
-                                  <p className="text-xs font-semibold text-[#F3F4F6]">
-                                    {friend.name}
-                                  </p>
-                                  <p className="text-[11px] text-[#66C0F4]">
-                                    {friend.statusText || "Estudando agora"}
-                                  </p>
-                                </div>
-                              </div>
-                              <span className="font-mono text-[11px] tabular-nums text-[#8F98A0]">
-                                {friend.xp} XP
-                              </span>
-                            </div>
-
-                            {tasks.length > 0 && (
-                              <div className="flex items-center gap-1.5 pt-1">
-                                <select
-                                  value={
-                                    selectedTaskByFriend[friend.id] ||
-                                    tasks[0].id
-                                  }
-                                  onChange={(e) =>
-                                    setSelectedTaskByFriend((prev) => ({
-                                      ...prev,
-                                      [friend.id]: e.target.value,
-                                    }))
-                                  }
-                                  className="min-w-0 flex-1 rounded-lg border border-white/[0.08] bg-[#0B0F14] px-2 py-1 text-[11px] text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
-                                >
-                                  {tasks.map((t) => (
-                                    <option key={t.id} value={t.id}>
-                                      {t.title}
-                                    </option>
-                                  ))}
-                                </select>
-                                <button
-                                  type="button"
-                                  disabled={busyId === friend.id}
-                                  onClick={() =>
-                                    handleAssignFriendToTask(friend.id)
-                                  }
-                                  className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-[#1A9FFF] px-2.5 py-1 text-[11px] font-semibold text-[#0B0F14] transition hover:bg-[#66C0F4] disabled:opacity-50"
-                                >
-                                  {busyId === friend.id ? (
-                                    <Loader2 className="h-3 w-3 animate-spin" />
-                                  ) : (
-                                    <UserPlus className="h-3 w-3" />
-                                  )}
-                                  <span>Atribuir</span>
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  <div className="space-y-2">
-                    <div className="font-mono text-[11px] uppercase tracking-wider text-[#A4D007]">
-                      Conectados ({onlineFriends.length})
-                    </div>
-                    {friends.length === 0 ? (
-                      <p className="rounded-xl border border-dashed border-white/[0.08] bg-[#0B0F14]/50 p-4 text-xs text-[#8F98A0]">
-                        Nenhum amigo conectado. Busque por @username na aba
-                        Convites.
-                      </p>
-                    ) : (
-                      onlineFriends.map((friend) => {
-                        const avatar = friend.avatarUrl || friend.image;
-                        return (
-                          <div
-                            key={friend.id}
-                            className="space-y-2 rounded-xl border border-white/[0.07] bg-[#1A222D]/45 p-3"
-                          >
-                            <div className="flex items-center justify-between gap-2.5">
-                              <div className="flex items-center gap-2.5">
-                                {avatar ? (
-                                  <img
-                                    src={avatar}
-                                    alt={friend.name}
-                                    className="h-8 w-8 rounded-lg object-cover ring-1 ring-[#A4D007]/50"
-                                  />
-                                ) : (
-                                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#121820] font-mono text-xs font-bold text-[#A4D007]">
-                                    {friend.name.charAt(0).toUpperCase()}
-                                  </div>
-                                )}
-                                <div>
-                                  <p className="text-xs font-semibold text-[#F3F4F6]">
-                                    {friend.name}
-                                  </p>
-                                  <p className="text-[11px] text-[#8F98A0]">
-                                    {friend.statusText || "Online"}
-                                  </p>
-                                </div>
-                              </div>
-                              <span className="font-mono text-[11px] tabular-nums text-[#8F98A0]">
-                                {friend.xp} XP
-                              </span>
-                            </div>
-
-                            {tasks.length > 0 && (
-                              <div className="flex items-center gap-1.5 pt-1">
-                                <select
-                                  value={
-                                    selectedTaskByFriend[friend.id] ||
-                                    tasks[0].id
-                                  }
-                                  onChange={(e) =>
-                                    setSelectedTaskByFriend((prev) => ({
-                                      ...prev,
-                                      [friend.id]: e.target.value,
-                                    }))
-                                  }
-                                  className="min-w-0 flex-1 rounded-lg border border-white/[0.08] bg-[#0B0F14] px-2 py-1 text-[11px] text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
-                                >
-                                  {tasks.map((t) => (
-                                    <option key={t.id} value={t.id}>
-                                      {t.title}
-                                    </option>
-                                  ))}
-                                </select>
-                                <button
-                                  type="button"
-                                  disabled={busyId === friend.id}
-                                  onClick={() =>
-                                    handleAssignFriendToTask(friend.id)
-                                  }
-                                  className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-white/10 bg-[#121820] px-2.5 py-1 text-[11px] font-medium text-[#66C0F4] transition hover:border-[#66C0F4] disabled:opacity-50"
-                                >
-                                  <UserPlus className="h-3 w-3" />
-                                  <span>Atribuir</span>
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })
-                    )}
+          {activeTab === "FRIENDS" && (
+            <>
+              {studyingFriends.length > 0 && (
+                <div className="space-y-2">
+                  <div className="font-mono text-[11px] uppercase tracking-wider text-[#CBB6FF]">
+                    Em Sessão ({studyingFriends.length})
                   </div>
-                </>
-              )}
-
-              {activeTab === "GROUPS" && (
-                <div className="space-y-2.5">
-                  {groups.length === 0 ? (
-                    <p className="rounded-xl border border-dashed border-white/[0.08] bg-[#0B0F14]/50 p-4 text-xs text-[#8F98A0]">
-                      Nenhum grupo ativo no momento.
-                    </p>
-                  ) : (
-                    groups.map((grp) => (
-                      <Link
-                        key={grp.id}
-                        href={grp.href}
-                        onClick={onClose}
-                        className="block rounded-xl border border-white/[0.07] bg-[#1A222D]/55 p-3.5 transition hover:border-[#66C0F4]"
+                  {studyingFriends.map((friend) => {
+                    const avatar = friend.avatarUrl || friend.image;
+                    return (
+                      <div
+                        key={friend.id}
+                        className="space-y-2 rounded-[2px] border border-[#CBB6FF]/15 bg-[#070512] p-3"
                       >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold capitalize text-[#F3F4F6]">
-                            {grp.name}
-                          </span>
-                          <span className="font-mono text-[11px] tabular-nums text-[#66C0F4]">
-                            {grp.inviteCode}
+                        <div className="flex items-center justify-between gap-2.5">
+                          <div className="flex items-center gap-2.5">
+                            {avatar ? (
+                              <img
+                                src={avatar}
+                                alt={friend.name}
+                                className="h-8 w-8 rounded-[2px] border border-[#7E49C7] object-cover"
+                              />
+                            ) : (
+                              <div className="flex h-8 w-8 items-center justify-center rounded-[2px] border border-[#7E49C7] bg-[#3B1C6E] font-mono text-xs font-bold text-[#CBB6FF]">
+                                {friend.name.charAt(0).toUpperCase()}
+                              </div>
+                            )}
+                            <div>
+                              <p className="text-xs font-semibold text-[#F4F1FA]">
+                                {friend.name}
+                              </p>
+                              <p className="text-[11px] text-[#CBB6FF]">
+                                {friend.statusText || "Estudando agora"}
+                              </p>
+                            </div>
+                          </div>
+                          <span className="font-mono text-[11px] tabular-nums text-[#9D8EC4]">
+                            {friend.xp} XP
                           </span>
                         </div>
-                        <p className="mt-1 font-mono text-[11px] tabular-nums text-[#8F98A0]">
-                          {grp.memberCount} membros · {grp.taskCount} tarefas
-                        </p>
-                      </Link>
-                    ))
-                  )}
+
+                        {tasks.length > 0 && (
+                          <div className="flex items-center gap-1.5 pt-1">
+                            <select
+                              value={
+                                selectedTaskByFriend[friend.id] || tasks[0].id
+                              }
+                              onChange={(e) =>
+                                setSelectedTaskByFriend((prev) => ({
+                                  ...prev,
+                                  [friend.id]: e.target.value,
+                                }))
+                              }
+                              className="min-w-0 flex-1 rounded-[2px] border border-[#CBB6FF]/15 bg-[#1B0B3A] px-2 py-1 text-[11px] text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
+                            >
+                              {tasks.map((t) => (
+                                <option key={t.id} value={t.id}>
+                                  {t.title}
+                                </option>
+                              ))}
+                            </select>
+                            <button
+                              type="button"
+                              disabled={busyId === friend.id}
+                              onClick={() =>
+                                handleAssignFriendToTask(friend.id)
+                              }
+                              className="shrink-0 rounded-[2px] bg-[#7E49C7] px-2.5 py-1 text-[11px] font-semibold text-[#F4F1FA] transition-colors duration-150 hover:bg-[#9361D9] disabled:opacity-50"
+                            >
+                              {busyId === friend.id ? (
+                                <Loader2 className="h-3 w-3 animate-spin" />
+                              ) : (
+                                "Atribuir"
+                              )}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 
-              {activeTab === "INVITES" && (
-                <div className="space-y-5">
-                  <form onSubmit={handleSearchUsers} className="flex gap-2">
-                    <div className="relative flex-1">
-                      <Search className="pointer-events-none absolute left-2.5 top-2 h-3.5 w-3.5 text-[#8F98A0]" />
-                      <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Buscar @username ou e-mail..."
-                        className="w-full rounded-lg border border-white/[0.08] bg-[#0B0F14] py-1.5 pl-8 pr-2.5 text-xs text-[#F3F4F6] placeholder-[#8F98A0]/80 outline-none focus:border-[#66C0F4]"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      disabled={searching}
-                      className="rounded-lg bg-[#1A9FFF] px-3 py-1.5 text-xs font-semibold text-[#0B0F14] hover:bg-[#66C0F4]"
-                    >
-                      {searching ? "..." : "Buscar"}
-                    </button>
-                  </form>
-
-                  {searchResults.length > 0 && (
-                    <div className="space-y-2">
-                      <div className="font-mono text-[11px] uppercase text-[#8F98A0]">
-                        Resultados
-                      </div>
-                      {searchResults.map((u) => (
-                        <div
-                          key={u.id}
-                          className="flex items-center justify-between rounded-xl border border-white/[0.07] bg-[#1A222D]/60 p-2.5"
-                        >
-                          <div>
-                            <p className="text-xs font-semibold text-[#F3F4F6]">
-                              {u.name}
-                            </p>
-                            <p className="font-mono text-[11px] text-[#8F98A0]">
-                              {u.username ? `@${u.username}` : `${u.xp} XP`}
-                            </p>
-                          </div>
-                          <button
-                            type="button"
-                            disabled={busyId === u.id}
-                            onClick={() => handleSendRequest(u.id)}
-                            className="rounded-lg bg-[#1A9FFF] px-2.5 py-1 text-xs font-semibold text-[#0B0F14] hover:bg-[#66C0F4]"
-                          >
-                            Convidar
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  <div className="space-y-2">
-                    <div className="font-mono text-[11px] uppercase text-[#8F98A0]">
-                      Solicitações Pendentes
-                    </div>
-                    {pendingRequests.length === 0 ? (
-                      <p className="text-xs text-[#8F98A0]">
-                        Nenhuma solicitação pendente.
-                      </p>
-                    ) : (
-                      pendingRequests.map((req) => (
-                        <div
-                          key={req.id}
-                          className="flex items-center justify-between rounded-xl border border-white/[0.07] bg-[#1A222D]/60 p-2.5"
-                        >
-                          <div>
-                            <p className="text-xs font-semibold text-[#F3F4F6]">
-                              {req.requester.name}
-                            </p>
-                            <p className="font-mono text-[11px] text-[#8F98A0]">
-                              {req.requester.username
-                                ? `@${req.requester.username}`
-                                : "Estudante"}
-                            </p>
-                          </div>
-                          <div className="flex gap-1.5">
-                            <button
-                              type="button"
-                              disabled={busyId === req.id}
-                              onClick={() =>
-                                handleRespondRequest(req.id, "ACCEPT")
-                              }
-                              className="inline-flex items-center gap-1 rounded-lg bg-[#A4D007] px-2 py-1 text-xs font-semibold text-[#0B0F14]"
-                            >
-                              <Check className="h-3 w-3" />
-                              Aceitar
-                            </button>
-                            <button
-                              type="button"
-                              disabled={busyId === req.id}
-                              onClick={() =>
-                                handleRespondRequest(req.id, "DECLINE")
-                              }
-                              className="rounded-lg border border-white/10 bg-[#0B0F14] px-2 py-1 text-xs text-[#8F98A0] hover:text-white"
-                            >
-                              Recusar
-                            </button>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
+              <div className="space-y-2">
+                <div className="font-mono text-[11px] uppercase tracking-wider text-[#9D8EC4]">
+                  Conectados ({onlineFriends.length})
                 </div>
+                {friends.length === 0 ? (
+                  <p className="rounded-[2px] border border-[#CBB6FF]/15 bg-[#070512] p-4 text-xs text-[#9D8EC4]">
+                    Nenhum amigo conectado. Busque por @username na aba
+                    Convites.
+                  </p>
+                ) : (
+                  onlineFriends.map((friend) => {
+                    const avatar = friend.avatarUrl || friend.image;
+                    return (
+                      <div
+                        key={friend.id}
+                        className="space-y-2 rounded-[2px] border border-[#CBB6FF]/15 bg-[#070512] p-3"
+                      >
+                        <div className="flex items-center justify-between gap-2.5">
+                          <div className="flex items-center gap-2.5">
+                            {avatar ? (
+                              <img
+                                src={avatar}
+                                alt={friend.name}
+                                className="h-8 w-8 rounded-[2px] border border-[#CBB6FF]/20 object-cover"
+                              />
+                            ) : (
+                              <div className="flex h-8 w-8 items-center justify-center rounded-[2px] border border-[#CBB6FF]/20 bg-[#1B0B3A] font-mono text-xs font-bold text-[#CBB6FF]">
+                                {friend.name.charAt(0).toUpperCase()}
+                              </div>
+                            )}
+                            <div>
+                              <p className="text-xs font-semibold text-[#F4F1FA]">
+                                {friend.name}
+                              </p>
+                              <p className="text-[11px] text-[#9D8EC4]">
+                                {friend.statusText || "Online"}
+                              </p>
+                            </div>
+                          </div>
+                          <span className="font-mono text-[11px] tabular-nums text-[#9D8EC4]">
+                            {friend.xp} XP
+                          </span>
+                        </div>
+
+                        {tasks.length > 0 && (
+                          <div className="flex items-center gap-1.5 pt-1">
+                            <select
+                              value={
+                                selectedTaskByFriend[friend.id] || tasks[0].id
+                              }
+                              onChange={(e) =>
+                                setSelectedTaskByFriend((prev) => ({
+                                  ...prev,
+                                  [friend.id]: e.target.value,
+                                }))
+                              }
+                              className="min-w-0 flex-1 rounded-[2px] border border-[#CBB6FF]/15 bg-[#1B0B3A] px-2 py-1 text-[11px] text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
+                            >
+                              {tasks.map((t) => (
+                                <option key={t.id} value={t.id}>
+                                  {t.title}
+                                </option>
+                              ))}
+                            </select>
+                            <button
+                              type="button"
+                              disabled={busyId === friend.id}
+                              onClick={() =>
+                                handleAssignFriendToTask(friend.id)
+                              }
+                              className="shrink-0 rounded-[2px] border border-[#7E49C7] bg-[#3B1C6E] px-2.5 py-1 text-[11px] font-medium text-[#F4F1FA] transition-colors duration-150 hover:bg-[#7E49C7] disabled:opacity-50"
+                            >
+                              Atribuir
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </>
+          )}
+
+          {activeTab === "GROUPS" && (
+            <div className="space-y-2.5">
+              {groups.length === 0 ? (
+                <p className="rounded-[2px] border border-[#CBB6FF]/15 bg-[#070512] p-4 text-xs text-[#9D8EC4]">
+                  Nenhum grupo ativo no momento.
+                </p>
+              ) : (
+                groups.map((grp) => (
+                  <Link
+                    key={grp.id}
+                    href={grp.href}
+                    onClick={onClose}
+                    className="block rounded-[2px] border border-[#CBB6FF]/15 bg-[#070512] p-3.5 transition-colors duration-150 hover:border-[#7E49C7] hover:bg-[#3B1C6E]/40"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold capitalize text-[#F4F1FA]">
+                        {grp.name}
+                      </span>
+                      <span className="font-mono text-[11px] tabular-nums text-[#CBB6FF]">
+                        {grp.inviteCode}
+                      </span>
+                    </div>
+                    <p className="mt-1 font-mono text-[11px] tabular-nums text-[#9D8EC4]">
+                      {grp.memberCount} membros · {grp.taskCount} tarefas
+                    </p>
+                  </Link>
+                ))
               )}
             </div>
-          </motion.aside>
-        </>
-      )}
-    </AnimatePresence>
+          )}
+
+          {activeTab === "INVITES" && (
+            <div className="space-y-5">
+              <form onSubmit={handleSearchUsers} className="flex gap-2">
+                <div className="relative flex-1">
+                  <Search className="pointer-events-none absolute left-2.5 top-2 h-3.5 w-3.5 text-[#9D8EC4]" />
+                  <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Buscar @username ou e-mail..."
+                    className="w-full rounded-[2px] border border-[#CBB6FF]/15 bg-[#070512] py-1.5 pl-8 pr-2.5 text-xs text-[#F4F1FA] placeholder-[#9D8EC4]/70 outline-none focus:border-[#7E49C7]"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={searching}
+                  className="rounded-[2px] bg-[#7E49C7] px-3 py-1.5 text-xs font-semibold text-[#F4F1FA] hover:bg-[#9361D9]"
+                >
+                  {searching ? "..." : "Buscar"}
+                </button>
+              </form>
+
+              {searchResults.length > 0 && (
+                <div className="space-y-2">
+                  <div className="font-mono text-[11px] uppercase text-[#9D8EC4]">
+                    Resultados
+                  </div>
+                  {searchResults.map((u) => (
+                    <div
+                      key={u.id}
+                      className="flex items-center justify-between rounded-[2px] border border-[#CBB6FF]/15 bg-[#070512] p-2.5"
+                    >
+                      <div>
+                        <p className="text-xs font-semibold text-[#F4F1FA]">
+                          {u.name}
+                        </p>
+                        <p className="font-mono text-[11px] text-[#9D8EC4]">
+                          {u.username ? `@${u.username}` : `${u.xp} XP`}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        disabled={busyId === u.id}
+                        onClick={() => handleSendRequest(u.id)}
+                        className="rounded-[2px] bg-[#7E49C7] px-2.5 py-1 text-xs font-semibold text-[#F4F1FA] hover:bg-[#9361D9]"
+                      >
+                        Convidar
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <div className="font-mono text-[11px] uppercase text-[#9D8EC4]">
+                  Solicitações Pendentes
+                </div>
+                {pendingRequests.length === 0 ? (
+                  <p className="text-xs text-[#9D8EC4]">
+                    Nenhuma solicitação pendente.
+                  </p>
+                ) : (
+                  pendingRequests.map((req) => (
+                    <div
+                      key={req.id}
+                      className="flex items-center justify-between rounded-[2px] border border-[#CBB6FF]/15 bg-[#070512] p-2.5"
+                    >
+                      <div>
+                        <p className="text-xs font-semibold text-[#F4F1FA]">
+                          {req.requester.name}
+                        </p>
+                        <p className="font-mono text-[11px] text-[#9D8EC4]">
+                          {req.requester.username
+                            ? `@${req.requester.username}`
+                            : "Estudante"}
+                        </p>
+                      </div>
+                      <div className="flex gap-1.5">
+                        <button
+                          type="button"
+                          disabled={busyId === req.id}
+                          onClick={() =>
+                            handleRespondRequest(req.id, "ACCEPT")
+                          }
+                          className="inline-flex items-center gap-1 rounded-[2px] bg-[#7E49C7] px-2 py-1 text-xs font-semibold text-[#F4F1FA]"
+                        >
+                          <Check className="h-3 w-3" />
+                          Aceitar
+                        </button>
+                        <button
+                          type="button"
+                          disabled={busyId === req.id}
+                          onClick={() =>
+                            handleRespondRequest(req.id, "DECLINE")
+                          }
+                          className="rounded-[2px] border border-[#CBB6FF]/15 bg-[#1B0B3A] px-2 py-1 text-xs text-[#9D8EC4] hover:text-[#F4F1FA]"
+                        >
+                          Recusar
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </aside>
+    </>
   );
 }

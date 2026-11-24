@@ -1,27 +1,33 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Newsreader } from "next/font/google";
+import {
+  IBM_Plex_Sans,
+  Instrument_Serif,
+  JetBrains_Mono,
+} from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
 });
 
-const newsreader = Newsreader({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
+  weight: ["400"],
   variable: "--font-serif",
-  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
-  title: "MindLy — Gestão de Estudos e Alta Performance Cognitiva",
+  title: "MindLy — Biblioteca e Workspace de Estudos",
   description:
-    "Plataforma editorial minimalista para organização de disciplinas, tarefas, metas, revisão espaçada (SRS) e sessões de foco.",
+    "Organização de disciplinas, tarefas individuais e grupos de estudo colaborativos.",
 };
 
 export default function RootLayout({
@@ -32,9 +38,9 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${inter.variable} ${newsreader.variable} ${jetbrainsMono.variable}`}
+      className={`${plexSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] font-sans antialiased selection:bg-[var(--accent-primary)] selection:text-[var(--accent-primary-fg)]">
+      <body className="min-h-screen bg-[#070512] font-sans text-[#F4F1FA] antialiased selection:bg-[#7E49C7] selection:text-[#F4F1FA]">
         {children}
       </body>
     </html>

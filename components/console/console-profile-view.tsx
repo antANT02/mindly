@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Camera, Check, Loader2, LogOut } from "lucide-react";
+import { Camera, Loader2 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { updateProfileAndPresenceAction } from "@/app/actions/social.actions";
 import {
@@ -28,9 +28,9 @@ const PRESENCE_OPTIONS: Array<{
   dotClass: string;
 }> = [
   { value: "ONLINE", label: "Online", dotClass: "bg-[#A4D007]" },
-  { value: "STUDYING", label: "Estudando Agora", dotClass: "bg-[#66C0F4]" },
+  { value: "STUDYING", label: "Estudando Agora", dotClass: "bg-[#CBB6FF]" },
   { value: "BUSY", label: "Ocupado", dotClass: "bg-[#E5A93C]" },
-  { value: "OFFLINE", label: "Offline", dotClass: "bg-[#8F98A0]" },
+  { value: "OFFLINE", label: "Offline", dotClass: "bg-[#9D8EC4]" },
 ];
 
 export function ConsoleProfileView({
@@ -126,30 +126,21 @@ export function ConsoleProfileView({
     PRESENCE_OPTIONS.find((p) => p.value === presence) ?? PRESENCE_OPTIONS[0];
 
   return (
-    <ConsoleHudShell user={currentUser} ambientColor="#66C0F4">
+    <ConsoleHudShell user={currentUser}>
       <div className="mx-auto max-w-5xl space-y-6">
-        {/* Cartão de Identidade & Banner (Comunidade Steam) */}
-        <section className="overflow-hidden rounded-2xl border border-white/[0.07] bg-[#121820]">
-          <div
-            className="h-36 w-full"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 20% 20%, rgba(102,192,244,0.28) 0%, transparent 55%), radial-gradient(circle at 85% 30%, rgba(26,159,255,0.2) 0%, transparent 55%), linear-gradient(180deg, #16202C 0%, #0B0F14 100%)",
-            }}
-          />
-
-          <div className="relative -mt-14 flex flex-col justify-between gap-4 px-6 pb-6 sm:flex-row sm:items-end">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
-              {/* Avatar com Upload Direto */}
-              <div className="relative h-24 w-24 shrink-0">
+        {/* Identidade Sólida */}
+        <section className="rounded-[2px] border border-[#CBB6FF]/15 border-t-4 border-t-[#7E49C7] bg-[#1B0B3A] p-6">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+              <div className="relative h-20 w-20 shrink-0">
                 {avatarPreview ? (
                   <img
                     src={avatarPreview}
                     alt={name}
-                    className="h-24 w-24 rounded-2xl border-2 border-[#66C0F4]/60 bg-[#0B0F14] object-cover shadow-xl"
+                    className="h-20 w-20 rounded-[2px] border border-[#CBB6FF]/35 bg-[#070512] object-cover"
                   />
                 ) : (
-                  <div className="flex h-24 w-24 items-center justify-center rounded-2xl border-2 border-[#66C0F4]/50 bg-[#1A222D] font-mono text-2xl font-bold text-[#66C0F4]">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-[2px] border border-[#CBB6FF]/35 bg-[#3B1C6E] font-serif text-3xl text-[#CBB6FF]">
                     {name.charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -159,12 +150,12 @@ export function ConsoleProfileView({
                   disabled={uploadingAvatar}
                   onClick={() => fileInputRef.current?.click()}
                   title="Alterar avatar"
-                  className="absolute -bottom-1.5 -right-1.5 flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-[#1A222D] text-[#F3F4F6] shadow-lg transition hover:border-[#66C0F4] hover:text-[#66C0F4]"
+                  className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 items-center justify-center rounded-[2px] border border-[#CBB6FF]/30 bg-[#070512] text-[#CBB6FF] transition-colors duration-150 hover:border-[#7E49C7]"
                 >
                   {uploadingAvatar ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
                   ) : (
-                    <Camera className="h-4 w-4" />
+                    <Camera className="h-3.5 w-3.5" />
                   )}
                 </button>
                 <input
@@ -178,17 +169,17 @@ export function ConsoleProfileView({
 
               <div className="space-y-1">
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <h1 className="text-xl font-bold tracking-tight text-[#F3F4F6] sm:text-2xl">
+                  <h1 className="font-serif text-3xl tracking-tight text-[#F4F1FA]">
                     {name}
                   </h1>
-                  <span className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-[#0B0F14]/80 px-2 py-0.5 font-mono text-[11px] text-[#F3F4F6]">
+                  <span className="inline-flex items-center gap-1.5 rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-2 py-0.5 font-mono text-[11px] text-[#F4F1FA]">
                     <span
                       className={`h-2 w-2 rounded-full ${currentPresenceMeta.dotClass}`}
                     />
                     {currentPresenceMeta.label}
                   </span>
                 </div>
-                <p className="font-mono text-xs text-[#8F98A0]">
+                <p className="font-mono text-xs text-[#9D8EC4]">
                   {username ? `@${username}` : currentUser.email}
                   {statusText ? ` · ${statusText}` : ""}
                 </p>
@@ -199,48 +190,47 @@ export function ConsoleProfileView({
               type="button"
               disabled={signingOut}
               onClick={handleSignOut}
-              className="inline-flex items-center gap-1.5 self-start rounded-xl border border-white/10 bg-[#1A222D] px-3.5 py-2 text-xs font-medium text-[#8F98A0] transition hover:border-[#E04F33]/50 hover:text-[#E04F33] sm:self-auto"
+              className="self-start rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3.5 py-2 text-xs font-medium text-[#9D8EC4] transition-colors duration-150 hover:border-[#E04F33] hover:text-[#E04F33] sm:self-auto"
             >
-              <LogOut className="h-3.5 w-3.5" />
-              <span>{signingOut ? "Saindo..." : "Encerrar Sessão"}</span>
+              {signingOut ? "Saindo..." : "Encerrar Sessão"}
             </button>
           </div>
         </section>
 
-        {/* Grade de Telemetria Real */}
+        {/* Telemetria */}
         <section className="grid grid-cols-2 gap-3 sm:grid-cols-5">
           {[
             {
               label: "Ofensiva",
               value: `${currentUser.streakDays}d`,
-              accent: "text-[#E5A93C]",
+              accent: "text-[#CBB6FF]",
             },
             {
               label: "XP Total",
               value: `${currentUser.xp}`,
-              accent: "text-[#66C0F4]",
+              accent: "text-[#F4F1FA]",
             },
             {
               label: "Concluídas",
               value: `${stats.completedTasks}`,
-              accent: "text-[#A4D007]",
+              accent: "text-[#CBB6FF]",
             },
             {
               label: "Disciplinas",
               value: `${stats.activeSubjects}`,
-              accent: "text-[#F3F4F6]",
+              accent: "text-[#F4F1FA]",
             },
             {
               label: "Grupos",
               value: `${stats.activeGroups}`,
-              accent: "text-[#F3F4F6]",
+              accent: "text-[#F4F1FA]",
             },
           ].map((metric) => (
             <div
               key={metric.label}
-              className="rounded-xl border border-white/[0.07] bg-[#121820] p-4"
+              className="rounded-[2px] border border-[#CBB6FF]/15 bg-[#1B0B3A] p-4"
             >
-              <span className="block font-mono text-[11px] uppercase tracking-wider text-[#8F98A0]">
+              <span className="block font-mono text-[11px] uppercase tracking-wider text-[#9D8EC4]">
                 {metric.label}
               </span>
               <span
@@ -253,23 +243,23 @@ export function ConsoleProfileView({
         </section>
 
         {feedback && (
-          <div className="rounded-xl border border-[#66C0F4]/30 bg-[#66C0F4]/10 px-4 py-2 text-xs text-[#66C0F4]">
+          <div className="rounded-[2px] border border-[#7E49C7] bg-[#3B1C6E] px-4 py-2 text-xs text-[#F4F1FA]">
             {feedback}
           </div>
         )}
 
-        {/* Formulário de Identidade & Presença */}
+        {/* Formulário */}
         <form
           onSubmit={handleSaveProfile}
-          className="space-y-5 rounded-2xl border border-white/[0.07] bg-[#121820] p-6"
+          className="space-y-5 rounded-[2px] border border-[#CBB6FF]/15 bg-[#1B0B3A] p-6"
         >
-          <h2 className="text-base font-bold text-[#F3F4F6]">
+          <h2 className="border-b border-[#CBB6FF]/15 pb-2 font-serif text-xl text-[#F4F1FA]">
             Identidade & Presença
           </h2>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-xs font-medium text-[#8F98A0]">
+              <label className="mb-1 block font-mono text-[11px] uppercase text-[#9D8EC4]">
                 Nome de Exibição
               </label>
               <input
@@ -277,12 +267,12 @@ export function ConsoleProfileView({
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 text-sm text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
+                className="w-full rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 text-sm text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-medium text-[#8F98A0]">
+              <label className="mb-1 block font-mono text-[11px] uppercase text-[#9D8EC4]">
                 Username (@)
               </label>
               <input
@@ -290,12 +280,12 @@ export function ConsoleProfileView({
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="ex: carlos"
-                className="w-full rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 font-mono text-sm text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
+                className="w-full rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 font-mono text-sm text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-medium text-[#8F98A0]">
+              <label className="mb-1 block font-mono text-[11px] uppercase text-[#9D8EC4]">
                 Status de Sessão
               </label>
               <select
@@ -303,7 +293,7 @@ export function ConsoleProfileView({
                 onChange={(e) =>
                   setPresence(e.target.value as ConsolePresence)
                 }
-                className="w-full rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 text-sm text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
+                className="w-full rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 text-sm text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
               >
                 {PRESENCE_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -314,21 +304,21 @@ export function ConsoleProfileView({
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-medium text-[#8F98A0]">
+              <label className="mb-1 block font-mono text-[11px] uppercase text-[#9D8EC4]">
                 Frase de Atividade
               </label>
               <input
                 type="text"
                 value={statusText}
                 onChange={(e) => setStatusText(e.target.value)}
-                placeholder="Ex.: Revisando Banco de Dados"
-                className="w-full rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 text-sm text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
+                placeholder="Ex.: Revisando Estruturas de Dados"
+                className="w-full rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 text-sm text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
               />
             </div>
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium text-[#8F98A0]">
+            <label className="mb-1 block font-mono text-[11px] uppercase text-[#9D8EC4]">
               Bio
             </label>
             <textarea
@@ -336,7 +326,7 @@ export function ConsoleProfileView({
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               placeholder="Curso, foco atual ou stack de estudos..."
-              className="w-full rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 text-sm text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
+              className="w-full rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 text-sm text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
             />
           </div>
 
@@ -344,14 +334,9 @@ export function ConsoleProfileView({
             <button
               type="submit"
               disabled={saving}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#1A9FFF] px-4 py-2.5 text-xs font-semibold text-[#0B0F14] transition hover:bg-[#66C0F4] disabled:opacity-50"
+              className="rounded-[2px] bg-[#7E49C7] px-4 py-2 text-xs font-semibold text-[#F4F1FA] transition-colors duration-150 hover:bg-[#9361D9] disabled:opacity-50"
             >
-              {saving ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              ) : (
-                <Check className="h-3.5 w-3.5" />
-              )}
-              <span>{saving ? "Salvando..." : "Salvar Alterações"}</span>
+              {saving ? "Salvando..." : "Salvar Alterações"}
             </button>
           </div>
         </form>

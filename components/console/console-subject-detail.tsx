@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Circle, Plus } from "lucide-react";
+import { CheckCircle2, Circle } from "lucide-react";
 import {
   createCoopTaskAction,
   createLegacyDisciplinaTaskAction,
@@ -93,72 +93,61 @@ export function ConsoleSubjectDetail({
   };
 
   return (
-    <ConsoleHudShell user={currentUser} ambientColor={subject.accentColor}>
+    <ConsoleHudShell user={currentUser}>
       <div className="space-y-6">
-        {/* Header Cinematográfico estilo Steam Library Detail */}
-        <section className="relative overflow-hidden rounded-2xl border border-white/[0.07] bg-[#121820]">
-          <div
-            className="h-44 w-full"
-            style={{
-              backgroundImage: `radial-gradient(circle at 80% 20%, ${subject.accentColor}66 0%, transparent 60%), linear-gradient(180deg, ${subject.accentColor}22 0%, #0B0F14 100%)`,
-            }}
-          />
-          <div className="relative -mt-20 px-6 pb-6">
+        {/* Cabeçalho Editorial Sólido */}
+        <section className="rounded-[2px] border border-[#CBB6FF]/15 border-t-4 border-t-[#7E49C7] bg-[#1B0B3A]">
+          <div className="px-6 py-6">
             <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
-              <span className="rounded bg-[#0B0F14]/85 px-2 py-0.5 text-[#66C0F4]">
+              <span className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-2 py-0.5 text-[#CBB6FF]">
                 {subject.code || "DISCIPLINA"}
               </span>
               {subject.groupName && (
-                <span className="rounded bg-[#0B0F14]/85 px-2 py-0.5 text-[#A4D007]">
+                <span className="rounded-[2px] bg-[#3B1C6E] px-2 py-0.5 text-[#F4F1FA]">
                   {subject.groupName}
                 </span>
               )}
             </div>
-            <h1 className="mt-2 text-2xl font-bold capitalize tracking-tight text-[#F3F4F6] sm:text-3xl">
+            <h1 className="mt-2 font-serif text-3xl capitalize tracking-tight text-[#F4F1FA] sm:text-4xl">
               {subject.name}
             </h1>
           </div>
 
-          {/* Action Bar Integrada */}
-          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/[0.07] bg-[#0B0F14]/70 px-6 py-3.5">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-[#CBB6FF]/15 bg-[#070512]/65 px-6 py-3">
             <div className="flex items-center gap-6 font-mono text-xs tabular-nums">
               <div>
-                <span className="text-[#8F98A0]">Progresso </span>
-                <strong className="text-[#F3F4F6]">{progress}%</strong>
+                <span className="text-[#9D8EC4]">Progresso </span>
+                <strong className="text-[#CBB6FF]">{progress}%</strong>
               </div>
               <div>
-                <span className="text-[#8F98A0]">Concluídas </span>
-                <strong className="text-[#A4D007]">
+                <span className="text-[#9D8EC4]">Concluídas </span>
+                <strong className="text-[#F4F1FA]">
                   {completedCount}/{subject.tasks.length}
                 </strong>
               </div>
             </div>
 
-            <div className="h-1.5 w-40 overflow-hidden rounded-full bg-[#1A222D]">
+            <div className="h-1.5 w-44 bg-[#070512]">
               <div
-                className="h-full transition-all"
-                style={{
-                  width: `${progress}%`,
-                  backgroundColor: subject.accentColor,
-                }}
+                className="h-full bg-[#7E49C7] transition-all duration-150"
+                style={{ width: `${progress}%` }}
               />
             </div>
           </div>
         </section>
 
         {feedback && (
-          <div className="rounded-xl border border-[#66C0F4]/30 bg-[#66C0F4]/10 px-4 py-2 text-xs text-[#66C0F4]">
+          <div className="rounded-[2px] border border-[#7E49C7] bg-[#3B1C6E] px-4 py-2 text-xs text-[#F4F1FA]">
             {feedback}
           </div>
         )}
 
-        {/* Grid de Conteúdo (2 Colunas) */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           <div className="space-y-4 lg:col-span-8">
             {currentUser && (
               <form
                 onSubmit={handleAddTask}
-                className="flex flex-col gap-2.5 rounded-2xl border border-white/[0.07] bg-[#121820] p-4 sm:flex-row"
+                className="flex flex-col gap-2.5 rounded-[2px] border border-[#CBB6FF]/15 bg-[#1B0B3A] p-4 sm:flex-row"
               >
                 <input
                   type="text"
@@ -166,29 +155,28 @@ export function ConsoleSubjectDetail({
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Nova atividade nesta disciplina..."
-                  className="flex-1 rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 text-sm text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
+                  className="flex-1 rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 text-sm text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
                 />
                 <input
                   type="text"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Nota opcional"
-                  className="rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 text-sm text-[#F3F4F6] outline-none focus:border-[#66C0F4] sm:w-48"
+                  className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 text-sm text-[#F4F1FA] outline-none focus:border-[#7E49C7] sm:w-48"
                 />
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#1A9FFF] px-4 py-2 text-xs font-semibold text-[#0B0F14] hover:bg-[#66C0F4] disabled:opacity-50"
+                  className="rounded-[2px] bg-[#7E49C7] px-4 py-2 text-xs font-semibold text-[#F4F1FA] transition-colors duration-150 hover:bg-[#9361D9] disabled:opacity-50"
                 >
-                  <Plus className="h-4 w-4" />
-                  <span>{submitting ? "Salvando..." : "Adicionar"}</span>
+                  {submitting ? "Salvando..." : "+ Adicionar"}
                 </button>
               </form>
             )}
 
-            <div className="divide-y divide-white/[0.06] overflow-hidden rounded-2xl border border-white/[0.07] bg-[#121820]">
+            <div className="divide-y divide-[#CBB6FF]/10 rounded-[2px] border border-[#CBB6FF]/15 bg-[#1B0B3A]">
               {subject.tasks.length === 0 ? (
-                <p className="p-8 text-center text-sm text-[#8F98A0]">
+                <p className="p-8 text-center text-sm text-[#9D8EC4]">
                   Nenhuma tarefa cadastrada nesta disciplina ainda.
                 </p>
               ) : (
@@ -204,26 +192,26 @@ export function ConsoleSubjectDetail({
                         onClick={() =>
                           handleToggle(t.id, t.completedByCurrentUser)
                         }
-                        className="text-[#8F98A0] transition hover:text-[#66C0F4] disabled:opacity-50"
+                        className="text-[#9D8EC4] hover:text-[#CBB6FF] disabled:opacity-50"
                       >
                         {t.completedByCurrentUser ? (
-                          <CheckCircle2 className="h-4.5 w-4.5 text-[#A4D007]" />
+                          <CheckCircle2 className="h-4 w-4 text-[#CBB6FF]" />
                         ) : (
-                          <Circle className="h-4.5 w-4.5" />
+                          <Circle className="h-4 w-4" />
                         )}
                       </button>
                       <div>
                         <p
                           className={`text-sm font-medium ${
                             t.completedByCurrentUser
-                              ? "line-through text-[#8F98A0]"
-                              : "text-[#F3F4F6]"
+                              ? "line-through text-[#9D8EC4]"
+                              : "text-[#F4F1FA]"
                           }`}
                         >
                           {t.title}
                         </p>
                         {t.description && (
-                          <p className="text-xs text-[#8F98A0]">
+                          <p className="text-xs text-[#9D8EC4]">
                             {t.description}
                           </p>
                         )}
@@ -235,26 +223,26 @@ export function ConsoleSubjectDetail({
             </div>
           </div>
 
-          <aside className="h-fit space-y-3 rounded-2xl border border-white/[0.07] bg-[#121820] p-5 lg:col-span-4">
-            <h2 className="font-mono text-xs uppercase tracking-wider text-[#8F98A0]">
+          <aside className="h-fit space-y-3 rounded-[2px] border border-[#CBB6FF]/15 bg-[#1B0B3A] p-5 lg:col-span-4">
+            <h2 className="border-b border-[#CBB6FF]/15 pb-2 font-mono text-xs uppercase tracking-wider text-[#CBB6FF]">
               Resumo da Trilha
             </h2>
-            <div className="space-y-2 text-xs text-[#8F98A0]">
+            <div className="space-y-2 text-xs text-[#9D8EC4]">
               <div className="flex justify-between">
                 <span>Total de entregas</span>
-                <span className="font-mono tabular-nums text-[#F3F4F6]">
+                <span className="font-mono tabular-nums text-[#F4F1FA]">
                   {subject.tasks.length}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>Concluídas</span>
-                <span className="font-mono tabular-nums text-[#A4D007]">
+                <span className="font-mono tabular-nums text-[#CBB6FF]">
                   {completedCount}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>Pendentes</span>
-                <span className="font-mono tabular-nums text-[#E5A93C]">
+                <span className="font-mono tabular-nums text-[#F4F1FA]">
                   {Math.max(0, subject.tasks.length - completedCount)}
                 </span>
               </div>

@@ -1,29 +1,23 @@
-"use client";
-
 import React from "react";
 
 interface MindlyWordmarkProps {
-  className?: string;
   size?: "sm" | "md" | "lg";
 }
 
-export function MindlyWordmark({
-  className = "",
-  size = "md",
-}: MindlyWordmarkProps) {
-  const sizeClass =
-    size === "sm"
-      ? "text-lg"
-      : size === "lg"
-        ? "text-2xl sm:text-3xl"
-        : "text-xl";
+export function MindlyWordmark({ size = "md" }: MindlyWordmarkProps) {
+  const sizeClasses = {
+    sm: "text-lg",
+    md: "text-xl",
+    lg: "text-3xl",
+  }[size];
 
   return (
     <span
-      className={`inline-flex items-baseline font-sans font-bold tracking-tight select-none ${sizeClass} ${className}`}
+      className={`inline-flex items-baseline font-sans font-bold tracking-[-0.03em] text-[#F4F1FA] select-none ${sizeClasses}`}
     >
-      <span className="text-[#F3F4F6]">Mind</span>
-      <span className="text-[#66C0F4]">Ly</span>
+      <span>Mind</span>
+      <span className="text-[#CBB6FF]">Ly</span>
+      <span className="ml-1 inline-block h-1.5 w-1.5 bg-[#7E49C7]" />
     </span>
   );
 }

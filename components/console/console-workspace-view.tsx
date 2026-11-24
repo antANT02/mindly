@@ -2,13 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  CheckCircle2,
-  Circle,
-  Plus,
-  SlidersHorizontal,
-  X,
-} from "lucide-react";
+import { CheckCircle2, Circle, X } from "lucide-react";
 import {
   createCoopTaskAction,
   createSubjectAction,
@@ -43,19 +37,19 @@ const PRIORITY_META: Record<
 > = {
   LOW: {
     label: "Baixa",
-    badgeClass: "border-white/10 bg-white/[0.03] text-[#8F98A0]",
+    badgeClass: "border-[#CBB6FF]/15 bg-[#070512] text-[#9D8EC4]",
   },
   MEDIUM: {
     label: "Média",
-    badgeClass: "border-[#66C0F4]/25 bg-[#66C0F4]/10 text-[#66C0F4]",
+    badgeClass: "border-[#7E49C7]/50 bg-[#3B1C6E]/60 text-[#CBB6FF]",
   },
   HIGH: {
     label: "Alta",
-    badgeClass: "border-[#E5A93C]/30 bg-[#E5A93C]/10 text-[#E5A93C]",
+    badgeClass: "border-[#7E49C7] bg-[#7E49C7]/35 text-[#F4F1FA]",
   },
   URGENT: {
     label: "Urgente",
-    badgeClass: "border-[#E04F33]/35 bg-[#E04F33]/10 text-[#E04F33]",
+    badgeClass: "border-[#E04F33]/60 bg-[#E04F33]/20 text-[#F4F1FA]",
   },
 };
 
@@ -73,7 +67,7 @@ export function ConsoleWorkspaceView({
   const [newModal, setNewModal] = useState<"TASK" | "SUBJECT" | null>(null);
   const [subjectName, setSubjectName] = useState("");
   const [subjectCode, setSubjectCode] = useState("");
-  const [subjectColor, setSubjectColor] = useState("#66C0F4");
+  const [subjectColor, setSubjectColor] = useState("#7E49C7");
   const [creatingSubject, setCreatingSubject] = useState(false);
 
   const [taskTitle, setTaskTitle] = useState("");
@@ -176,12 +170,11 @@ export function ConsoleWorkspaceView({
   return (
     <ConsoleHudShell
       user={currentUser}
-      ambientColor={subjects[0]?.accentColor || "#66C0F4"}
       onQuickCreateTask={() => setNewModal("TASK")}
     >
-      <div className="space-y-6">
-        {/* Barra de Filtros Superior */}
-        <div className="flex flex-col justify-between gap-4 rounded-2xl border border-white/[0.07] bg-[#121820] p-4 sm:flex-row sm:items-center">
+      <div className="space-y-5">
+        {/* Barra de Filtros Sólida */}
+        <div className="flex flex-col justify-between gap-3 rounded-[2px] border border-[#CBB6FF]/15 bg-[#1B0B3A] p-3.5 sm:flex-row sm:items-center">
           <div className="flex flex-wrap items-center gap-1.5">
             {(
               [
@@ -195,25 +188,25 @@ export function ConsoleWorkspaceView({
                 key={tab.id}
                 type="button"
                 onClick={() => setStatusFilter(tab.id)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+                className={`rounded-[2px] px-3 py-1.5 text-xs font-medium transition-colors duration-150 ${
                   statusFilter === tab.id
-                    ? "bg-[#1A222D] text-[#F3F4F6] ring-1 ring-[#66C0F4]/40"
-                    : "text-[#8F98A0] hover:bg-[#1A222D]/50 hover:text-[#F3F4F6]"
+                    ? "bg-[#7E49C7] text-[#F4F1FA]"
+                    : "text-[#9D8EC4] hover:bg-[#3B1C6E]/60 hover:text-[#F4F1FA]"
                 }`}
               >
                 {tab.label}
               </button>
             ))}
 
-            <span className="mx-1.5 h-4 w-px bg-white/10" />
+            <span className="mx-1.5 h-4 w-px bg-[#CBB6FF]/15" />
 
             <button
               type="button"
               onClick={() => setCoopOnly((prev) => !prev)}
-              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+              className={`rounded-[2px] border px-3 py-1.5 text-xs font-medium transition-colors duration-150 ${
                 coopOnly
-                  ? "bg-[#66C0F4]/15 text-[#66C0F4] ring-1 ring-[#66C0F4]/40"
-                  : "text-[#8F98A0] hover:bg-[#1A222D]/50 hover:text-[#F3F4F6]"
+                  ? "border-[#7E49C7] bg-[#3B1C6E] text-[#CBB6FF]"
+                  : "border-transparent text-[#9D8EC4] hover:bg-[#3B1C6E]/60 hover:text-[#F4F1FA]"
               }`}
             >
               Apenas Co-op
@@ -224,48 +217,41 @@ export function ConsoleWorkspaceView({
             <button
               type="button"
               onClick={() => setNewModal("SUBJECT")}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-[#1A222D] px-3 py-2 text-xs font-medium text-[#F3F4F6] transition hover:border-[#66C0F4]/50"
+              className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-1.5 text-xs font-medium text-[#F4F1FA] transition-colors duration-150 hover:border-[#7E49C7]"
             >
-              <Plus className="h-3.5 w-3.5 text-[#66C0F4]" />
-              <span>Disciplina</span>
+              + Disciplina
             </button>
 
             <button
               type="button"
               onClick={() => setNewModal("TASK")}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#1A9FFF] px-3.5 py-2 text-xs font-semibold text-[#0B0F14] transition hover:bg-[#66C0F4]"
+              className="rounded-[2px] bg-[#7E49C7] px-3.5 py-1.5 text-xs font-semibold text-[#F4F1FA] transition-colors duration-150 hover:bg-[#9361D9]"
             >
-              <Plus className="h-3.5 w-3.5" />
-              <span>Nova Tarefa</span>
+              + Nova Tarefa
             </button>
           </div>
         </div>
 
         {feedback && (
-          <div className="rounded-xl border border-[#66C0F4]/30 bg-[#66C0F4]/10 px-4 py-2 text-xs text-[#66C0F4]">
+          <div className="rounded-[2px] border border-[#7E49C7] bg-[#3B1C6E] px-4 py-2 text-xs text-[#F4F1FA]">
             {feedback}
           </div>
         )}
 
-        {/* Split-View: 65% Lista / 35% Inspetor Fixo */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          {/* Coluna Esquerda (65% -> 8 cols) */}
-          <div className="space-y-3 lg:col-span-8">
-            <div className="flex items-center justify-between px-1">
-              <span className="font-mono text-xs uppercase tracking-wider text-[#8F98A0]">
-                Fila Tática ({filteredTasks.length})
-              </span>
-              <span className="font-mono text-[11px] text-[#8F98A0]">
-                Selecione para inspecionar
-              </span>
+        {/* Split-View: Lista (8 cols) + Inspetor (4 cols) */}
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-12">
+          <div className="space-y-2.5 lg:col-span-8">
+            <div className="flex items-center justify-between border-b border-[#CBB6FF]/15 pb-1.5 font-mono text-[11px] uppercase tracking-wider text-[#9D8EC4]">
+              <span>Fila de Tarefas ({filteredTasks.length})</span>
+              <span>Clique para inspecionar</span>
             </div>
 
             {filteredTasks.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-white/[0.08] bg-[#121820]/60 p-10 text-center text-sm text-[#8F98A0]">
+              <div className="rounded-[2px] border border-dashed border-[#CBB6FF]/20 bg-[#1B0B3A]/40 p-10 text-center text-sm text-[#9D8EC4]">
                 Nenhuma tarefa corresponde aos filtros selecionados.
               </div>
             ) : (
-              <div className="divide-y divide-white/[0.06] overflow-hidden rounded-2xl border border-white/[0.07] bg-[#121820]">
+              <div className="divide-y divide-[#CBB6FF]/10 rounded-[2px] border border-[#CBB6FF]/15 bg-[#1B0B3A]">
                 {filteredTasks.map((task) => {
                   const selected = inspectedTask?.id === task.id;
                   const priority = PRIORITY_META[task.priority];
@@ -282,10 +268,10 @@ export function ConsoleWorkspaceView({
                       }}
                       tabIndex={0}
                       role="button"
-                      className={`flex cursor-pointer items-center justify-between gap-3 px-4 py-3.5 outline-none transition ${
+                      className={`flex cursor-pointer items-center justify-between gap-3 px-4 py-3 outline-none transition-colors duration-150 ${
                         selected
-                          ? "bg-[#1A222D] ring-1 ring-inset ring-[#66C0F4]/60"
-                          : "hover:bg-[#1A222D]/55"
+                          ? "border-l-2 border-l-[#CBB6FF] bg-[#3B1C6E]"
+                          : "hover:bg-[#3B1C6E]/45"
                       }`}
                     >
                       <div className="flex min-w-0 items-center gap-3">
@@ -299,12 +285,12 @@ export function ConsoleWorkspaceView({
                               task.completedByCurrentUser
                             );
                           }}
-                          className="shrink-0 text-[#8F98A0] transition hover:text-[#66C0F4]"
+                          className="shrink-0 text-[#9D8EC4] hover:text-[#CBB6FF]"
                         >
                           {task.completedByCurrentUser ? (
-                            <CheckCircle2 className="h-4.5 w-4.5 text-[#A4D007]" />
+                            <CheckCircle2 className="h-4 w-4 text-[#CBB6FF]" />
                           ) : (
-                            <Circle className="h-4.5 w-4.5" />
+                            <Circle className="h-4 w-4" />
                           )}
                         </button>
 
@@ -312,16 +298,16 @@ export function ConsoleWorkspaceView({
                           <p
                             className={`truncate text-sm font-medium ${
                               task.completedByCurrentUser
-                                ? "line-through text-[#8F98A0]"
-                                : "text-[#F3F4F6]"
+                                ? "line-through text-[#9D8EC4]"
+                                : "text-[#F4F1FA]"
                             }`}
                           >
                             {task.title}
                           </p>
-                          <div className="mt-0.5 flex flex-wrap items-center gap-2 font-mono text-[11px] text-[#8F98A0]">
+                          <div className="mt-0.5 flex flex-wrap items-center gap-2 font-mono text-[11px] text-[#9D8EC4]">
                             {task.subjectName && <span>{task.subjectName}</span>}
                             {task.groupName && (
-                              <span className="text-[#A4D007]">
+                              <span className="text-[#CBB6FF]">
                                 · {task.groupName}
                               </span>
                             )}
@@ -330,30 +316,8 @@ export function ConsoleWorkspaceView({
                       </div>
 
                       <div className="flex shrink-0 items-center gap-2.5">
-                        {task.assignees.length > 0 && (
-                          <div className="flex -space-x-1.5">
-                            {task.assignees.slice(0, 3).map((a) => {
-                              const avatar = a.avatarUrl || a.image;
-                              return avatar ? (
-                                <img
-                                  key={a.userId}
-                                  src={avatar}
-                                  alt={a.name}
-                                  className="h-6 w-6 rounded-md object-cover ring-2 ring-[#121820]"
-                                />
-                              ) : (
-                                <span
-                                  key={a.userId}
-                                  className="flex h-6 w-6 items-center justify-center rounded-md bg-[#0B0F14] font-mono text-[10px] font-bold text-[#66C0F4] ring-2 ring-[#121820]"
-                                >
-                                  {a.name.charAt(0).toUpperCase()}
-                                </span>
-                              );
-                            })}
-                          </div>
-                        )}
                         <span
-                          className={`rounded border px-2 py-0.5 font-mono text-[10px] ${priority.badgeClass}`}
+                          className={`rounded-[2px] border px-2 py-0.5 font-mono text-[10px] ${priority.badgeClass}`}
                         >
                           {priority.label}
                         </span>
@@ -365,34 +329,31 @@ export function ConsoleWorkspaceView({
             )}
           </div>
 
-          {/* Coluna Direita (35% -> 4 cols — Painel Inspetor Fixo) */}
+          {/* Inspetor Fixo */}
           <aside className="lg:col-span-4">
-            <div className="sticky top-20 rounded-2xl border border-white/[0.07] bg-[#121820] p-5">
-              <div className="mb-4 flex items-center justify-between border-b border-white/[0.06] pb-3">
-                <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#66C0F4]">
-                  <SlidersHorizontal className="h-3.5 w-3.5" />
-                  <span>Inspetor de Tarefa</span>
-                </div>
+            <div className="sticky top-16 rounded-[2px] border border-[#CBB6FF]/20 bg-[#1B0B3A] p-5">
+              <div className="mb-4 border-b border-[#CBB6FF]/15 pb-2.5 font-mono text-[11px] uppercase tracking-wider text-[#CBB6FF]">
+                Inspetor de Tarefa
               </div>
 
               {!inspectedTask ? (
-                <p className="py-8 text-center text-xs text-[#8F98A0]">
+                <p className="py-8 text-center text-xs text-[#9D8EC4]">
                   Nenhuma tarefa selecionada.
                 </p>
               ) : (
                 <div className="space-y-5">
                   <div>
-                    <h2 className="text-base font-bold leading-snug text-[#F3F4F6]">
+                    <h2 className="font-serif text-xl leading-snug text-[#F4F1FA]">
                       {inspectedTask.title}
                     </h2>
-                    <p className="mt-1.5 text-xs leading-relaxed text-[#8F98A0]">
+                    <p className="mt-1.5 text-xs leading-relaxed text-[#9D8EC4]">
                       {inspectedTask.description ||
                         "Sem descrição adicional registrada para esta atividade."}
                     </p>
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="block font-mono text-[11px] uppercase text-[#8F98A0]">
+                    <label className="block font-mono text-[11px] uppercase text-[#9D8EC4]">
                       Estado no Quadro
                     </label>
                     <select
@@ -404,7 +365,7 @@ export function ConsoleWorkspaceView({
                           e.target.value as ConsoleCoopTaskItem["status"]
                         )
                       }
-                      className="w-full rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 text-xs text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
+                      className="w-full rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 text-xs text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
                     >
                       <option value="TODO">A Fazer</option>
                       <option value="IN_PROGRESS">Em Progresso</option>
@@ -415,21 +376,21 @@ export function ConsoleWorkspaceView({
 
                   {inspectedTask.assignees.length > 0 && (
                     <div className="space-y-2">
-                      <span className="block font-mono text-[11px] uppercase text-[#8F98A0]">
+                      <span className="block font-mono text-[11px] uppercase text-[#9D8EC4]">
                         Progresso Co-op
                       </span>
                       <div className="space-y-1.5">
                         {inspectedTask.assignees.map((a) => (
                           <div
                             key={a.userId}
-                            className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-[#0B0F14]/75 px-3 py-2 text-xs"
+                            className="flex items-center justify-between rounded-[2px] border border-[#CBB6FF]/15 bg-[#070512] px-3 py-2 text-xs"
                           >
-                            <span className="text-[#F3F4F6]">{a.name}</span>
+                            <span className="text-[#F4F1FA]">{a.name}</span>
                             <span
                               className={`font-mono text-[11px] ${
                                 a.completedIndividual
-                                  ? "text-[#A4D007]"
-                                  : "text-[#8F98A0]"
+                                  ? "text-[#CBB6FF]"
+                                  : "text-[#9D8EC4]"
                               }`}
                             >
                               {a.completedIndividual ? "Concluído" : "Pendente"}
@@ -440,7 +401,7 @@ export function ConsoleWorkspaceView({
                     </div>
                   )}
 
-                  <div className="flex items-center justify-between border-t border-white/[0.06] pt-4">
+                  <div className="flex items-center justify-between border-t border-[#CBB6FF]/15 pt-4">
                     <button
                       type="button"
                       disabled={busyId === inspectedTask.id}
@@ -450,7 +411,7 @@ export function ConsoleWorkspaceView({
                           inspectedTask.completedByCurrentUser
                         )
                       }
-                      className="rounded-xl bg-[#1A9FFF] px-3.5 py-2 text-xs font-semibold text-[#0B0F14] transition hover:bg-[#66C0F4]"
+                      className="rounded-[2px] bg-[#7E49C7] px-3.5 py-2 text-xs font-semibold text-[#F4F1FA] transition-colors duration-150 hover:bg-[#9361D9]"
                     >
                       {inspectedTask.completedByCurrentUser
                         ? "Reabrir minha parte"
@@ -459,9 +420,9 @@ export function ConsoleWorkspaceView({
 
                     <Link
                       href={inspectedTask.href}
-                      className="font-mono text-xs text-[#66C0F4] hover:underline"
+                      className="font-mono text-xs text-[#CBB6FF] hover:underline"
                     >
-                      Abrir contexto →
+                      Contexto →
                     </Link>
                   </div>
                 </div>
@@ -473,20 +434,20 @@ export function ConsoleWorkspaceView({
 
       {/* Modal Rápido */}
       {newModal && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-[#070512]/85 p-4">
           {newModal === "SUBJECT" ? (
             <form
               onSubmit={handleCreateSubject}
-              className="w-full max-w-md space-y-4 rounded-2xl border border-white/10 bg-[#121820] p-6"
+              className="w-full max-w-md space-y-4 rounded-[2px] border border-[#CBB6FF]/25 bg-[#1B0B3A] p-6"
             >
-              <div className="flex items-center justify-between">
-                <h3 className="text-base font-bold text-[#F3F4F6]">
+              <div className="flex items-center justify-between border-b border-[#CBB6FF]/15 pb-3">
+                <h3 className="font-serif text-xl text-[#F4F1FA]">
                   Nova Disciplina
                 </h3>
                 <button
                   type="button"
                   onClick={() => setNewModal(null)}
-                  className="text-[#8F98A0] hover:text-white"
+                  className="text-[#9D8EC4] hover:text-[#F4F1FA]"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -497,7 +458,7 @@ export function ConsoleWorkspaceView({
                 value={subjectName}
                 onChange={(e) => setSubjectName(e.target.value)}
                 placeholder="Nome da disciplina"
-                className="w-full rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 text-sm text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
+                className="w-full rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 text-sm text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
               />
               <div className="flex gap-3">
                 <input
@@ -505,27 +466,27 @@ export function ConsoleWorkspaceView({
                   value={subjectCode}
                   onChange={(e) => setSubjectCode(e.target.value)}
                   placeholder="Código (ex: ES-102)"
-                  className="flex-1 rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 font-mono text-sm text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
+                  className="flex-1 rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 font-mono text-sm text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
                 />
                 <input
                   type="color"
                   value={subjectColor}
                   onChange={(e) => setSubjectColor(e.target.value)}
-                  className="h-9 w-12 cursor-pointer rounded border border-white/10 bg-transparent"
+                  className="h-9 w-12 cursor-pointer rounded-[2px] border border-[#CBB6FF]/20 bg-transparent"
                 />
               </div>
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setNewModal(null)}
-                  className="rounded-xl bg-[#1A222D] px-4 py-2 text-xs text-[#8F98A0]"
+                  className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-4 py-2 text-xs text-[#9D8EC4]"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={creatingSubject}
-                  className="rounded-xl bg-[#1A9FFF] px-4 py-2 text-xs font-semibold text-[#0B0F14]"
+                  className="rounded-[2px] bg-[#7E49C7] px-4 py-2 text-xs font-semibold text-[#F4F1FA]"
                 >
                   {creatingSubject ? "Criando..." : "Criar"}
                 </button>
@@ -534,16 +495,16 @@ export function ConsoleWorkspaceView({
           ) : (
             <form
               onSubmit={handleCreateTask}
-              className="w-full max-w-md space-y-4 rounded-2xl border border-white/10 bg-[#121820] p-6"
+              className="w-full max-w-md space-y-4 rounded-[2px] border border-[#CBB6FF]/25 bg-[#1B0B3A] p-6"
             >
-              <div className="flex items-center justify-between">
-                <h3 className="text-base font-bold text-[#F3F4F6]">
+              <div className="flex items-center justify-between border-b border-[#CBB6FF]/15 pb-3">
+                <h3 className="font-serif text-xl text-[#F4F1FA]">
                   Nova Tarefa
                 </h3>
                 <button
                   type="button"
                   onClick={() => setNewModal(null)}
-                  className="text-[#8F98A0] hover:text-white"
+                  className="text-[#9D8EC4] hover:text-[#F4F1FA]"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -554,13 +515,13 @@ export function ConsoleWorkspaceView({
                 value={taskTitle}
                 onChange={(e) => setTaskTitle(e.target.value)}
                 placeholder="Título da tarefa"
-                className="w-full rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 text-sm text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
+                className="w-full rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 text-sm text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
               />
               <div className="grid grid-cols-2 gap-3">
                 <select
                   value={taskSubjectId}
                   onChange={(e) => setTaskSubjectId(e.target.value)}
-                  className="rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 text-xs text-[#F3F4F6]"
+                  className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 text-xs text-[#F4F1FA]"
                 >
                   <option value="">Sem disciplina</option>
                   {subjects.map((s) => (
@@ -576,7 +537,7 @@ export function ConsoleWorkspaceView({
                       e.target.value as ConsoleCoopTaskItem["priority"]
                     )
                   }
-                  className="rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 text-xs text-[#F3F4F6]"
+                  className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 text-xs text-[#F4F1FA]"
                 >
                   <option value="LOW">Baixa</option>
                   <option value="MEDIUM">Média</option>
@@ -589,20 +550,20 @@ export function ConsoleWorkspaceView({
                 value={taskDescription}
                 onChange={(e) => setTaskDescription(e.target.value)}
                 placeholder="Descrição (opcional)"
-                className="w-full rounded-lg border border-white/10 bg-[#0B0F14] px-3 py-2 text-sm text-[#F3F4F6] outline-none focus:border-[#66C0F4]"
+                className="w-full rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-3 py-2 text-sm text-[#F4F1FA] outline-none focus:border-[#7E49C7]"
               />
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setNewModal(null)}
-                  className="rounded-xl bg-[#1A222D] px-4 py-2 text-xs text-[#8F98A0]"
+                  className="rounded-[2px] border border-[#CBB6FF]/20 bg-[#070512] px-4 py-2 text-xs text-[#9D8EC4]"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={creatingTask}
-                  className="rounded-xl bg-[#1A9FFF] px-4 py-2 text-xs font-semibold text-[#0B0F14]"
+                  className="rounded-[2px] bg-[#7E49C7] px-4 py-2 text-xs font-semibold text-[#F4F1FA]"
                 >
                   {creatingTask ? "Criando..." : "Criar Tarefa"}
                 </button>
