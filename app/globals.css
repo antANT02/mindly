@@ -12,7 +12,7 @@
   --border-strong: rgba(203, 182, 255, 0.32);
 
   --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-serif: "Space Grotesk", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
@@ -30,6 +30,11 @@ body {
   background-color: var(--bg-canvas);
   color: var(--text-primary);
   font-family: var(--font-sans);
+}
+
+.font-serif {
+  letter-spacing: -0.025em;
+  font-weight: 600;
 }
 
 ::-webkit-scrollbar {
