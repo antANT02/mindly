@@ -10,12 +10,16 @@
   --text-muted: #9D8EC4;
   --border-subtle: rgba(203, 182, 255, 0.14);
   --border-strong: rgba(203, 182, 255, 0.32);
+
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 @theme inline {
-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-serif), Georgia, serif;
-  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
 }
 
 * {
@@ -25,9 +29,9 @@
 body {
   background-color: var(--bg-canvas);
   color: var(--text-primary);
+  font-family: var(--font-sans);
 }
 
-/* Scrollbar discreta e sólida */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
