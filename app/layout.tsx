@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "MindLy — Biblioteca e Workspace de Estudos",
   description:
     "Organização de disciplinas, tarefas individuais e grupos de estudo colaborativos.",
+  icons: {
+    icon: "/icon",
+  },
 };
 
 export default function RootLayout({
